@@ -3,14 +3,11 @@
   "version": "1.8.53",
   "private": true,
   "scripts": {
-    "dev": "vercel dev",
     "hash-password": "node scripts/hash-password.js",
     "generate-key": "node scripts/generate-encryption-key.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": "20.x"
   },
-  "devDependencies": {
-    "vercel": "latest"
-  }
+  "dependencies": {}
 }
