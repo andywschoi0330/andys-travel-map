@@ -1693,6 +1693,183 @@
       .map-mode-badge { bottom: max(122px, calc(env(safe-area-inset-bottom) + 122px)); }
     }
 
+
+    /* v1.8.59 mobile responsive polish: compact actions menu + safe small-screen panels */
+    .actions-menu-panel {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .mobile-actions-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      min-height: 42px;
+      padding: 0;
+      border-radius: 999px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      background:
+        radial-gradient(circle at 34% 18%, rgba(255,255,255,.18), transparent 38%),
+        linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.055));
+      border-color: rgba(255,255,255,.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 16px 42px rgba(0,0,0,.28);
+      backdrop-filter: blur(22px) saturate(150%);
+      -webkit-backdrop-filter: blur(22px) saturate(150%);
+    }
+    .mobile-actions-toggle span {
+      display: block;
+      width: 17px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(244,247,251,.86);
+      box-shadow: 0 1px 6px rgba(0,0,0,.25);
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        left: max(12px, env(safe-area-inset-left));
+        right: max(12px, env(safe-area-inset-right));
+        grid-template-columns: minmax(0, 1fr) 44px;
+        grid-template-areas:
+          "brand actions"
+          "search search";
+        gap: 8px;
+      }
+      .brand strong { max-width: calc(100vw - 86px); }
+      .search-wrap {
+        width: min(100%, calc(100vw - 24px));
+        min-width: 0;
+      }
+      .search-box {
+        min-height: 44px;
+        padding: 9px 12px;
+      }
+      .search-box input { font-size: 14px; }
+      .search-results {
+        max-height: min(42vh, calc(100dvh - 235px));
+        border-radius: 20px;
+      }
+      .actions {
+        grid-area: actions;
+        position: relative;
+        width: 44px;
+        max-width: 44px;
+        min-width: 44px;
+        justify-self: end;
+        justify-content: flex-end;
+        overflow: visible;
+        padding: 0;
+      }
+      .mobile-actions-toggle { display: inline-flex; }
+      .actions-menu-panel {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: min(248px, calc(100vw - 24px));
+        max-height: min(70vh, calc(100dvh - 108px));
+        overflow: auto;
+        padding: 10px;
+        border-radius: 22px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 8px;
+        z-index: 165;
+        background:
+          radial-gradient(circle at 18% 0%, rgba(255,255,255,.15), transparent 34%),
+          linear-gradient(135deg, rgba(18,24,38,.96), rgba(7,12,22,.93));
+        border: 1px solid rgba(255,255,255,.16);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 28px 76px rgba(0,0,0,.52);
+        backdrop-filter: blur(24px) saturate(155%);
+        -webkit-backdrop-filter: blur(24px) saturate(155%);
+      }
+      .actions.open .actions-menu-panel { display: flex; }
+      .actions-menu-panel > .btn,
+      .actions-menu-panel > .settings-menu,
+      .actions-menu-panel > .auth-chip {
+        width: 100%;
+        max-width: none;
+        flex: 0 0 auto;
+      }
+      .actions-menu-panel > .btn,
+      .actions-menu-panel .settings-trigger {
+        min-height: 40px;
+        justify-content: center;
+      }
+      .actions-menu-panel > .btn.hidden,
+      .actions-menu-panel > .auth-chip.hidden { display: none !important; }
+      .actions.open .actions-menu-panel > .auth-chip:not(.hidden) {
+        display: inline-flex;
+        justify-content: center;
+      }
+      .settings-menu { width: 100%; }
+      .settings-trigger { width: 100%; }
+      .settings-menu.open::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.34);
+        backdrop-filter: blur(7px);
+        -webkit-backdrop-filter: blur(7px);
+        z-index: 190;
+      }
+      .settings-menu.open .settings-panel {
+        position: fixed;
+        left: max(14px, env(safe-area-inset-left));
+        right: max(14px, env(safe-area-inset-right));
+        top: max(84px, calc(env(safe-area-inset-top) + 72px));
+        width: auto;
+        max-height: calc(100dvh - 112px);
+        overflow: auto;
+        z-index: 191;
+        border-radius: 24px;
+      }
+      .modal-backdrop { z-index: 150; }
+      .modal {
+        max-height: calc(100dvh - 32px);
+        border-radius: 26px;
+      }
+      .records-modal {
+        width: calc(100vw - 20px);
+        max-height: calc(100dvh - 28px);
+      }
+      .records-list { max-height: min(54vh, calc(100dvh - 360px)); }
+      .detail-card {
+        max-height: min(72vh, calc(100dvh - 130px));
+        z-index: 120;
+      }
+      .story-modal { width: calc(100vw - 20px); }
+      .story-preview { width: min(74vw, 280px); }
+      .map-shell { padding-top: 164px; }
+      .onboarding-hint { max-height: 34vh; overflow: auto; }
+    }
+
+    @media (max-width: 430px) {
+      .topbar { gap: 7px; }
+      .brand strong { font-size: 16px; max-width: calc(100vw - 78px); }
+      .search-box { min-height: 42px; }
+      .actions-menu-panel { width: min(238px, calc(100vw - 24px)); }
+      .settings-menu.open .settings-panel {
+        top: max(76px, calc(env(safe-area-inset-top) + 64px));
+        max-height: calc(100dvh - 98px);
+      }
+      .map-shell { padding-top: 156px; }
+      .modal { padding: 16px; }
+      .detail-card { left: 8px; right: 8px; bottom: 8px; }
+    }
+
+
   </style>
 </head>
 <body class="theme-night-earth">
@@ -1723,26 +1900,29 @@
         <div id="searchResults" class="search-results glass liquid-list-panel"></div>
       </div>
 
-      <div class="actions">
-        <button class="btn hidden" id="backWorldBtn">← 세계지도</button>
-        <button class="btn" id="recordsBtn">기록 목록</button>
-        <button class="btn" id="loginBtn">로그인</button>
-        <button class="btn" id="signupBtn">회원가입</button>
-        <button class="btn hidden" id="logoutBtn">로그아웃</button>
-        <span class="auth-chip hidden" id="authStatus"><b id="authUserLabel">-</b><small id="cloudSaveStatus">로컬 저장</small></span>
-        <button class="btn" id="storyBtn">스토리 스튜디오</button>
-        <div class="settings-menu" id="settingsMenu">
-          <button class="btn settings-trigger" id="settingsBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="settingsPanel">설정 <span aria-hidden="true">▾</span></button>
-          <div class="settings-panel glass liquid-list-panel" id="settingsPanel" role="menu" aria-label="설정 메뉴">
-            <div class="settings-group-label">테마</div>
-            <button class="settings-option" type="button" data-setting="theme:night-earth" role="menuitem"><span>Night Earth</span><small>기본 밤 지구 테마</small></button>
-            <button class="settings-option" type="button" data-setting="theme:deep-navy" role="menuitem"><span>Deep Navy</span><small>더 짙은 네이비 톤</small></button>
-            <button class="settings-option" type="button" data-setting="theme:graphite" role="menuitem"><span>Graphite</span><small>차분한 흑연 톤</small></button>
-            <button class="settings-option" type="button" data-setting="theme:custom" role="menuitem"><span>Custom</span><small>저장한 커스텀 색상</small></button>
-            <div class="settings-separator"></div>
-            <div class="settings-group-label">도구</div>
-            <button class="settings-option" type="button" data-setting="design" role="menuitem"><span>디자인 스튜디오</span><small>색상과 분위기 조정</small></button>
-            <button class="settings-option" type="button" data-setting="admin" role="menuitem"><span>관리자 화면</span><small>계정 관리 페이지 열기</small></button>
+      <div class="actions" id="topActions">
+        <button class="btn mobile-actions-toggle" id="mobileActionsBtn" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="actionsMenuPanel"><span></span><span></span><span></span></button>
+        <div class="actions-menu-panel" id="actionsMenuPanel">
+          <button class="btn hidden" id="backWorldBtn">← 세계지도</button>
+          <button class="btn" id="recordsBtn">기록 목록</button>
+          <button class="btn" id="loginBtn">로그인</button>
+          <button class="btn" id="signupBtn">회원가입</button>
+          <button class="btn hidden" id="logoutBtn">로그아웃</button>
+          <span class="auth-chip hidden" id="authStatus"><b id="authUserLabel">-</b><small id="cloudSaveStatus">로컬 저장</small></span>
+          <button class="btn" id="storyBtn">스토리 스튜디오</button>
+          <div class="settings-menu" id="settingsMenu">
+            <button class="btn settings-trigger" id="settingsBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="settingsPanel">설정 <span aria-hidden="true">▾</span></button>
+            <div class="settings-panel glass liquid-list-panel" id="settingsPanel" role="menu" aria-label="설정 메뉴">
+              <div class="settings-group-label">테마</div>
+              <button class="settings-option" type="button" data-setting="theme:night-earth" role="menuitem"><span>Night Earth</span><small>기본 밤 지구 테마</small></button>
+              <button class="settings-option" type="button" data-setting="theme:deep-navy" role="menuitem"><span>Deep Navy</span><small>더 짙은 네이비 톤</small></button>
+              <button class="settings-option" type="button" data-setting="theme:graphite" role="menuitem"><span>Graphite</span><small>차분한 흑연 톤</small></button>
+              <button class="settings-option" type="button" data-setting="theme:custom" role="menuitem"><span>Custom</span><small>저장한 커스텀 색상</small></button>
+              <div class="settings-separator"></div>
+              <div class="settings-group-label">도구</div>
+              <button class="settings-option" type="button" data-setting="design" role="menuitem"><span>디자인 스튜디오</span><small>색상과 분위기 조정</small></button>
+              <button class="settings-option" type="button" data-setting="admin" role="menuitem"><span>관리자 화면</span><small>계정 관리 페이지 열기</small></button>
+            </div>
           </div>
         </div>
       </div>
@@ -2388,6 +2568,9 @@
       loadCloudBtn: document.getElementById('loadCloudBtn'),
       mergeCloudBtn: document.getElementById('mergeCloudBtn'),
       mapModeBadge: document.getElementById('mapModeBadge'),
+      actions: document.getElementById('topActions'),
+      mobileActionsBtn: document.getElementById('mobileActionsBtn'),
+      actionsMenuPanel: document.getElementById('actionsMenuPanel'),
       addBtn: document.getElementById('addBtn'),
       storyBtn: document.getElementById('storyBtn'),
       settingsSelect: document.getElementById('settingsSelect'),
@@ -5124,6 +5307,9 @@
       els.modal.addEventListener('click', (e) => { if (e.target === els.modal) closeRecordModal(); });
       els.saveRecordBtn.addEventListener('click', saveRecord);
       els.importFile?.addEventListener('change', importData);
+      els.mobileActionsBtn?.addEventListener('click', toggleMobileActionsMenu);
+      els.actionsMenuPanel?.addEventListener('click', handleMobileActionsPanelClick);
+      document.addEventListener('click', handleGlobalMobileActionsClick);
       els.storyBtn.addEventListener('click', openStoryStudio);
       if (els.settingsSelect) els.settingsSelect.addEventListener('change', handleSettingsSelect);
       if (els.settingsBtn) els.settingsBtn.addEventListener('click', toggleSettingsMenu);
@@ -5131,7 +5317,7 @@
       document.addEventListener('click', handleGlobalSettingsClick);
       document.addEventListener('click', (e) => { if (!e.target.closest('.nationality-select-shell')) closeNationalityPicker(); });
       document.addEventListener('click', () => closeAllGlassSelects());
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeSettingsMenu(); closeNationalityPicker(); } });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeSettingsMenu(); closeNationalityPicker(); closeMobileActionsMenu(); } });
       els.closeSyncBtn.addEventListener('click', closeSyncCenter);
       els.syncModal.addEventListener('click', (e) => { if (e.target === els.syncModal) closeSyncCenter(); });
       els.autoRemoteInput.addEventListener('change', toggleRemotePreference);
@@ -5162,11 +5348,52 @@
         if (!e.target.closest('.search-wrap')) els.searchResults.style.display = 'none';
       });
       document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') { closeNationalityPicker(); closeRecordModal(); closeRecordsPanel(); closeStoryStudio(); closeThemeStudio(); closeSyncCenter(); closeDetail(); els.searchResults.style.display = 'none'; }
+        if (e.key === 'Escape') { closeNationalityPicker(); closeMobileActionsMenu(); closeRecordModal(); closeRecordsPanel(); closeStoryStudio(); closeThemeStudio(); closeSyncCenter(); closeDetail(); els.searchResults.style.display = 'none'; }
       });
     }
 
 
+
+    function isCompactActionsLayout() {
+      return !!(window.matchMedia && window.matchMedia('(max-width: 720px)').matches);
+    }
+
+    function toggleMobileActionsMenu(event) {
+      event?.preventDefault?.();
+      event?.stopPropagation?.();
+      if (!els.actions || !els.mobileActionsBtn) return;
+      const open = !els.actions.classList.contains('open');
+      els.actions.classList.toggle('open', open);
+      els.mobileActionsBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) closeSettingsMenu();
+    }
+
+    function closeMobileActionsMenu() {
+      if (!els.actions || !els.mobileActionsBtn) return;
+      els.actions.classList.remove('open');
+      els.mobileActionsBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function handleGlobalMobileActionsClick(event) {
+      if (!els.actions || !isCompactActionsLayout()) return;
+      if (!els.actions.contains(event.target)) closeMobileActionsMenu();
+    }
+
+    function handleMobileActionsPanelClick(event) {
+      if (!isCompactActionsLayout()) return;
+      const button = event.target.closest('button');
+      if (!button) return;
+      if (button.id === 'settingsBtn') return;
+      closeMobileActionsMenu();
+    }
+
+    function getWorldDragInputMultiplier(event) {
+      const src = event?.sourceEvent || event || {};
+      const pointerType = String(src.pointerType || '').toLowerCase();
+      const isTouchInput = pointerType === 'touch' || !!src.touches?.length || !!src.changedTouches?.length;
+      if (!isTouchInput) return 1;
+      return 1.65;
+    }
 
     function toggleSettingsMenu(event) {
       event?.stopPropagation?.();
@@ -5204,6 +5431,7 @@
     function handleSettingsAction(value) {
       if (!value) return;
       closeSettingsMenu();
+      closeMobileActionsMenu();
       if (value.startsWith('theme:')) {
         state.data.settings.theme = value.replace('theme:', '');
         saveLocal(false);
@@ -5905,7 +6133,7 @@
       const prevQ = Array.isArray(state.worldQuaternion) ? state.worldQuaternion.slice() : qIdentity();
       const cur = screenToWorldArcball(p.x, p.y);
       const rawDelta = qFromUnitVectors(state.worldDrag.dragStartVec || cur, cur);
-      const tunedDelta = qPow(rawDelta, worldArcballRotationScale());
+      const tunedDelta = qPow(rawDelta, worldArcballRotationScale() * getWorldDragInputMultiplier(event));
       const nextQ = lockYAxisToViewerPlane(qMul(tunedDelta, state.worldDrag.dragStartQ || state.worldQuaternion));
       const frameDeltaQ = qNormalize(qMul(nextQ, qConj(prevQ)));
       const frameAngle = getWorldInertiaDeltaAngle(frameDeltaQ);
