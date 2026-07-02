@@ -364,6 +364,8 @@
     .select option { color: #0B1020; }
 
     .map-shell {
+      --map-center-x-offset: 0px;
+      --map-center-y-offset: 0px;
       position: absolute;
       inset: 0;
       display: grid;
@@ -1918,8 +1920,8 @@
       align-items: center;
     }
     .earth-halo {
-      left: 50%;
-      top: 50%;
+      left: calc(50% + var(--map-center-x-offset, 0px));
+      top: calc(50% + var(--map-center-y-offset, 0px));
       transform: translate(-50%, -50%);
     }
     #mapSvg {
@@ -1929,8 +1931,11 @@
     }
     #mapSvg.dragging { touch-action: none; }
     .detail-card {
-      transition: transform .48s cubic-bezier(.16, 1, .3, 1), opacity .34s ease;
+      transition: transform .56s cubic-bezier(.22, 1, .36, 1), opacity .40s ease;
       will-change: transform, opacity;
+    }
+    .detail-card.detail-closing {
+      pointer-events: none;
     }
     .records-modal {
       min-height: 0;
@@ -1955,6 +1960,16 @@
     }
 
     @media (max-width: 720px) {
+
+      body.settings-modal-open::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 240;
+        background: rgba(0,0,0,.38);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
       .actions-menu-panel {
         background:
           radial-gradient(circle at 18% 0%, rgba(255,255,255,.18), transparent 34%),
@@ -2020,8 +2035,8 @@
         transform: translateX(0);
       }
       .earth-halo {
-        left: 50%;
-        top: 50%;
+        left: calc(50% + var(--map-center-x-offset, 0px));
+        top: calc(50% + var(--map-center-y-offset, 0px));
       }
       .records-modal {
         display: flex;
@@ -2039,6 +2054,193 @@
         flex: 1 1 auto;
         overflow-y: auto;
         padding-bottom: max(28px, calc(env(safe-area-inset-bottom) + 20px));
+      }
+    }
+
+
+    /* v1.8.59 retry: reference-style menu, compact settings modal, reliable records scroll */
+    .settings-mobile-head { display: none; }
+
+    @media (max-width: 720px) {
+      .actions-menu-panel {
+        padding: 10px;
+        gap: 4px;
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at 18% 0%, rgba(255,255,255,.15), transparent 34%),
+          linear-gradient(135deg, rgba(18,24,38,.94), rgba(7,12,22,.90));
+        border: 1px solid rgba(255,255,255,.16);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 28px 76px rgba(0,0,0,.52);
+        backdrop-filter: blur(24px) saturate(155%);
+        -webkit-backdrop-filter: blur(24px) saturate(155%);
+      }
+      .actions-menu-panel > .btn,
+      .actions-menu-panel .settings-trigger {
+        width: 100%;
+        min-height: 40px;
+        justify-content: flex-start;
+        border: 1px solid transparent !important;
+        border-radius: 15px;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        color: var(--text);
+        text-align: left;
+        padding: 10px 11px;
+        transition: background .18s ease, border-color .18s ease, transform .18s ease;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .actions-menu-panel > .btn:hover,
+        .actions-menu-panel .settings-trigger:hover,
+        .actions-menu-panel > .btn:focus-visible,
+        .actions-menu-panel .settings-trigger:focus-visible {
+          outline: none;
+          background: rgba(255,255,255,.085) !important;
+          border-color: rgba(255,255,255,.13) !important;
+          transform: translateY(-1px);
+        }
+      }
+      .actions-menu-panel > .btn:active,
+      .actions-menu-panel .settings-trigger:active {
+        background: rgba(255,255,255,.10) !important;
+        border-color: rgba(255,255,255,.14) !important;
+        transform: translateY(0);
+      }
+
+      .settings-menu.open::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 240;
+        background: rgba(0,0,0,.38);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      .settings-panel.settings-panel-floating {
+        position: fixed;
+        left: max(12px, env(safe-area-inset-left));
+        right: max(12px, env(safe-area-inset-right));
+        top: max(72px, calc(env(safe-area-inset-top) + 64px));
+        bottom: max(12px, env(safe-area-inset-bottom));
+        width: auto;
+        max-height: none;
+        overflow: auto;
+        z-index: 241;
+        padding: 12px;
+        border-radius: 26px;
+        display: none;
+        transform-origin: top center;
+        animation: settingsPop .18s ease both;
+        background:
+          radial-gradient(circle at 18% 0%, rgba(255,255,255,.15), transparent 34%),
+          linear-gradient(135deg, rgba(18,24,38,.94), rgba(7,12,22,.90));
+        border: 1px solid rgba(255,255,255,.16);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 28px 76px rgba(0,0,0,.52);
+        backdrop-filter: blur(24px) saturate(155%);
+        -webkit-backdrop-filter: blur(24px) saturate(155%);
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .settings-panel.settings-panel-floating.open { display: block; }
+      .settings-mobile-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 2px 2px 10px;
+      }
+      .settings-mobile-head b {
+        display: block;
+        font-size: 18px;
+        letter-spacing: -.04em;
+      }
+      .settings-mobile-head small {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .settings-mobile-close {
+        width: 36px;
+        height: 36px;
+        min-height: 36px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text);
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+      }
+      .settings-mobile-close:hover,
+      .settings-mobile-close:focus-visible {
+        outline: none;
+        background: rgba(255,255,255,.085);
+        border-color: rgba(255,255,255,.13);
+      }
+      .settings-panel.settings-panel-floating .settings-option {
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .settings-panel.settings-panel-floating .settings-option:hover,
+      .settings-panel.settings-panel-floating .settings-option:focus-visible {
+        background: rgba(255,255,255,.085) !important;
+        border-color: rgba(255,255,255,.13) !important;
+      }
+
+      #recordsModal.open {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
+        overflow: hidden;
+      }
+      #recordsModal .records-modal {
+        width: calc(100vw - 20px);
+        height: calc(100dvh - max(24px, calc(env(safe-area-inset-top) + env(safe-area-inset-bottom) + 20px)));
+        max-height: calc(100dvh - max(24px, calc(env(safe-area-inset-top) + env(safe-area-inset-bottom) + 20px)));
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      #recordsModal .records-modal > .detail-head,
+      #recordsModal .records-toolbar,
+      #recordsModal .records-summary-line {
+        flex: 0 0 auto;
+      }
+      #recordsModal .records-list {
+        flex: 1 1 auto;
+        min-height: 120px;
+        max-height: none !important;
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+        padding-bottom: max(42px, calc(env(safe-area-inset-bottom) + 28px));
+      }
+    }
+
+    @media (min-width: 721px) {
+      .settings-mobile-head { display: none !important; }
+      .settings-panel.open { display: block; }
+      #recordsModal.open {
+        overflow: hidden;
+      }
+      #recordsModal .records-modal {
+        height: min(860px, calc(100vh - 40px));
+        overflow: hidden;
+      }
+      #recordsModal .records-list {
+        flex: 1 1 auto;
+        max-height: none !important;
+        overflow-y: auto !important;
+        overscroll-behavior: contain;
       }
     }
 
@@ -2085,6 +2287,10 @@
           <div class="settings-menu" id="settingsMenu">
             <button class="btn settings-trigger" id="settingsBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="settingsPanel">설정 <span aria-hidden="true">▾</span></button>
             <div class="settings-panel glass liquid-list-panel" id="settingsPanel" role="menu" aria-label="설정 메뉴">
+              <div class="settings-mobile-head">
+                <div><b>설정</b><small>사이트 표시 옵션</small></div>
+                <button class="settings-mobile-close" id="closeSettingsPanelBtn" type="button" aria-label="설정 닫기">×</button>
+              </div>
               <div class="settings-group-label">테마</div>
               <button class="settings-option" type="button" data-setting="theme:night-earth" role="menuitem"><span>Night Earth</span><small>기본 밤 지구 테마</small></button>
               <button class="settings-option" type="button" data-setting="theme:deep-navy" role="menuitem"><span>Deep Navy</span><small>더 짙은 네이비 톤</small></button>
@@ -2670,7 +2876,8 @@
       storyTemplate: "summary",
       onboardingDismissed: false,
       detailTargetKey: "",
-      auth: {me: null, saveTimer: null, saveInFlight: false, pendingCloudData: null, cloudExists: false}
+      auth: {me: null, saveTimer: null, saveInFlight: false, pendingCloudData: null, cloudExists: false},
+      settingsPanelHome: null
     };
 
     const els = {
@@ -2750,6 +2957,7 @@
       settingsMenu: document.getElementById('settingsMenu'),
       settingsBtn: document.getElementById('settingsBtn'),
       settingsPanel: document.getElementById('settingsPanel'),
+      closeSettingsPanelBtn: document.getElementById('closeSettingsPanelBtn'),
       importFile: document.getElementById('importFile'),
       modal: document.getElementById('recordModal'),
       closeModalBtn: document.getElementById('closeModalBtn'),
@@ -3233,7 +3441,22 @@
       return !!(state.worldDrag?.active || state.worldPinch?.active || state.worldInertia?.animFrame || state.worldZoom?.animFrame || state.worldIntro?.active);
     }
 
+    function syncMapShellVisualCenter() {
+      const shell = document.querySelector('.map-shell');
+      if (!shell) return;
+      const style = window.getComputedStyle ? getComputedStyle(shell) : null;
+      const top = parseFloat(style?.paddingTop || '0') || 0;
+      const right = parseFloat(style?.paddingRight || '0') || 0;
+      const bottom = parseFloat(style?.paddingBottom || '0') || 0;
+      const left = parseFloat(style?.paddingLeft || '0') || 0;
+      const xOffset = (left - right) / 2;
+      const yOffset = (top - bottom) / 2;
+      shell.style.setProperty('--map-center-x-offset', `${xOffset}px`);
+      shell.style.setProperty('--map-center-y-offset', `${yOffset}px`);
+    }
+
     function renderMap() {
+      syncMapShellVisualCenter();
       updateViewControls();
       if (state.currentView === "region" && state.regionCountry) {
         renderRegionMap(state.regionCountry);
@@ -4177,24 +4400,27 @@
 
     function shouldReplayDetailAnimation(targetKey, forced = false) {
       if (!isDetailOpen()) return false;
+      if (forced) return true;
       const currentKey = state.detailTargetKey || '';
-      if (targetKey && currentKey && targetKey === currentKey) return false;
       if (targetKey && currentKey && targetKey !== currentKey) return true;
-      return !!forced;
+      return false;
     }
 
     function cancelPendingDetailReplay() {
       if (state.detailReplayFrame1) cancelAnimationFrame(state.detailReplayFrame1);
       if (state.detailReplayFrame2) cancelAnimationFrame(state.detailReplayFrame2);
+      if (state.detailCloseTimer) clearTimeout(state.detailCloseTimer);
       state.detailReplayFrame1 = null;
       state.detailReplayFrame2 = null;
+      state.detailCloseTimer = null;
+      if (els.detailCard) els.detailCard.classList.remove('detail-closing');
     }
 
     function prepareDetailReplayAnimation(enabled) {
       if (!enabled || !isDetailOpen() || !els.detailCard) return false;
       cancelPendingDetailReplay();
       els.detailCard.style.transition = 'none';
-      els.detailCard.classList.remove('open');
+      els.detailCard.classList.remove('open', 'detail-closing');
       void els.detailCard.offsetWidth;
       return true;
     }
@@ -4205,6 +4431,7 @@
       if (!replayAnimation) {
         cancelPendingDetailReplay();
         els.detailCard.style.transition = '';
+        els.detailCard.classList.remove('detail-closing');
         els.detailCard.classList.add('open');
         if (targetKey) pushUiHistory(`detail:${targetKey}`);
         return;
@@ -4221,6 +4448,7 @@
         state.detailReplayFrame2 = requestAnimationFrame(() => {
           state.detailReplayFrame2 = null;
           if (expectedTargetKey && state.detailTargetKey !== expectedTargetKey) return;
+          els.detailCard.classList.remove('detail-closing');
           els.detailCard.classList.add('open');
           if (expectedTargetKey) pushUiHistory(`detail:${expectedTargetKey}`);
         });
@@ -4240,12 +4468,6 @@
     }
 
     function selectFeature(feature) {
-      const nextKey = featureSelectionKey(feature);
-      const currentKey = state.selectedFeature ? featureSelectionKey(state.selectedFeature) : '';
-      if (isDetailOpen() && !state.selectedRegionKey && currentKey && nextKey && currentKey === nextKey) {
-        closeDetail();
-        return;
-      }
       const replayAnimation = isDetailOpen();
       showFeatureDetail(feature, {replayAnimation});
       animateWorldToFeatureCenter(feature, null, {adaptiveZoom: true});
@@ -4381,7 +4603,7 @@
       renderMap();
       pushUiHistory(`region:${country.code}`);
       if (isSmallScreenOrTouch()) {
-        closeDetail();
+        closeDetail({animated: true});
       } else {
         openDetail(country, findPlaceByCountry(country), null);
       }
@@ -4887,15 +5109,36 @@
       return str.length > max ? `${str.slice(0, max - 1)}…` : str;
     }
 
-    function closeDetail() {
-      cancelPendingDetailReplay();
-      if (els.detailCard) els.detailCard.style.transition = '';
-      els.detailCard.classList.remove('open');
+    function clearDetailSelectionState() {
       els.mapSvg.selectAll('.country').classed('selected', false);
       state.selectedFeature = null;
       state.selectedRegionKey = null;
       state.detailTargetKey = '';
       markUiClosed();
+    }
+
+    function closeDetail(options = {}) {
+      const animated = !!options.animated && !!els.detailCard?.classList?.contains('open');
+      cancelPendingDetailReplay();
+      if (!els.detailCard) {
+        clearDetailSelectionState();
+        return;
+      }
+      els.detailCard.style.transition = '';
+      if (animated) {
+        els.detailCard.classList.add('detail-closing');
+        requestAnimationFrame(() => {
+          els.detailCard.classList.remove('open');
+        });
+        state.detailCloseTimer = setTimeout(() => {
+          state.detailCloseTimer = null;
+          els.detailCard.classList.remove('detail-closing');
+          clearDetailSelectionState();
+        }, 560);
+        return;
+      }
+      els.detailCard.classList.remove('open', 'detail-closing');
+      clearDetailSelectionState();
     }
     window.closeDetail = closeDetail;
 
@@ -5431,10 +5674,16 @@
       }
     }
 
+    function stopPanelGesturePropagation(event) {
+      event.stopPropagation();
+    }
+
     function bindEvents() {
-      window.addEventListener('resize', debounce(() => { renderMap(); positionNationalityPanel(); }, 180));
+      window.addEventListener('resize', debounce(() => { renderMap(); positionNationalityPanel(); syncSettingsPanelPlacement(); }, 180));
       window.addEventListener('popstate', handleAppBackNavigation);
       document.addEventListener('keydown', handleAppEscapeNavigation, true);
+      document.addEventListener('mousedown', handleMouseBackButtonNavigation, true);
+      document.addEventListener('auxclick', handleMouseBackButtonNavigation, true);
       if (els.brandHome) {
         els.brandHome.addEventListener('click', goToMainPageFromLogo);
         els.brandHome.addEventListener('keydown', handleLogoHomeKeydown);
@@ -5482,6 +5731,11 @@
       els.recordsBtn?.addEventListener('click', openRecordsPanel);
       els.closeRecordsBtn?.addEventListener('click', closeRecordsPanel);
       els.recordsModal?.addEventListener('click', (e) => { if (e.target === els.recordsModal) closeRecordsPanel(); });
+      els.recordsModal?.addEventListener('wheel', stopPanelGesturePropagation, {passive: true});
+      els.recordsModal?.addEventListener('touchmove', stopPanelGesturePropagation, {passive: true});
+      els.recordsList?.addEventListener('wheel', stopPanelGesturePropagation, {passive: true});
+      els.recordsList?.addEventListener('touchmove', stopPanelGesturePropagation, {passive: true});
+      els.recordsList?.addEventListener('pointerdown', stopPanelGesturePropagation);
       els.recordsSearchInput?.addEventListener('input', debounce(renderRecordsList, 80));
       els.recordsTypeSelect?.addEventListener('change', renderRecordsList);
       els.recordsYearInput?.addEventListener('input', debounce(renderRecordsList, 80));
@@ -5499,6 +5753,7 @@
       els.storyBtn.addEventListener('click', openStoryStudio);
       if (els.settingsSelect) els.settingsSelect.addEventListener('change', handleSettingsSelect);
       if (els.settingsBtn) els.settingsBtn.addEventListener('click', toggleSettingsMenu);
+      if (els.closeSettingsPanelBtn) els.closeSettingsPanelBtn.addEventListener('click', closeSettingsMenu);
       if (els.settingsPanel) els.settingsPanel.addEventListener('click', handleSettingsPanelClick);
       document.addEventListener('click', handleGlobalSettingsClick);
       document.addEventListener('click', (e) => { if (!e.target.closest('.nationality-select-shell')) closeNationalityPicker(); });
@@ -5564,6 +5819,7 @@
 
     function handleGlobalMobileActionsClick(event) {
       if (!els.actions || !isCompactActionsLayout()) return;
+      if (els.settingsPanel?.contains(event.target)) return;
       if (!els.actions.contains(event.target)) closeMobileActionsMenu();
     }
 
@@ -5591,10 +5847,11 @@
 
     function getClientPointFromEvent(event) {
       const src = event?.sourceEvent || event || {};
+      if (src.touches?.length === 2) return midpointOfTouches(src.touches);
+      if (src.changedTouches?.length === 2) return midpointOfTouches(src.changedTouches);
       if (Number.isFinite(src.clientX) && Number.isFinite(src.clientY)) return {clientX: src.clientX, clientY: src.clientY};
       if (src.touches?.length) return {clientX: src.touches[0].clientX, clientY: src.touches[0].clientY};
       if (src.changedTouches?.length) return {clientX: src.changedTouches[0].clientX, clientY: src.changedTouches[0].clientY};
-      if (src.touches?.length === 2) return midpointOfTouches(src.touches);
       return null;
     }
 
@@ -5610,17 +5867,34 @@
       return isClientPointInsideMapHalo(p.clientX, p.clientY);
     }
 
+    function getMapHaloClientMetrics() {
+      const halo = document.querySelector('.earth-halo');
+      const rect = halo?.getBoundingClientRect?.();
+      if (rect && rect.width > 0 && rect.height > 0) {
+        return {
+          cx: rect.left + rect.width / 2,
+          cy: rect.top + rect.height / 2,
+          radius: Math.max(48, Math.min(rect.width, rect.height) / 2)
+        };
+      }
+      const node = els.mapSvg?.node?.();
+      const fallback = node?.getBoundingClientRect?.();
+      if (!fallback || fallback.width <= 0 || fallback.height <= 0) return null;
+      return {
+        cx: fallback.left + fallback.width / 2,
+        cy: fallback.top + fallback.height / 2,
+        radius: Math.max(48, Math.min(fallback.width, fallback.height) / 2)
+      };
+    }
+
     function isClientPointInsideMapHalo(clientX, clientY) {
-      const local = getMapLocalPoint(clientX, clientY);
-      if (!local) return false;
-      const m = state.currentView === 'world' ? getWorldGlobeMetrics() : getMapSvgMetrics();
-      const cx = Number(m.cx ?? (local.width / 2));
-      const cy = Number(m.cy ?? (local.height / 2));
-      const baseRadius = state.currentView === 'world'
-        ? Number(m.radius || Math.min(local.width, local.height) * .435)
-        : Math.min(local.width, local.height) * .49;
-      const radius = Math.max(80, baseRadius * 1.18);
-      return Math.hypot(local.x - cx, local.y - cy) <= radius;
+      const x = Number(clientX);
+      const y = Number(clientY);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return false;
+      syncMapShellVisualCenter();
+      const halo = getMapHaloClientMetrics();
+      if (!halo) return false;
+      return Math.hypot(x - halo.cx, y - halo.cy) <= halo.radius;
     }
 
     function positionNationalityPanel() {
@@ -5658,6 +5932,26 @@
       return !!(els.searchResults && els.searchResults.style.display !== 'none' && els.searchResults.innerHTML.trim());
     }
 
+    function isSettingsOpen() {
+      return !!(els.settingsMenu?.classList.contains('open') || els.settingsPanel?.classList.contains('open'));
+    }
+
+    function shouldUseSettingsModal() {
+      return !!(window.matchMedia && window.matchMedia('(max-width: 720px)').matches);
+    }
+
+    function syncSettingsPanelPlacement() {
+      if (!els.settingsPanel || !els.settingsMenu) return;
+      if (!state.settingsPanelHome) state.settingsPanelHome = els.settingsMenu;
+      const compact = shouldUseSettingsModal();
+      els.settingsPanel.classList.toggle('settings-panel-floating', compact);
+      if (compact) {
+        if (els.settingsPanel.parentNode !== document.body) document.body.appendChild(els.settingsPanel);
+      } else if (els.settingsPanel.parentNode !== els.settingsMenu) {
+        els.settingsMenu.appendChild(els.settingsPanel);
+      }
+    }
+
     function closeTopUiState() {
       if (els.modal?.classList.contains('open')) { closeRecordModal(); return true; }
       if (els.authModal?.classList.contains('open')) { closeAuthModal(); return true; }
@@ -5665,7 +5959,7 @@
       if (els.storyModal?.classList.contains('open')) { closeStoryStudio(); return true; }
       if (els.themeModal?.classList.contains('open')) { closeThemeStudio(); return true; }
       if (els.syncModal?.classList.contains('open')) { closeSyncCenter(); return true; }
-      if (els.settingsMenu?.classList.contains('open')) { closeSettingsMenu(); return true; }
+      if (isSettingsOpen()) { closeSettingsMenu(); return true; }
       if (els.actions?.classList.contains('open')) { closeMobileActionsMenu(); return true; }
       if (els.nationalitySelectShell?.classList.contains('open')) { closeNationalityPicker(); return true; }
       if (isSearchResultsOpen()) { els.searchResults.style.display = 'none'; return true; }
@@ -5691,11 +5985,24 @@
       }
     }
 
+    function handleMouseBackButtonNavigation(event) {
+      if (event.button !== 3 && event.button !== 4) return;
+      if (closeTopUiState()) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation?.();
+      }
+    }
+
     function toggleSettingsMenu(event) {
+      event?.preventDefault?.();
       event?.stopPropagation?.();
-      if (!els.settingsMenu || !els.settingsBtn) return;
-      const open = !els.settingsMenu.classList.contains('open');
+      if (!els.settingsMenu || !els.settingsBtn || !els.settingsPanel) return;
+      const open = !isSettingsOpen();
+      syncSettingsPanelPlacement();
       els.settingsMenu.classList.toggle('open', open);
+      els.settingsPanel.classList.toggle('open', open);
+      els.body?.classList.toggle('settings-modal-open', open && shouldUseSettingsModal());
       els.settingsBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (open) pushUiHistory('settings');
     }
@@ -5703,13 +6010,16 @@
     function closeSettingsMenu() {
       if (!els.settingsMenu || !els.settingsBtn) return;
       els.settingsMenu.classList.remove('open');
+      els.settingsPanel?.classList.remove('open');
+      els.body?.classList.remove('settings-modal-open');
       els.settingsBtn.setAttribute('aria-expanded', 'false');
       markUiClosed();
     }
 
     function handleGlobalSettingsClick(event) {
       if (!els.settingsMenu) return;
-      if (!els.settingsMenu.contains(event.target)) closeSettingsMenu();
+      if (els.settingsMenu.contains(event.target) || els.settingsPanel?.contains(event.target)) return;
+      closeSettingsMenu();
     }
 
     function handleSettingsPanelClick(event) {
@@ -6080,6 +6390,11 @@
       // pointer path freezes the globe at pointerdown, then hit-tests on pointerup
       // only if the gesture stayed within the click threshold. Normal drag still
       // rotates the globe and does not open details mid-drag.
+      svgNode.addEventListener('pointerdown', handleWorldCountryPointerDown, true);
+      svgNode.addEventListener('pointermove', handleWorldCountryPointerMove, true);
+      svgNode.addEventListener('pointerup', handleWorldCountryPointerUp, true);
+      svgNode.addEventListener('pointercancel', handleWorldCountryPointerCancel, true);
+      svgNode.addEventListener('lostpointercapture', handleWorldCountryPointerCancel, true);
       svgNode.addEventListener('pointerdown', handleWorldInertiaPointerDown, true);
       svgNode.addEventListener('pointerup', handleWorldInertiaPointerUp, true);
       svgNode.addEventListener('pointercancel', clearWorldInertiaClick, true);
@@ -6389,14 +6704,79 @@
       state.worldInertia.animFrame = requestAnimationFrame(stepWorldInertia);
     }
 
-    function handleWorldDragStart(event) {
+    function getWorldCountryPointerTarget(target) {
+      const node = target?.closest?.('.country');
+      const svgNode = els.mapSvg.node();
+      if (!node || !svgNode || !svgNode.contains(node)) return null;
+      return node;
+    }
+
+    function handleWorldCountryPointerDown(event) {
       if (isWorldIntroActive()) return;
-      if (!isMapInteractionEventInsideHalo(event)) return;
-      event?.sourceEvent?.preventDefault?.();
-      if (state.currentView === 'region') { handleRegionDragStart(event); return; }
       if (state.currentView !== 'world' || state.worldPinch?.active) return;
-      const p = getWorldDragLocalPoint(event);
+      if (event.button != null && event.button !== 0) return;
+      if (!getWorldCountryPointerTarget(event.target)) return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
+      const p = getMapLocalPoint(event.clientX, event.clientY);
       if (!p) return;
+      state.worldCountryPointerGesture = {
+        pointerId: event.pointerId,
+        startX: p.x,
+        startY: p.y,
+        lastX: p.x,
+        lastY: p.y,
+        started: false,
+        passiveToD3: false
+      };
+    }
+
+    function handleWorldCountryPointerMove(event) {
+      const gesture = state.worldCountryPointerGesture;
+      if (!gesture || gesture.pointerId !== event.pointerId) return;
+      if (isWorldIntroActive() || state.currentView !== 'world' || state.worldPinch?.active) return;
+      const p = getMapLocalPoint(event.clientX, event.clientY);
+      if (!p) return;
+      if (!gesture.started && state.worldDrag?.active) {
+        gesture.passiveToD3 = true;
+        return;
+      }
+      if (gesture.passiveToD3) return;
+      const moved = Math.hypot(p.x - gesture.startX, p.y - gesture.startY);
+      if (!gesture.started) {
+        if (moved <= 4) return;
+        gesture.started = true;
+        state.worldClickSuppressUntil = performance.now() + 280;
+        try { els.mapSvg.node()?.setPointerCapture?.(event.pointerId); } catch (err) {}
+        if (!startWorldDragAtLocalPoint({x: gesture.startX, y: gesture.startY, width: p.width, height: p.height}, event)) return;
+      }
+      updateWorldDragAtLocalPoint(p, event);
+      event.preventDefault?.();
+      event.stopPropagation?.();
+    }
+
+    function handleWorldCountryPointerUp(event) {
+      const gesture = state.worldCountryPointerGesture;
+      if (!gesture || gesture.pointerId !== event.pointerId) return;
+      state.worldCountryPointerGesture = null;
+      try { els.mapSvg.node()?.releasePointerCapture?.(event.pointerId); } catch (err) {}
+      if (gesture.started) {
+        handleWorldDragEnd();
+        state.worldClickSuppressUntil = performance.now() + 280;
+        event.preventDefault?.();
+        event.stopPropagation?.();
+      }
+    }
+
+    function handleWorldCountryPointerCancel(event) {
+      const gesture = state.worldCountryPointerGesture;
+      if (!gesture || (event?.pointerId != null && gesture.pointerId !== event.pointerId)) return;
+      state.worldCountryPointerGesture = null;
+      try { els.mapSvg.node()?.releasePointerCapture?.(gesture.pointerId); } catch (err) {}
+      if (gesture.started && state.worldDrag?.active) handleWorldDragEnd();
+    }
+
+    function startWorldDragAtLocalPoint(p, event = null) {
+      if (!p || state.currentView !== 'world' || state.worldPinch?.active) return false;
       ensureWorldQuaternion();
       cancelWorldInertia();
       cancelWorldSearchNavigation();
@@ -6421,15 +6801,11 @@
       };
       els.mapSvg.classed('dragging', true);
       hideTooltip();
+      return true;
     }
 
-    function handleWorldDrag(event) {
-      if (isWorldIntroActive()) return;
-      if (state.currentView === 'region') { handleRegionDrag(event); return; }
-      if (state.currentView !== 'world' || !state.worldDrag?.active || state.worldPinch?.active) return;
-      event?.sourceEvent?.preventDefault?.();
-      const p = getWorldDragLocalPoint(event);
-      if (!p) return;
+    function updateWorldDragAtLocalPoint(p, event = null) {
+      if (!p || state.currentView !== 'world' || !state.worldDrag?.active || state.worldPinch?.active) return false;
       const now = performance.now();
       const dt = Math.max(8, now - (state.worldDrag.lastT || now));
       const dx = p.x - (Number.isFinite(state.worldDrag.lastX) ? state.worldDrag.lastX : p.x);
@@ -6459,6 +6835,28 @@
       zoom.y = 0;
       scheduleRenderMap();
       hideTooltip();
+      return true;
+    }
+
+    function handleWorldDragStart(event) {
+      if (isWorldIntroActive()) return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
+      event?.sourceEvent?.preventDefault?.();
+      if (state.currentView === 'region') { handleRegionDragStart(event); return; }
+      if (state.currentView !== 'world' || state.worldPinch?.active) return;
+      const p = getWorldDragLocalPoint(event);
+      if (!p) return;
+      startWorldDragAtLocalPoint(p, event);
+    }
+
+    function handleWorldDrag(event) {
+      if (isWorldIntroActive()) return;
+      if (state.currentView === 'region') { handleRegionDrag(event); return; }
+      if (state.currentView !== 'world' || !state.worldDrag?.active || state.worldPinch?.active) return;
+      event?.sourceEvent?.preventDefault?.();
+      const p = getWorldDragLocalPoint(event);
+      if (!p) return;
+      updateWorldDragAtLocalPoint(p, event);
     }
 
     function handleWorldDragEnd() {
