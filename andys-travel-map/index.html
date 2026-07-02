@@ -1870,6 +1870,178 @@
     }
 
 
+
+    /* v1.8.59 compact interaction polish: liquid menu/buttons, safe panels, centered map */
+    .liquid-button,
+    .btn,
+    .auth-tab,
+    .close-x,
+    .template-card,
+    .settings-option,
+    .nationality-option,
+    .check-pill {
+      background:
+        radial-gradient(circle at 24% 8%, rgba(255,255,255,.16), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.045));
+      border-color: rgba(255,255,255,.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 14px 34px rgba(0,0,0,.18);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+    }
+    .liquid-button:hover,
+    .btn:hover,
+    .auth-tab:hover,
+    .close-x:hover,
+    .template-card:hover,
+    .settings-option:hover,
+    .nationality-option:hover,
+    .check-pill:hover {
+      background:
+        radial-gradient(circle at 24% 8%, rgba(255,255,255,.20), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.155), rgba(255,255,255,.06));
+      border-color: rgba(255,255,255,.24);
+    }
+    .btn.primary {
+      background:
+        radial-gradient(circle at 25% 0%, rgba(255,255,255,.18), transparent 36%),
+        linear-gradient(135deg, rgba(118,168,200,.30), rgba(255,255,255,.06));
+      border-color: rgba(148,196,226,.36);
+    }
+    .btn.danger {
+      background:
+        radial-gradient(circle at 25% 0%, rgba(255,255,255,.13), transparent 36%),
+        linear-gradient(135deg, rgba(231,164,164,.16), rgba(255,255,255,.045));
+      border-color: rgba(231,164,164,.24);
+    }
+    .map-shell {
+      justify-items: center;
+      align-items: center;
+    }
+    .earth-halo {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #mapSvg {
+      display: block;
+      margin-inline: auto;
+      touch-action: auto;
+    }
+    #mapSvg.dragging { touch-action: none; }
+    .detail-card {
+      transition: transform .48s cubic-bezier(.16, 1, .3, 1), opacity .34s ease;
+      will-change: transform, opacity;
+    }
+    .records-modal {
+      min-height: 0;
+      overflow: hidden;
+    }
+    .records-list {
+      min-height: 0;
+      flex: 1 1 auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+    .records-toolbar,
+    .modal,
+    .detail-card,
+    .settings-panel,
+    .actions-menu-panel,
+    .nationality-option-list {
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 720px) {
+      .actions-menu-panel {
+        background:
+          radial-gradient(circle at 18% 0%, rgba(255,255,255,.18), transparent 34%),
+          linear-gradient(135deg, rgba(18,24,38,.96), rgba(7,12,22,.92));
+        border: 1px solid rgba(255,255,255,.18);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 30px 84px rgba(0,0,0,.56);
+        backdrop-filter: blur(28px) saturate(160%);
+        -webkit-backdrop-filter: blur(28px) saturate(160%);
+      }
+      .actions-menu-panel > .btn,
+      .actions-menu-panel .settings-trigger {
+        min-height: 42px;
+        border-radius: 16px;
+        justify-content: flex-start;
+        padding-inline: 13px;
+        text-align: left;
+        background:
+          radial-gradient(circle at 22% 0%, rgba(255,255,255,.15), transparent 35%),
+          linear-gradient(135deg, rgba(255,255,255,.105), rgba(255,255,255,.04));
+        border: 1px solid rgba(255,255,255,.14);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+      }
+      .actions-menu-panel > .btn:hover,
+      .actions-menu-panel .settings-trigger:hover {
+        background:
+          radial-gradient(circle at 22% 0%, rgba(255,255,255,.20), transparent 35%),
+          linear-gradient(135deg, rgba(255,255,255,.145), rgba(255,255,255,.06));
+        border-color: rgba(255,255,255,.24);
+      }
+      .settings-menu.open .settings-panel {
+        background:
+          radial-gradient(circle at 18% 0%, rgba(255,255,255,.17), transparent 34%),
+          linear-gradient(135deg, rgba(18,24,38,.96), rgba(7,12,22,.93));
+        border: 1px solid rgba(255,255,255,.18);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 30px 84px rgba(0,0,0,.56);
+        backdrop-filter: blur(28px) saturate(160%);
+        -webkit-backdrop-filter: blur(28px) saturate(160%);
+      }
+      .nationality-select-panel {
+        position: fixed;
+        left: var(--nationality-panel-left, 18px);
+        right: var(--nationality-panel-right, 18px);
+        top: var(--nationality-panel-top, max(148px, env(safe-area-inset-top)));
+        bottom: auto;
+        max-height: min(300px, 44dvh);
+        overflow: hidden;
+      }
+      .nationality-option-list {
+        max-height: min(210px, 30dvh);
+        overflow: auto;
+      }
+      .detail-card {
+        transition: transform .54s cubic-bezier(.16, 1, .3, 1), opacity .38s ease;
+        transform: translateY(calc(100% + 44px));
+      }
+      .map-shell {
+        padding-left: 0;
+        padding-right: 0;
+        place-items: center;
+      }
+      #mapSvg {
+        margin-inline: auto;
+        transform: translateX(0);
+      }
+      .earth-halo {
+        left: 50%;
+        top: 50%;
+      }
+      .records-modal {
+        display: flex;
+        flex-direction: column;
+        max-height: calc(100dvh - 20px);
+      }
+      .records-toolbar {
+        flex: 0 0 auto;
+      }
+      .records-summary-line {
+        flex: 0 0 auto;
+      }
+      .records-list {
+        max-height: none !important;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        padding-bottom: max(28px, calc(env(safe-area-inset-bottom) + 20px));
+      }
+    }
+
   </style>
 </head>
 <body class="theme-night-earth">
@@ -2551,6 +2723,7 @@
       nationalitySelectValue: document.getElementById('nationalitySelectValue'),
       nationalitySearchInput: document.getElementById('nationalitySearchInput'),
       nationalityOptionList: document.getElementById('nationalityOptionList'),
+      nationalitySelectPanel: document.getElementById('nationalitySelectPanel'),
       nationalityEmptyMessage: document.getElementById('nationalityEmptyMessage'),
       registerUsernameInput: document.getElementById('registerUsernameInput'),
       registerPasswordInput: document.getElementById('registerPasswordInput'),
@@ -2868,10 +3041,11 @@
 
     function openNationalityPicker() {
       if (!els.nationalitySelectShell || !els.nationalitySelectButton) return;
+      positionNationalityPanel();
       els.nationalitySelectShell.classList.add('open');
       els.nationalitySelectButton.setAttribute('aria-expanded', 'true');
       renderNationalityOptions(els.nationalitySearchInput?.value || '');
-      requestAnimationFrame(() => els.nationalitySearchInput?.focus());
+      requestAnimationFrame(() => { positionNationalityPanel(); els.nationalitySearchInput?.focus(); });
     }
 
     function closeNationalityPicker() {
@@ -3205,6 +3379,7 @@
 
     function handleWorldRootClick(event) {
       if (isWorldIntroActive()) { event.preventDefault(); event.stopPropagation(); return; }
+      if (!isMapInteractionEventInsideHalo(event)) return;
       if (state.currentView !== 'world') return;
       if (event.__andyWorldCountryHandled) return;
       if (shouldSuppressWorldCountryClick(event)) return;
@@ -4031,6 +4206,7 @@
         cancelPendingDetailReplay();
         els.detailCard.style.transition = '';
         els.detailCard.classList.add('open');
+        if (targetKey) pushUiHistory(`detail:${targetKey}`);
         return;
       }
       const expectedTargetKey = state.detailTargetKey || '';
@@ -4046,6 +4222,7 @@
           state.detailReplayFrame2 = null;
           if (expectedTargetKey && state.detailTargetKey !== expectedTargetKey) return;
           els.detailCard.classList.add('open');
+          if (expectedTargetKey) pushUiHistory(`detail:${expectedTargetKey}`);
         });
       });
     }
@@ -4202,7 +4379,12 @@
       state.selectedFeature = null;
       hideTooltip();
       renderMap();
-      openDetail(country, findPlaceByCountry(country), null);
+      pushUiHistory(`region:${country.code}`);
+      if (isSmallScreenOrTouch()) {
+        closeDetail();
+      } else {
+        openDetail(country, findPlaceByCountry(country), null);
+      }
       toast(`${country.nameKo} 세부 지도로 전환했습니다.`);
     }
     window.openRegionMapForCode = openRegionMapForCode;
@@ -4713,6 +4895,7 @@
       state.selectedFeature = null;
       state.selectedRegionKey = null;
       state.detailTargetKey = '';
+      markUiClosed();
     }
     window.closeDetail = closeDetail;
 
@@ -5006,13 +5189,14 @@
       switchAuthTab(tab);
       clearAuthMessages();
       els.authModal?.classList.add('open');
+      pushUiHistory(`auth:${tab}`);
       requestAnimationFrame(() => {
         if (tab === 'login') els.loginUsernameInput?.focus();
         else (els.registerNicknameInput || els.registerUsernameInput)?.focus();
       });
     }
 
-    function closeAuthModal() { els.authModal?.classList.remove('open'); }
+    function closeAuthModal() { els.authModal?.classList.remove('open'); markUiClosed(); }
 
     function switchAuthTab(tab) {
       const login = tab === 'login';
@@ -5248,7 +5432,9 @@
     }
 
     function bindEvents() {
-      window.addEventListener('resize', debounce(renderMap, 180));
+      window.addEventListener('resize', debounce(() => { renderMap(); positionNationalityPanel(); }, 180));
+      window.addEventListener('popstate', handleAppBackNavigation);
+      document.addEventListener('keydown', handleAppEscapeNavigation, true);
       if (els.brandHome) {
         els.brandHome.addEventListener('click', goToMainPageFromLogo);
         els.brandHome.addEventListener('keydown', handleLogoHomeKeydown);
@@ -5365,6 +5551,7 @@
       const open = !els.actions.classList.contains('open');
       els.actions.classList.toggle('open', open);
       els.mobileActionsBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) pushUiHistory('menu');
       if (!open) closeSettingsMenu();
     }
 
@@ -5372,6 +5559,7 @@
       if (!els.actions || !els.mobileActionsBtn) return;
       els.actions.classList.remove('open');
       els.mobileActionsBtn.setAttribute('aria-expanded', 'false');
+      markUiClosed();
     }
 
     function handleGlobalMobileActionsClick(event) {
@@ -5395,18 +5583,128 @@
       return 1.65;
     }
 
+    function isSmallScreenOrTouch() {
+      const compact = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
+      const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      return !!(compact || coarse);
+    }
+
+    function getClientPointFromEvent(event) {
+      const src = event?.sourceEvent || event || {};
+      if (Number.isFinite(src.clientX) && Number.isFinite(src.clientY)) return {clientX: src.clientX, clientY: src.clientY};
+      if (src.touches?.length) return {clientX: src.touches[0].clientX, clientY: src.touches[0].clientY};
+      if (src.changedTouches?.length) return {clientX: src.changedTouches[0].clientX, clientY: src.changedTouches[0].clientY};
+      if (src.touches?.length === 2) return midpointOfTouches(src.touches);
+      return null;
+    }
+
+    function getInteractionCenterFromEvent(event) {
+      const src = event?.sourceEvent || event || {};
+      if (src.touches?.length === 2) return midpointOfTouches(src.touches);
+      return getClientPointFromEvent(event);
+    }
+
+    function isMapInteractionEventInsideHalo(event) {
+      const p = getInteractionCenterFromEvent(event);
+      if (!p) return true;
+      return isClientPointInsideMapHalo(p.clientX, p.clientY);
+    }
+
+    function isClientPointInsideMapHalo(clientX, clientY) {
+      const local = getMapLocalPoint(clientX, clientY);
+      if (!local) return false;
+      const m = state.currentView === 'world' ? getWorldGlobeMetrics() : getMapSvgMetrics();
+      const cx = Number(m.cx ?? (local.width / 2));
+      const cy = Number(m.cy ?? (local.height / 2));
+      const baseRadius = state.currentView === 'world'
+        ? Number(m.radius || Math.min(local.width, local.height) * .435)
+        : Math.min(local.width, local.height) * .49;
+      const radius = Math.max(80, baseRadius * 1.18);
+      return Math.hypot(local.x - cx, local.y - cy) <= radius;
+    }
+
+    function positionNationalityPanel() {
+      if (!els.nationalitySelectPanel || !els.nationalitySelectButton) return;
+      if (!isSmallScreenOrTouch()) {
+        els.nationalitySelectPanel.style.removeProperty('--nationality-panel-left');
+        els.nationalitySelectPanel.style.removeProperty('--nationality-panel-right');
+        els.nationalitySelectPanel.style.removeProperty('--nationality-panel-top');
+        return;
+      }
+      const rect = els.nationalitySelectButton.getBoundingClientRect();
+      const margin = 18;
+      const left = Math.max(margin, rect.left);
+      const right = Math.max(margin, window.innerWidth - rect.right);
+      const top = Math.min(window.innerHeight - 318, rect.bottom + 8);
+      els.nationalitySelectPanel.style.setProperty('--nationality-panel-left', `${left}px`);
+      els.nationalitySelectPanel.style.setProperty('--nationality-panel-right', `${right}px`);
+      els.nationalitySelectPanel.style.setProperty('--nationality-panel-top', `${Math.max(84, top)}px`);
+    }
+
+    function markUiClosed() {
+      state.lastUiHistoryKey = '';
+    }
+
+    function pushUiHistory(key) {
+      if (!key || state.suppressUiHistory) return;
+      if (state.lastUiHistoryKey === key) return;
+      try {
+        window.history.pushState({andyTravelMapUi: key}, '', window.location.href);
+        state.lastUiHistoryKey = key;
+      } catch (err) {}
+    }
+
+    function isSearchResultsOpen() {
+      return !!(els.searchResults && els.searchResults.style.display !== 'none' && els.searchResults.innerHTML.trim());
+    }
+
+    function closeTopUiState() {
+      if (els.modal?.classList.contains('open')) { closeRecordModal(); return true; }
+      if (els.authModal?.classList.contains('open')) { closeAuthModal(); return true; }
+      if (els.recordsModal?.classList.contains('open')) { closeRecordsPanel(); return true; }
+      if (els.storyModal?.classList.contains('open')) { closeStoryStudio(); return true; }
+      if (els.themeModal?.classList.contains('open')) { closeThemeStudio(); return true; }
+      if (els.syncModal?.classList.contains('open')) { closeSyncCenter(); return true; }
+      if (els.settingsMenu?.classList.contains('open')) { closeSettingsMenu(); return true; }
+      if (els.actions?.classList.contains('open')) { closeMobileActionsMenu(); return true; }
+      if (els.nationalitySelectShell?.classList.contains('open')) { closeNationalityPicker(); return true; }
+      if (isSearchResultsOpen()) { els.searchResults.style.display = 'none'; return true; }
+      if (isDetailOpen()) { closeDetail(); return true; }
+      if (state.currentView === 'region') { backToWorldMap(); return true; }
+      return false;
+    }
+
+    function handleAppBackNavigation() {
+      state.suppressUiHistory = true;
+      try { closeTopUiState(); }
+      finally {
+        state.suppressUiHistory = false;
+        state.lastUiHistoryKey = '';
+      }
+    }
+
+    function handleAppEscapeNavigation(event) {
+      if (event.key !== 'Escape') return;
+      if (closeTopUiState()) {
+        event.preventDefault();
+        event.stopImmediatePropagation?.();
+      }
+    }
+
     function toggleSettingsMenu(event) {
       event?.stopPropagation?.();
       if (!els.settingsMenu || !els.settingsBtn) return;
       const open = !els.settingsMenu.classList.contains('open');
       els.settingsMenu.classList.toggle('open', open);
       els.settingsBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) pushUiHistory('settings');
     }
 
     function closeSettingsMenu() {
       if (!els.settingsMenu || !els.settingsBtn) return;
       els.settingsMenu.classList.remove('open');
       els.settingsBtn.setAttribute('aria-expanded', 'false');
+      markUiClosed();
     }
 
     function handleGlobalSettingsClick(event) {
@@ -5686,6 +5984,8 @@
 
     function handleRegionWheel(event) {
       if (state.currentView !== 'region') return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
+      event?.sourceEvent?.preventDefault?.();
       cancelRegionFocusAnimation();
       event.preventDefault();
       const rz = state.regionZoom || (state.regionZoom = {k: 1, x: 0, y: 0});
@@ -5695,6 +5995,7 @@
 
     function handleRegionTouchStart(event) {
       if (state.currentView !== 'region') return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
       if (event.touches && event.touches.length === 2) {
         event.preventDefault();
         const rz = state.regionZoom || (state.regionZoom = {k: 1, x: 0, y: 0});
@@ -5723,6 +6024,8 @@
 
     function handleRegionDragStart(event) {
       if (state.currentView !== 'region') return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
+      event?.sourceEvent?.preventDefault?.();
       cancelRegionFocusAnimation();
       const src = event?.sourceEvent || event;
       const p = getMapLocalPoint(src?.clientX, src?.clientY) || {x: Number(event?.x || 0), y: Number(event?.y || 0)};
@@ -5739,6 +6042,7 @@
 
     function handleRegionDrag(event) {
       if (state.currentView !== 'region' || !state.regionZoom?.drag?.active || state.regionZoom?.pinch) return;
+      event?.sourceEvent?.preventDefault?.();
       const rz = state.regionZoom;
       if ((rz.k || 1) <= 1.001) return;
       const src = event?.sourceEvent || event;
@@ -5783,7 +6087,7 @@
       els.mapSvg.call(
         d3.drag()
           .clickDistance(4)
-          .filter(event => !state.worldPinch?.active && !(event.sourceEvent && event.sourceEvent.touches && event.sourceEvent.touches.length > 1))
+          .filter(event => !state.worldPinch?.active && !(event.sourceEvent && event.sourceEvent.touches && event.sourceEvent.touches.length > 1) && isMapInteractionEventInsideHalo(event.sourceEvent || event))
           .on('start', handleWorldDragStart)
           .on('drag', handleWorldDrag)
           .on('end', handleWorldDragEnd)
@@ -5839,6 +6143,7 @@
 
     function handleWorldWheel(event) {
       if (isWorldIntroActive()) { event.preventDefault(); return; }
+      if (!isMapInteractionEventInsideHalo(event)) return;
       if (state.currentView === 'region') { handleRegionWheel(event); return; }
       if (state.currentView !== 'world') return;
       cancelWorldSearchNavigation();
@@ -5951,6 +6256,7 @@
 
     function handleWorldTouchStart(event) {
       if (isWorldIntroActive()) { event.preventDefault(); return; }
+      if (!isMapInteractionEventInsideHalo(event)) return;
       if (state.currentView === 'region') { handleRegionTouchStart(event); return; }
       if (state.currentView !== 'world') return;
       if (!event.touches || event.touches.length !== 2) return;
@@ -6085,6 +6391,8 @@
 
     function handleWorldDragStart(event) {
       if (isWorldIntroActive()) return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
+      event?.sourceEvent?.preventDefault?.();
       if (state.currentView === 'region') { handleRegionDragStart(event); return; }
       if (state.currentView !== 'world' || state.worldPinch?.active) return;
       const p = getWorldDragLocalPoint(event);
@@ -6119,6 +6427,7 @@
       if (isWorldIntroActive()) return;
       if (state.currentView === 'region') { handleRegionDrag(event); return; }
       if (state.currentView !== 'world' || !state.worldDrag?.active || state.worldPinch?.active) return;
+      event?.sourceEvent?.preventDefault?.();
       const p = getWorldDragLocalPoint(event);
       if (!p) return;
       const now = performance.now();
@@ -6206,10 +6515,12 @@
       refreshGlassSelect(els.visitMonthSelect);
       refreshGlassSelect(els.ratingInput);
       els.modal.classList.add('open');
+      pushUiHistory('record');
       setTimeout(() => els.countryInput.focus(), 80);
     }
     function closeRecordModal() {
       els.modal.classList.remove('open');
+      markUiClosed();
       state.lockedRecordCountryCode = '';
       state.prefillRegionCode = '';
       state.editingRecord = null;
@@ -6554,6 +6865,7 @@
         }).join('');
       }
       els.searchResults.style.display = 'block';
+      pushUiHistory('search');
       [...els.searchResults.querySelectorAll('.result-item[data-code]')].forEach(item => {
         item.addEventListener('click', () => activateSearchResultItem(item));
       });
@@ -6786,11 +7098,13 @@
       closeAllGlassSelects();
       renderRecordsList();
       els.recordsModal?.classList.add('open');
+      pushUiHistory('records');
       setTimeout(() => els.recordsSearchInput?.focus(), 70);
     }
 
     function closeRecordsPanel() {
       els.recordsModal?.classList.remove('open');
+      markUiClosed();
     }
 
     function resetRecordsFilters() {
@@ -6912,8 +7226,9 @@
     function openSyncCenter() {
       updateSyncStatus();
       els.syncModal.classList.add('open');
+      pushUiHistory('sync');
     }
-    function closeSyncCenter() { els.syncModal.classList.remove('open'); }
+    function closeSyncCenter() { els.syncModal.classList.remove('open'); markUiClosed(); }
 
     function updateSyncStatus() {
       const count = state.data.places.filter(p => p.visited).length;
@@ -6983,8 +7298,9 @@
       els.themeUnvisitedInput.value = custom.unvisited || '#172033';
       els.themeTextInput.value = custom.text || '#F4F7FB';
       els.themeModal.classList.add('open');
+      pushUiHistory('theme');
     }
-    function closeThemeStudio() { els.themeModal.classList.remove('open'); }
+    function closeThemeStudio() { els.themeModal.classList.remove('open'); markUiClosed(); }
 
     function readThemeForm() {
       return {
@@ -7026,9 +7342,10 @@
     function openStoryStudio() {
       populateStoryCountryOptions();
       els.storyModal.classList.add('open');
+      pushUiHistory('story');
       renderStoryPreview();
     }
-    function closeStoryStudio() { els.storyModal.classList.remove('open'); }
+    function closeStoryStudio() { els.storyModal.classList.remove('open'); markUiClosed(); }
 
     function populateStoryCountryOptions() {
       const visited = state.data.places.filter(p => p.visited);
