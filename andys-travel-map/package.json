@@ -1,6 +1,6 @@
 {
   "name": "andys-travel-map-family-auth",
-  "version": "1.8.57",
+  "version": "1.8.59",
   "private": true,
   "scripts": {
     "hash-password": "node scripts/hash-password.js",

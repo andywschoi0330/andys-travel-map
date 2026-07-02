@@ -148,12 +148,46 @@
     .brand span { font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
 
     .search-wrap { position: relative; pointer-events: auto; justify-self: center; width: min(560px, 44vw); }
-    .glass {
-      background: linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.055));
-      border: 1px solid var(--line);
-      box-shadow: 0 18px 55px var(--shadow), inset 0 1px 0 rgba(255,255,255,.12);
-      backdrop-filter: blur(24px) saturate(150%);
-      -webkit-backdrop-filter: blur(24px) saturate(150%);
+    .glass,
+    .liquid-panel {
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,.15), transparent 34%),
+        linear-gradient(135deg, rgba(18,24,38,.94), rgba(7,12,22,.90));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 28px 76px rgba(0,0,0,.52);
+      backdrop-filter: blur(24px) saturate(155%);
+      -webkit-backdrop-filter: blur(24px) saturate(155%);
+    }
+    .liquid-list-panel,
+    .search-results,
+    .settings-panel,
+    .glass-select-menu,
+    .nationality-select-panel {
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,.15), transparent 34%),
+        linear-gradient(135deg, rgba(18,24,38,.94), rgba(7,12,22,.90));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 28px 76px rgba(0,0,0,.52);
+      backdrop-filter: blur(24px) saturate(155%);
+      -webkit-backdrop-filter: blur(24px) saturate(155%);
+    }
+    .liquid-control {
+      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.045));
+      border: 1px solid rgba(255,255,255,.15);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.09);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+    .liquid-option {
+      background: linear-gradient(135deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+      border: 1px solid rgba(255,255,255,.13);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      transition: background .16s ease, border-color .16s ease, transform .16s ease;
+    }
+    .liquid-option:hover,
+    .liquid-option:focus-visible {
+      background: linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.05));
+      border-color: rgba(255,255,255,.24);
     }
     .search-box {
       display: flex;
@@ -1369,6 +1403,230 @@
     }
     .auth-message.error, .cloud-message.error { color: #ffb7b7; }
     .auth-message.success, .cloud-message.success { color: #d8f6ff; }
+
+    .nationality-select-shell {
+      position: relative;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,.18), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.135), rgba(255,255,255,.045));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.13), 0 16px 42px rgba(0,0,0,.20);
+      backdrop-filter: blur(22px) saturate(155%);
+      -webkit-backdrop-filter: blur(22px) saturate(155%);
+      overflow: hidden;
+    }
+    .nationality-select-shell::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 17px;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.10), transparent 42%, rgba(118,168,200,.075));
+      opacity: .9;
+    }
+    .nationality-select-shell::after {
+      content: "▾";
+      position: absolute;
+      top: 50%;
+      right: 13px;
+      width: 30px;
+      height: 30px;
+      transform: translateY(-50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: rgba(244,247,251,.84);
+      background: radial-gradient(circle at 50% 42%, rgba(255,255,255,.17), rgba(255,255,255,.045) 65%);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+      pointer-events: none;
+      line-height: 1;
+      font-size: 14px;
+    }
+    #registerNationalitySelect {
+      position: relative;
+      z-index: 1;
+      min-height: 46px;
+      border: 0;
+      border-radius: 18px;
+      background: transparent;
+      box-shadow: none;
+      padding-right: 54px;
+      appearance: none;
+      -webkit-appearance: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    #registerNationalitySelect:hover {
+      background: rgba(255,255,255,.035);
+      transform: none;
+    }
+    #registerNationalitySelect:focus {
+      border: 0;
+      box-shadow: 0 0 0 3px rgba(118,168,200,.18);
+      background: rgba(255,255,255,.04);
+    }
+    .nationality-select-shell:focus-within {
+      border-color: rgba(118,168,200,.52);
+      box-shadow: 0 0 0 3px rgba(118,168,200,.13), inset 0 1px 0 rgba(255,255,255,.16), 0 18px 48px rgba(0,0,0,.24);
+    }
+    #registerNationalitySelect option {
+      color: #F4F7FB;
+      background: #0D1526;
+    }
+    .nationality-select-field { position: relative; z-index: 55; }
+    .nationality-select-shell { overflow: visible; }
+    .nationality-select-shell.open { z-index: 180; }
+    .nationality-select-shell::after { display: none; }
+    #registerNationalitySelect {
+      position: absolute !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      width: 1px !important;
+      height: 1px !important;
+      left: -9999px !important;
+      min-height: 1px;
+      padding: 0;
+    }
+    .nationality-select-button {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      min-height: 46px;
+      border: 0;
+      border-radius: 18px;
+      background: transparent;
+      color: var(--text);
+      padding: 0 12px 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 650;
+      box-shadow: none;
+    }
+    .nationality-select-button:hover { background: rgba(255,255,255,.035); transform: none; }
+    .nationality-select-button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(118,168,200,.18);
+      background: rgba(255,255,255,.04);
+    }
+    .nationality-select-arrow {
+      flex: 0 0 auto;
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      color: rgba(244,247,251,.84);
+      background: radial-gradient(circle at 50% 42%, rgba(255,255,255,.17), rgba(255,255,255,.045) 65%);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.10);
+      transition: transform .18s ease;
+    }
+    .nationality-select-shell.open .nationality-select-arrow { transform: rotate(180deg); }
+    .nationality-select-panel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 9px);
+      display: none;
+      padding: 9px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255,255,255,.15), transparent 34%),
+        linear-gradient(135deg, rgba(18,24,38,.94), rgba(7,12,22,.90));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 28px 76px rgba(0,0,0,.52);
+      backdrop-filter: blur(24px) saturate(155%);
+      -webkit-backdrop-filter: blur(24px) saturate(155%);
+      z-index: 190;
+    }
+    .nationality-select-shell.open .nationality-select-panel { display: block; }
+    .nationality-search-input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 15px;
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.045));
+      padding: 0 12px;
+      outline: none;
+      font-size: 13px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.09);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+    .nationality-search-input::placeholder { color: rgba(244,247,251,.42); }
+    .nationality-search-input:focus {
+      border-color: rgba(118,168,200,.48);
+      box-shadow: 0 0 0 3px rgba(118,168,200,.13), inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .nationality-option-list {
+      display: grid;
+      gap: 6px;
+      max-height: min(250px, 38vh);
+      overflow: auto;
+      margin-top: 8px;
+      padding-right: 2px;
+    }
+    .nationality-option {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 14px;
+      color: rgba(244,247,251,.9);
+      background: linear-gradient(135deg, rgba(255,255,255,.085), rgba(255,255,255,.035));
+      padding: 9px 10px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 620;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      transition: background .16s ease, border-color .16s ease, transform .16s ease;
+    }
+    .nationality-option:hover,
+    .nationality-option:focus-visible {
+      outline: none;
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.05));
+      border-color: rgba(255,255,255,.24);
+    }
+    .nationality-option.selected {
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(118,168,200,.20), rgba(255,255,255,.055));
+      border-color: rgba(118,168,200,.38);
+    }
+    .nationality-option small {
+      display: block;
+      margin-top: 3px;
+      color: rgba(244,247,251,.52);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .nationality-empty {
+      display: none;
+      margin-top: 8px;
+      padding: 12px 10px;
+      border-radius: 14px;
+      color: rgba(244,247,251,.58);
+      font-size: 12px;
+      text-align: center;
+      border: 1px dashed rgba(255,255,255,.12);
+      background: rgba(255,255,255,.035);
+    }
+    .nationality-empty.show { display: block; }
+    @media (max-width: 720px) {
+      .nationality-select-panel { position: fixed; left: 18px; right: 18px; top: auto; bottom: max(18px, env(safe-area-inset-bottom)); }
+      .nationality-option-list { max-height: min(340px, 52vh); }
+    }
     .cloud-choice-grid { display:grid; gap:10px; margin-top: 18px; }
     .cloud-choice {
       text-align:left;
@@ -1453,7 +1711,7 @@
           </div>
           <button class="onboarding-close" id="onboardingCloseBtn" type="button" aria-label="처음 사용 안내 닫기">×</button>
         </div>
-        <div id="searchResults" class="search-results glass"></div>
+        <div id="searchResults" class="search-results glass liquid-list-panel"></div>
       </div>
 
       <div class="actions">
@@ -1466,7 +1724,7 @@
         <button class="btn" id="storyBtn">스토리 스튜디오</button>
         <div class="settings-menu" id="settingsMenu">
           <button class="btn settings-trigger" id="settingsBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="settingsPanel">설정 <span aria-hidden="true">▾</span></button>
-          <div class="settings-panel glass" id="settingsPanel" role="menu" aria-label="설정 메뉴">
+          <div class="settings-panel glass liquid-list-panel" id="settingsPanel" role="menu" aria-label="설정 메뉴">
             <div class="settings-group-label">테마</div>
             <button class="settings-option" type="button" data-setting="theme:night-earth" role="menuitem"><span>Night Earth</span><small>기본 밤 지구 테마</small></button>
             <button class="settings-option" type="button" data-setting="theme:deep-navy" role="menuitem"><span>Deep Navy</span><small>더 짙은 네이비 톤</small></button>
@@ -1498,12 +1756,12 @@
       <div class="stat-card glass"><b id="statRegions">0</b><span>기록 지역</span></div>
     </section>
 
-    <aside id="detailCard" class="detail-card glass" aria-live="polite"></aside>
+    <aside id="detailCard" class="detail-card glass liquid-panel" aria-live="polite"></aside>
     <div id="tooltip" class="tooltip glass"></div>
     <div id="toast" class="toast glass"></div>
 
     <div id="authModal" class="modal-backdrop">
-      <section class="modal glass" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <section class="modal glass liquid-panel" role="dialog" aria-modal="true" aria-labelledby="authTitle">
         <div class="detail-head">
           <div>
             <h2 id="authTitle">계정</h2>
@@ -1535,6 +1793,29 @@
         <div class="auth-form" id="registerFormPanel">
           <div class="form-grid">
             <div class="field full">
+              <label for="registerNicknameInput">닉네임</label>
+              <input class="input" id="registerNicknameInput" autocomplete="nickname" placeholder="계정에서 사용할 닉네임을 입력해 주세요" />
+            </div>
+            <div class="field full">
+              <label for="registerNameInput">이름</label>
+              <input class="input" id="registerNameInput" autocomplete="name" placeholder="이름을 입력해 주세요" />
+            </div>
+            <div class="field full nationality-select-field">
+              <label for="registerNationalitySelect">국적</label>
+              <div class="nationality-select-shell" id="nationalitySelectShell">
+                <select class="input" id="registerNationalitySelect" aria-hidden="true" tabindex="-1"></select>
+                <button class="nationality-select-button" id="nationalitySelectButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="nationalityOptionList">
+                  <span id="nationalitySelectValue">국적 선택 안 함</span>
+                  <span class="nationality-select-arrow" aria-hidden="true">⌄</span>
+                </button>
+                <div class="nationality-select-panel liquid-list-panel" id="nationalitySelectPanel">
+                  <input class="nationality-search-input" id="nationalitySearchInput" type="search" placeholder="Search nationality…" autocomplete="off" aria-label="국적 검색" />
+                  <div class="nationality-option-list" id="nationalityOptionList" role="listbox" aria-label="국적 선택 목록"></div>
+                  <div class="nationality-empty" id="nationalityEmptyMessage">검색 결과가 없습니다.</div>
+                </div>
+              </div>
+            </div>
+            <div class="field full">
               <label for="registerUsernameInput">아이디</label>
               <input class="input" id="registerUsernameInput" autocomplete="username" placeholder="사용할 아이디를 입력해 주세요" />
             </div>
@@ -1564,7 +1845,7 @@
     </div>
 
     <div id="cloudChoiceModal" class="modal-backdrop">
-      <section class="modal glass" role="dialog" aria-modal="true" aria-labelledby="cloudChoiceTitle">
+      <section class="modal glass liquid-panel" role="dialog" aria-modal="true" aria-labelledby="cloudChoiceTitle">
         <div class="detail-head">
           <div>
             <h2 id="cloudChoiceTitle">저장 데이터 선택</h2>
@@ -1582,7 +1863,7 @@
 
 
     <div id="recordModal" class="modal-backdrop">
-      <section class="modal glass" role="dialog" aria-modal="true" aria-labelledby="recordTitle">
+      <section class="modal glass liquid-panel" role="dialog" aria-modal="true" aria-labelledby="recordTitle">
         <div class="detail-head">
           <div>
             <h2 id="recordTitle">방문 기록 추가</h2>
@@ -1651,7 +1932,7 @@
 
 
     <div id="recordsModal" class="modal-backdrop">
-      <section class="modal glass records-modal" role="dialog" aria-modal="true" aria-labelledby="recordsTitle">
+      <section class="modal glass liquid-panel records-modal" role="dialog" aria-modal="true" aria-labelledby="recordsTitle">
         <div class="detail-head">
           <div>
             <h2 id="recordsTitle">기록 목록</h2>
@@ -1699,7 +1980,7 @@
     </div>
 
     <div id="syncModal" class="modal-backdrop">
-      <section class="modal glass" role="dialog" aria-modal="true" aria-labelledby="syncTitle">
+      <section class="modal glass liquid-panel" role="dialog" aria-modal="true" aria-labelledby="syncTitle">
         <div class="detail-head">
           <div>
             <h2 id="syncTitle">저장 관리</h2>
@@ -1723,7 +2004,7 @@
     </div>
 
     <div id="themeModal" class="modal-backdrop">
-      <section class="modal glass" role="dialog" aria-modal="true" aria-labelledby="themeTitle">
+      <section class="modal glass liquid-panel" role="dialog" aria-modal="true" aria-labelledby="themeTitle">
         <div class="detail-head">
           <div>
             <h2 id="themeTitle">디자인 스튜디오</h2>
@@ -1734,7 +2015,7 @@
         <div class="form-grid">
           <div class="field full">
             <label>미리보기</label>
-            <div class="theme-preview-card glass">
+            <div class="theme-preview-card glass liquid-panel">
               <div><b>Andy’s Travel Map</b><br><small style="color:var(--muted)">Liquid glass travel archive</small></div>
               <div class="theme-preview-map"><i></i><i></i><i></i></div>
             </div>
@@ -1760,7 +2041,7 @@
     </div>
 
     <div id="storyModal" class="modal-backdrop">
-      <section class="modal story-modal glass" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
+      <section class="modal story-modal glass liquid-panel" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
         <div class="detail-head">
           <div>
             <h2 id="storyTitle">스토리 스튜디오</h2>
@@ -1793,7 +2074,7 @@
             </div>
           </div>
           <div class="story-preview-wrap">
-            <div class="story-preview glass"><canvas id="storyPreviewCanvas" width="1080" height="1920"></canvas></div>
+            <div class="story-preview glass liquid-panel"><canvas id="storyPreviewCanvas" width="1080" height="1920"></canvas></div>
           </div>
         </div>
       </section>
@@ -2022,6 +2303,7 @@
       recordsFilter: {query: "", type: "all", year: "", sort: "recent"},
       storyTemplate: "summary",
       onboardingDismissed: false,
+      detailTargetKey: "",
       auth: {me: null, saveTimer: null, saveInFlight: false, pendingCloudData: null, cloudExists: false}
     };
 
@@ -2067,6 +2349,15 @@
       registerFormPanel: document.getElementById('registerFormPanel'),
       loginUsernameInput: document.getElementById('loginUsernameInput'),
       loginPasswordInput: document.getElementById('loginPasswordInput'),
+      registerNicknameInput: document.getElementById('registerNicknameInput'),
+      registerNameInput: document.getElementById('registerNameInput'),
+      registerNationalitySelect: document.getElementById('registerNationalitySelect'),
+      nationalitySelectShell: document.getElementById('nationalitySelectShell'),
+      nationalitySelectButton: document.getElementById('nationalitySelectButton'),
+      nationalitySelectValue: document.getElementById('nationalitySelectValue'),
+      nationalitySearchInput: document.getElementById('nationalitySearchInput'),
+      nationalityOptionList: document.getElementById('nationalityOptionList'),
+      nationalityEmptyMessage: document.getElementById('nationalityEmptyMessage'),
       registerUsernameInput: document.getElementById('registerUsernameInput'),
       registerPasswordInput: document.getElementById('registerPasswordInput'),
       registerConfirmInput: document.getElementById('registerConfirmInput'),
@@ -2219,6 +2510,7 @@
 
     async function init() {
       fillCountryOptions();
+      fillNationalityOptions();
       await initAuthSession();
       await loadData();
       applyTheme();
@@ -2232,6 +2524,107 @@
 
     function fillCountryOptions() {
       if (els.countryOptions) els.countryOptions.innerHTML = COUNTRY_CATALOG.map(c => `<option value="${escapeHtml(c.nameKo)} / ${escapeHtml(c.nameEn)} / ${c.code}"></option>`).join('');
+    }
+
+    function fillNationalityOptions() {
+      if (!els.registerNationalitySelect) return;
+      const options = ['<option value="">국적 선택 안 함</option>'].concat(
+        COUNTRY_CATALOG.map(c => `<option value="${escapeHtml(c.code)}">${escapeHtml(c.nameKo)} · ${escapeHtml(c.nameEn)}</option>`)
+      );
+      els.registerNationalitySelect.innerHTML = options.join('');
+      refreshNationalityPicker();
+    }
+
+    function isAllowedNationalityCode(code) {
+      const value = String(code || '').trim().toUpperCase();
+      return !value || COUNTRY_CATALOG.some(c => c.code === value);
+    }
+
+    function getNationalityLabel(code) {
+      const value = String(code || '').trim().toUpperCase();
+      if (!value) return '국적 선택 안 함';
+      const country = COUNTRY_CATALOG.find(c => c.code === value);
+      return country ? `${country.nameKo} · ${country.nameEn}` : '국적 선택 안 함';
+    }
+
+    function getNationalitySearchText(country) {
+      if (!country) return '';
+      return normalize([country.code, country.a3, country.nameKo, country.nameEn, country.continent].filter(Boolean).join(' '));
+    }
+
+    function setNationalityValue(value, close = true) {
+      if (!els.registerNationalitySelect) return;
+      const normalized = String(value || '').trim().toUpperCase();
+      if (!isAllowedNationalityCode(normalized)) return;
+      els.registerNationalitySelect.value = normalized;
+      els.registerNationalitySelect.dispatchEvent(new Event('change', {bubbles: true}));
+      refreshNationalityPicker();
+      if (close) closeNationalityPicker();
+    }
+
+    function refreshNationalityPicker() {
+      if (!els.registerNationalitySelect) return;
+      const value = els.registerNationalitySelect.value || '';
+      if (els.nationalitySelectValue) els.nationalitySelectValue.textContent = getNationalityLabel(value);
+      renderNationalityOptions(els.nationalitySearchInput?.value || '');
+    }
+
+    function renderNationalityOptions(query = '') {
+      if (!els.nationalityOptionList) return;
+      const q = normalize(query);
+      const countries = q
+        ? COUNTRY_CATALOG.filter(country => getNationalitySearchText(country).includes(q))
+        : COUNTRY_CATALOG;
+      const items = [{code: '', nameKo: '국적 선택 안 함', nameEn: 'No nationality selected'}].concat(countries);
+      els.nationalityOptionList.innerHTML = '';
+      items.forEach(country => {
+        const btn = document.createElement('button');
+        const code = country.code || '';
+        btn.type = 'button';
+        btn.className = 'nationality-option';
+        if (code === (els.registerNationalitySelect?.value || '')) btn.classList.add('selected');
+        btn.dataset.value = code;
+        btn.setAttribute('role', 'option');
+        btn.setAttribute('aria-selected', code === (els.registerNationalitySelect?.value || '') ? 'true' : 'false');
+        btn.innerHTML = `${escapeHtml(country.nameKo || '국적 선택 안 함')}${country.nameEn ? `<small>${escapeHtml(country.nameEn)}${code ? ` · ${escapeHtml(code)}` : ''}</small>` : ''}`;
+        btn.addEventListener('click', event => {
+          event.preventDefault();
+          event.stopPropagation();
+          setNationalityValue(code, true);
+        });
+        btn.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setNationalityValue(code, true);
+          }
+        });
+        els.nationalityOptionList.appendChild(btn);
+      });
+      const hasResults = countries.length > 0 || !q;
+      if (els.nationalityEmptyMessage) els.nationalityEmptyMessage.classList.toggle('show', !hasResults);
+    }
+
+    function openNationalityPicker() {
+      if (!els.nationalitySelectShell || !els.nationalitySelectButton) return;
+      els.nationalitySelectShell.classList.add('open');
+      els.nationalitySelectButton.setAttribute('aria-expanded', 'true');
+      renderNationalityOptions(els.nationalitySearchInput?.value || '');
+      requestAnimationFrame(() => els.nationalitySearchInput?.focus());
+    }
+
+    function closeNationalityPicker() {
+      if (!els.nationalitySelectShell || !els.nationalitySelectButton) return;
+      els.nationalitySelectShell.classList.remove('open');
+      els.nationalitySelectButton.setAttribute('aria-expanded', 'false');
+      if (els.nationalitySearchInput) els.nationalitySearchInput.value = '';
+      renderNationalityOptions('');
+    }
+
+    function toggleNationalityPicker(event) {
+      event?.preventDefault?.();
+      event?.stopPropagation?.();
+      if (els.nationalitySelectShell?.classList?.contains('open')) closeNationalityPicker();
+      else openNationalityPicker();
     }
 
     async function loadData() {
@@ -2986,6 +3379,29 @@
       };
     }
 
+    function getCurrentUserNationalityCode() {
+      const value = state.auth?.me?.nationality;
+      if (typeof value === 'string') return value.trim().toUpperCase();
+      if (value && typeof value === 'object') return String(value.code || value.countryCode || value.a2 || '').trim().toUpperCase();
+      return '';
+    }
+
+    function getNationalityIntroTarget() {
+      const code = getCurrentUserNationalityCode();
+      if (!code) return getSouthKoreaIntroTarget();
+      const country = byCode(code) || byA3(code);
+      const feature = country ? getFeatureForCountry(country) : null;
+      if (!country || !feature) return getSouthKoreaIntroTarget();
+      const centroid = getFeaturePolygonCentroid(feature);
+      if (!centroid || !Number.isFinite(centroid.lon) || !Number.isFinite(centroid.lat)) return getSouthKoreaIntroTarget();
+      return {
+        country,
+        feature,
+        lon: centroid.lon,
+        lat: centroid.lat
+      };
+    }
+
     function startWorldIntroAnimation(reason = 'initial') {
       if (!state.mapReady || !state.geojson) return;
       if (state.worldIntro?.active) cancelWorldIntroAnimation();
@@ -3007,7 +3423,7 @@
       zoom.y = 0;
 
       const startQ = lockYAxisToViewerPlane(qFromWorldRotation([0, -12, 0]));
-      const target = getSouthKoreaIntroTarget();
+      const target = getNationalityIntroTarget();
       const targetQ = lockYAxisToViewerPlane(qCenterOn(target.lon, target.lat));
       const spinDuration = 860;
       const focusDuration = 960;
@@ -3180,7 +3596,74 @@
       return !!els.detailCard?.classList?.contains('open');
     }
 
-    function showFeatureDetail(feature) {
+    function hasNamedCityRecord(city) {
+      return !!(String(city?.nameKo || '').trim() || String(city?.nameEn || '').trim());
+    }
+
+    function getNamedCityRecords(cities) {
+      return (Array.isArray(cities) ? cities : []).filter(hasNamedCityRecord);
+    }
+
+    function getCountryDetailTargetKey(country, feature) {
+      const fallback = normalize(country?.nameKo || country?.nameEn || getFeatureName(feature) || '');
+      return `country:${country?.code || country?.a3 || getFeatureA3(feature) || fallback}`;
+    }
+
+    function getRegionDetailTargetKey(country, region) {
+      return `region:${getRegionSelectionKey(country, region)}`;
+    }
+
+    function shouldReplayDetailAnimation(targetKey, forced = false) {
+      if (!isDetailOpen()) return false;
+      const currentKey = state.detailTargetKey || '';
+      if (targetKey && currentKey && targetKey === currentKey) return false;
+      if (targetKey && currentKey && targetKey !== currentKey) return true;
+      return !!forced;
+    }
+
+    function cancelPendingDetailReplay() {
+      if (state.detailReplayFrame1) cancelAnimationFrame(state.detailReplayFrame1);
+      if (state.detailReplayFrame2) cancelAnimationFrame(state.detailReplayFrame2);
+      state.detailReplayFrame1 = null;
+      state.detailReplayFrame2 = null;
+    }
+
+    function prepareDetailReplayAnimation(enabled) {
+      if (!enabled || !isDetailOpen() || !els.detailCard) return false;
+      cancelPendingDetailReplay();
+      els.detailCard.style.transition = 'none';
+      els.detailCard.classList.remove('open');
+      void els.detailCard.offsetWidth;
+      return true;
+    }
+
+    function showDetailCard(targetKey, replayAnimation) {
+      if (!els.detailCard) return;
+      if (targetKey) state.detailTargetKey = targetKey;
+      if (!replayAnimation) {
+        cancelPendingDetailReplay();
+        els.detailCard.style.transition = '';
+        els.detailCard.classList.add('open');
+        return;
+      }
+      const expectedTargetKey = state.detailTargetKey || '';
+      state.detailReplayFrame1 = requestAnimationFrame(() => {
+        state.detailReplayFrame1 = null;
+        if (expectedTargetKey && state.detailTargetKey !== expectedTargetKey) {
+          els.detailCard.style.transition = '';
+          return;
+        }
+        els.detailCard.style.transition = '';
+        void els.detailCard.offsetWidth;
+        state.detailReplayFrame2 = requestAnimationFrame(() => {
+          state.detailReplayFrame2 = null;
+          if (expectedTargetKey && state.detailTargetKey !== expectedTargetKey) return;
+          els.detailCard.classList.add('open');
+        });
+      });
+    }
+
+    function showFeatureDetail(feature, options = {}) {
       if (!feature) return;
       hideOnboardingHint();
       state.selectedRegionKey = null;
@@ -3189,7 +3672,7 @@
       highlightSelected(a3);
       const country = getCatalogForFeature(feature) || {nameKo: getFeatureName(feature), nameEn: getFeatureName(feature), a3, code: ''};
       const place = findPlaceByFeature(feature);
-      openDetail(country, place, feature);
+      openDetail(country, place, feature, options);
     }
 
     function selectFeature(feature) {
@@ -3199,19 +3682,23 @@
         closeDetail();
         return;
       }
-      animateWorldToFeatureCenter(feature, () => showFeatureDetail(feature), {adaptiveZoom: true});
+      const replayAnimation = isDetailOpen();
+      showFeatureDetail(feature, {replayAnimation});
+      animateWorldToFeatureCenter(feature, null, {adaptiveZoom: true});
     }
 
     function highlightSelected(a3) {
       els.mapSvg.selectAll('.country').classed('selected', d => getFeatureA3(d) === a3);
     }
 
-    function openDetail(country, place, feature) {
+    function openDetail(country, place, feature, options = {}) {
       hideOnboardingHint();
+      const targetKey = getCountryDetailTargetKey(country, feature);
+      const replayAnimation = prepareDetailReplayAnimation(shouldReplayDetailAnimation(targetKey, !!options.replayAnimation));
       const displayKo = country.nameKo || getFeatureName(feature);
       const displayEn = country.nameEn || getFeatureName(feature);
       const years = place?.years?.length ? place.years.join(', ') : '연도 미입력';
-      const cities = place?.cities || [];
+      const cities = getNamedCityRecords(place?.cities);
       const avg = avgPlace(place);
       const regionPack = getRegionPack(country.code);
       const visitedRegions = place?.regions || [];
@@ -3242,10 +3729,10 @@
             <button class="btn primary" onclick="openEditPlaceRecord('${country.code || ''}', '${country.a3 || ''}')">수정</button>
           </div>
           ${regionSection(country, place)}
-          <p class="section-title">Cities</p>
-          <div class="city-list">
-            ${cities.length ? cities.map(city => cityCard(city)).join('') : `<p class="empty-note">도시 기록이 없습니다.</p>`}
-          </div>
+          ${cities.length ? `
+            <p class="section-title">Cities</p>
+            <div class="city-list">${cities.map(city => cityCard(city)).join('')}</div>
+          ` : ''}
           <div class="detail-actions" style="margin-top:18px;">
             <button class="btn danger" onclick="requestDeletePlaceRecord('${country.code || ''}', '${country.a3 || ''}')">삭제</button>
           </div>
@@ -3259,11 +3746,11 @@
         `}
       `;
       els.detailCard.innerHTML = html;
-      els.detailCard.classList.add('open');
+      showDetailCard(targetKey, replayAnimation);
     }
 
     function cityCard(city) {
-      const title = [city.nameKo, city.nameEn].filter(Boolean).join(' · ') || '이름 없는 도시';
+      const title = [city.nameKo, city.nameEn].filter(Boolean).join(' · ');
       const regionLabel = [city.regionNameKo, city.regionNameEn].filter(Boolean).join(' · ');
       const photoUrl = sanitizePhotoUrl(city.photoUrl || '');
       return `<article class="city-card ${photoUrl ? 'with-photo' : ''}">
@@ -3774,11 +4261,13 @@
         closeDetail();
         return;
       }
+      const targetKey = getRegionDetailTargetKey(country, region);
+      const replayAnimation = prepareDetailReplayAnimation(shouldReplayDetailAnimation(targetKey));
       state.selectedRegionKey = regionKey;
       state.selectedFeature = null;
       els.mapSvg.selectAll('.country').classed('selected', false);
       const place = findPlaceByCountry(country);
-      const cities = (place?.cities || []).filter(c => c.regionCode === region.code);
+      const cities = getNamedCityRecords(place?.cities).filter(c => c.regionCode === region.code);
       const meta = record ? [record.years?.length ? record.years.join(', ') : '', record.rating ? `${ratingStars(record.rating)} ${record.rating}` : '', record.revisit ? '↺ 재방문 의사' : '', record.liked ? '✦ 좋았던 곳' : ''].filter(Boolean) : [];
       els.detailCard.innerHTML = `
         <div class="detail-head">
@@ -3803,7 +4292,7 @@
         </div>
         ${record ? `<div class="detail-actions" style="margin-top:18px;"><button class="btn danger" onclick="requestDeleteRegionRecord('${country.code}', '${country.a3}', '${region.code}')">삭제</button></div>` : ''}
       `;
-      els.detailCard.classList.add('open');
+      showDetailCard(targetKey, replayAnimation);
     }
 
     function openRecordForRegion(code, a3, regionCode) {
@@ -3827,10 +4316,13 @@
     }
 
     function closeDetail() {
+      cancelPendingDetailReplay();
+      if (els.detailCard) els.detailCard.style.transition = '';
       els.detailCard.classList.remove('open');
       els.mapSvg.selectAll('.country').classed('selected', false);
       state.selectedFeature = null;
       state.selectedRegionKey = null;
+      state.detailTargetKey = '';
     }
     window.closeDetail = closeDetail;
 
@@ -3910,7 +4402,7 @@
       backdrop.id = 'visitDeleteConfirm';
       backdrop.className = 'modal-backdrop open';
       backdrop.innerHTML = `
-        <section class="modal glass" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle" style="width:min(420px,100%);">
+        <section class="modal glass liquid-panel" role="dialog" aria-modal="true" aria-labelledby="deleteConfirmTitle" style="width:min(420px,100%);">
           <h2 id="deleteConfirmTitle">방문 기록 삭제</h2>
           <p class="modal-desc">${escapeHtml(label)}의 방문 기록을 삭제하시겠습니까?</p>
           <div class="modal-actions">
@@ -4126,7 +4618,7 @@
       els.authModal?.classList.add('open');
       requestAnimationFrame(() => {
         if (tab === 'login') els.loginUsernameInput?.focus();
-        else els.registerUsernameInput?.focus();
+        else (els.registerNicknameInput || els.registerUsernameInput)?.focus();
       });
     }
 
@@ -4176,11 +4668,16 @@
     }
 
     async function submitRegister() {
+      const nickname = (els.registerNicknameInput?.value || '').trim();
+      const name = (els.registerNameInput?.value || '').trim();
+      const nationality = (els.registerNationalitySelect?.value || '').trim().toUpperCase();
       const username = (els.registerUsernameInput?.value || '').trim();
       const password = els.registerPasswordInput?.value || '';
       const confirmPassword = els.registerConfirmInput?.value || '';
       const rules = validatePasswordRules(password, confirmPassword);
       updatePasswordChecklist();
+      if (!nickname) { showAuthMessage('register', '닉네임을 입력해 주세요.'); return; }
+      if (nationality && !isAllowedNationalityCode(nationality)) { showAuthMessage('register', '선택할 수 없는 국적입니다.'); return; }
       if (!username) { showAuthMessage('register', '아이디를 입력해 주세요.'); return; }
       if (!rules.length || !rules.letter || !rules.number || !rules.special) {
         showAuthMessage('register', '비밀번호는 8자 이상이며, 영문 알파벳, 숫자, 특수기호를 각각 1개 이상 포함해야 합니다.');
@@ -4189,7 +4686,7 @@
       if (!rules.match) { showAuthMessage('register', '비밀번호가 일치하지 않습니다.'); return; }
       try {
         showAuthMessage('register', '회원가입을 처리하고 있습니다.', 'success');
-        await apiRequest('/api/register', {method: 'POST', body: JSON.stringify({username, password, confirmPassword})});
+        await apiRequest('/api/register', {method: 'POST', body: JSON.stringify({nickname, name, nationality, username, password, confirmPassword})});
         showAuthMessage('register', '회원가입이 완료되었습니다. 로그인해 주세요.', 'success');
         switchAuthTab('login');
         if (els.loginUsernameInput) els.loginUsernameInput.value = username;
@@ -4364,6 +4861,27 @@
       els.authRegisterTab?.addEventListener('click', () => switchAuthTab('register'));
       els.submitLoginBtn?.addEventListener('click', submitLogin);
       els.submitRegisterBtn?.addEventListener('click', submitRegister);
+      els.nationalitySelectButton?.addEventListener('click', toggleNationalityPicker);
+      els.nationalitySelectButton?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') toggleNationalityPicker(e);
+        if (e.key === 'ArrowDown') { e.preventDefault(); openNationalityPicker(); }
+      });
+      els.nationalitySearchInput?.addEventListener('input', (e) => renderNationalityOptions(e.target.value));
+      els.nationalitySearchInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { e.preventDefault(); closeNationalityPicker(); els.nationalitySelectButton?.focus(); }
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          els.nationalityOptionList?.querySelector('.nationality-option')?.focus();
+        }
+      });
+      els.nationalityOptionList?.addEventListener('keydown', (e) => {
+        const options = Array.from(els.nationalityOptionList.querySelectorAll('.nationality-option'));
+        const index = options.indexOf(document.activeElement);
+        if (e.key === 'Escape') { e.preventDefault(); closeNationalityPicker(); els.nationalitySelectButton?.focus(); }
+        if (e.key === 'ArrowDown') { e.preventDefault(); (options[index + 1] || options[0])?.focus(); }
+        if (e.key === 'ArrowUp') { e.preventDefault(); (options[index - 1] || options[options.length - 1])?.focus(); }
+      });
+      els.registerNationalitySelect?.addEventListener('change', refreshNationalityPicker);
       els.loginPasswordInput?.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitLogin(); });
       els.registerPasswordInput?.addEventListener('input', updatePasswordChecklist);
       els.registerConfirmInput?.addEventListener('input', updatePasswordChecklist);
@@ -4389,8 +4907,9 @@
       if (els.settingsBtn) els.settingsBtn.addEventListener('click', toggleSettingsMenu);
       if (els.settingsPanel) els.settingsPanel.addEventListener('click', handleSettingsPanelClick);
       document.addEventListener('click', handleGlobalSettingsClick);
+      document.addEventListener('click', (e) => { if (!e.target.closest('.nationality-select-shell')) closeNationalityPicker(); });
       document.addEventListener('click', () => closeAllGlassSelects());
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSettingsMenu(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeSettingsMenu(); closeNationalityPicker(); } });
       els.closeSyncBtn.addEventListener('click', closeSyncCenter);
       els.syncModal.addEventListener('click', (e) => { if (e.target === els.syncModal) closeSyncCenter(); });
       els.autoRemoteInput.addEventListener('change', toggleRemotePreference);
@@ -4421,7 +4940,7 @@
         if (!e.target.closest('.search-wrap')) els.searchResults.style.display = 'none';
       });
       document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') { closeRecordModal(); closeRecordsPanel(); closeStoryStudio(); closeThemeStudio(); closeSyncCenter(); closeDetail(); els.searchResults.style.display = 'none'; }
+        if (e.key === 'Escape') { closeNationalityPicker(); closeRecordModal(); closeRecordsPanel(); closeStoryStudio(); closeThemeStudio(); closeSyncCenter(); closeDetail(); els.searchResults.style.display = 'none'; }
       });
     }
 
@@ -5324,7 +5843,7 @@
         if (region) {
           upsertRegion(place, region, {year, rating, revisit, liked, memo});
         }
-        if (cityKo || cityEn || (!region && (rating || revisit || liked || memo))) {
+        if (cityKo || cityEn) {
           place.cities.push({
             nameKo: cityKo,
             nameEn: cityEn,
@@ -5337,6 +5856,11 @@
             memo,
             year
           });
+        } else if (!region) {
+          place.rating = rating;
+          place.revisit = revisit;
+          place.favorite = liked;
+          place.memo = memo;
         }
       }
 
@@ -5462,7 +5986,7 @@
       });
 
       state.data.places.forEach(place => {
-        (place.cities || []).forEach(city => {
+        getNamedCityRecords(place.cities).forEach(city => {
           const score = searchSimilarityScore(q, [
             city.nameKo,
             city.nameEn,
@@ -5583,14 +6107,19 @@
           return;
         }
         if (feature) {
-          showFeatureDetail(feature);
+          showFeatureDetail(feature, {replayAnimation: isDetailOpen()});
           pulseCountry(country.a3);
+          animateWorldToFeatureCenter(feature, null, {adaptiveZoom: true});
         } else {
-          openDetail(country, findPlaceByCountry(country), null);
+          openDetail(country, findPlaceByCountry(country), null, {replayAnimation: isDetailOpen()});
         }
       };
-      if (feature) animateWorldToFeatureCenter(feature, finish);
-      else finish();
+      if (options.openRegionMap && options.regionCode && getRegionPack(country.code)) {
+        if (feature) animateWorldToFeatureCenter(feature, finish);
+        else finish();
+        return;
+      }
+      finish();
     }
     function pulseCountry(a3) {
       const sel = els.mapSvg.selectAll('.country').filter(d => getFeatureA3(d) === a3);
@@ -5664,8 +6193,8 @@
             searchText: [title, countryTitle, regionRecord.code, regionRecord.memo].join(' ')
           });
         });
-        (place.cities || []).forEach((city, index) => {
-          const title = [city.nameKo, city.nameEn].filter(Boolean).join(' / ') || `도시 기록 ${index + 1}`;
+        getNamedCityRecords(place.cities).forEach((city, index) => {
+          const title = [city.nameKo, city.nameEn].filter(Boolean).join(' / ');
           const regionLabel = [city.regionNameKo, city.regionNameEn].filter(Boolean).join(' / ');
           entries.push({
             id: `city:${country.code || place.countryCode}:${index}`,
@@ -5815,10 +6344,10 @@
     function updateStats() {
       const visited = state.data.places.filter(p => p.visited);
       const continents = new Set(visited.map(p => p.continent).filter(c => c && c !== 'Other'));
-      const cityCount = visited.reduce((sum, p) => sum + (p.cities?.length || 0), 0);
+      const cityCount = visited.reduce((sum, p) => sum + getNamedCityRecords(p.cities).length, 0);
       const regionCount = visited.reduce((sum, p) => sum + (p.regions?.length || 0), 0);
       const ratings = visited.flatMap(p => [
-        ...(p.cities || []).map(c => c.rating).filter(Boolean),
+        ...getNamedCityRecords(p.cities).map(c => c.rating).filter(Boolean),
         ...(p.regions || []).map(r => r.rating).filter(Boolean)
       ]);
       const avg = ratings.length ? ratings.reduce((a,b) => a+b,0) / ratings.length : null;
@@ -6047,9 +6576,9 @@
     function getStoryStats() {
       const visited = state.data.places.filter(p => p.visited);
       const continents = new Set(visited.map(p => p.continent).filter(c => c && c !== 'Other'));
-      const cities = visited.reduce((sum, p) => sum + (p.cities?.length || 0), 0);
+      const cities = visited.reduce((sum, p) => sum + getNamedCityRecords(p.cities).length, 0);
       const regions = visited.reduce((sum, p) => sum + (p.regions?.length || 0), 0);
-      const favorites = visited.flatMap(p => (p.cities || []).filter(c => c.liked || c.revisit).map(c => ({...c, country: p.countryNameEn || p.countryNameKo}))).slice(-6).reverse();
+      const favorites = visited.flatMap(p => getNamedCityRecords(p.cities).filter(c => c.liked || c.revisit).map(c => ({...c, country: p.countryNameEn || p.countryNameKo}))).slice(-6).reverse();
       return {visited, continents, cities, regions, favorites};
     }
 
