@@ -2424,6 +2424,247 @@
       }
     }
 
+
+    /* v1.8.59 center/touch final patch: shared visual center, PC free map input, mobile-safe viewport */
+    html {
+      min-height: 100%;
+      min-height: 100svh;
+      min-height: 100dvh;
+      background: var(--bg);
+      overflow: hidden;
+    }
+    body {
+      min-height: 100%;
+      min-height: 100svh;
+      min-height: 100dvh;
+      background-color: var(--bg);
+      background-size: max(100vw, 100%) max(100dvh, 100%);
+      overflow: hidden;
+    }
+    .app {
+      width: 100%;
+      min-width: 100vw;
+      height: 100dvh;
+      min-height: 100svh;
+      min-height: 100dvh;
+      overflow: hidden;
+    }
+    .stars,
+    .aurora,
+    .noise {
+      inset: -12dvh -12vw;
+    }
+    .map-shell {
+      --atm-stage-width: min(96vw, 1180px);
+      --atm-stage-height: min(68vh, 700px);
+      --atm-halo-width: min(78vw, 1040px);
+      position: absolute !important;
+      inset: 0 !important;
+      display: block !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      transform: none !important;
+      transform-origin: 50% 50% !important;
+    }
+    .earth-halo,
+    #mapSvg {
+      position: absolute !important;
+      left: 50% !important;
+      top: 50% !important;
+      right: auto !important;
+      bottom: auto !important;
+      margin: 0 !important;
+      transform: translate3d(-50%, -50%, 0) !important;
+      transform-origin: 50% 50% !important;
+    }
+    .earth-halo {
+      width: var(--atm-halo-width) !important;
+      max-width: none !important;
+      height: auto !important;
+      aspect-ratio: 1 / 1;
+    }
+    #mapSvg {
+      width: var(--atm-stage-width) !important;
+      height: var(--atm-stage-height) !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
+    @media (max-width: 720px) {
+      .map-shell {
+        --atm-stage-width: 118vw;
+        --atm-stage-height: min(48vh, 520px);
+        --atm-halo-width: 110vw;
+      }
+    }
+
+
+    /* v1.8.60: PC button ungroup rollback, detail button nowrap, taller records panel, smoother detail motion */
+    @media (min-width: 721px) {
+      .actions-menu-panel {
+        padding: 0 !important;
+        gap: 8px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        overflow: visible !important;
+      }
+      .actions-menu-panel > .btn,
+      .actions-menu-panel .settings-trigger {
+        width: auto !important;
+        min-height: 38px;
+        padding: 0 13px;
+        border-radius: 999px !important;
+        border: 1px solid var(--line) !important;
+        background: rgba(255,255,255,.07) !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        justify-content: center;
+        white-space: nowrap;
+      }
+      .actions-menu-panel > .btn:hover,
+      .actions-menu-panel .settings-trigger:hover,
+      .actions-menu-panel > .btn:focus-visible,
+      .actions-menu-panel .settings-trigger:focus-visible {
+        background: rgba(255,255,255,.12) !important;
+        border-color: var(--line-strong) !important;
+        transform: translateY(-1px);
+      }
+      .settings-panel {
+        background:
+          radial-gradient(circle at 18% 0%, rgba(255,255,255,.12), transparent 34%),
+          linear-gradient(135deg, rgba(18,24,38,.90), rgba(7,12,22,.84)) !important;
+        border: 1px solid rgba(255,255,255,.16) !important;
+        box-shadow: 0 22px 70px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.12) !important;
+        backdrop-filter: blur(22px) saturate(150%) !important;
+        -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
+      }
+      .settings-panel .settings-option {
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .settings-panel .settings-option:hover,
+      .settings-panel .settings-option:focus-visible {
+        outline: none;
+        background: rgba(255,255,255,.085) !important;
+        border-color: rgba(255,255,255,.13) !important;
+        transform: translateY(-1px);
+      }
+    }
+
+    .detail-actions .btn {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      line-height: 1;
+      flex: 0 1 auto;
+    }
+    @media (max-width: 420px) {
+      .detail-actions .btn {
+        font-size: 11px;
+        padding-inline: 10px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .actions-menu-panel .settings-trigger > span[aria-hidden="true"] {
+        display: none !important;
+      }
+      .actions-menu-panel .settings-trigger {
+        gap: 0 !important;
+      }
+    }
+
+    #recordsModal.open {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden !important;
+      padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+    }
+    #recordsModal .records-modal {
+      width: min(1100px, calc(100vw - 24px));
+      height: min(940px, calc(100dvh - 24px));
+      max-height: calc(100dvh - 24px);
+      min-height: 0 !important;
+      display: flex !important;
+      flex-direction: column;
+      overflow: hidden !important;
+    }
+    #recordsModal .records-modal > .detail-head,
+    #recordsModal .records-toolbar,
+    #recordsModal .records-summary-line {
+      flex: 0 0 auto;
+    }
+    #recordsModal .records-list {
+      flex: 1 1 0 !important;
+      min-height: 0 !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      padding-bottom: max(56px, calc(env(safe-area-inset-bottom) + 34px));
+    }
+    @media (max-width: 720px) {
+      #recordsModal.open {
+        padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom));
+      }
+      #recordsModal .records-modal {
+        width: calc(100vw - 12px);
+        height: calc(100dvh - max(12px, calc(env(safe-area-inset-top) + env(safe-area-inset-bottom) + 12px)));
+        max-height: calc(100dvh - max(12px, calc(env(safe-area-inset-top) + env(safe-area-inset-bottom) + 12px)));
+        padding: 12px;
+        border-radius: 24px;
+      }
+      #recordsModal .records-toolbar {
+        margin: 8px 0 7px;
+        gap: 7px;
+      }
+      #recordsModal .records-summary-line {
+        margin: 4px 0 7px;
+      }
+      #recordsModal .records-list {
+        padding-bottom: max(64px, calc(env(safe-area-inset-bottom) + 40px));
+      }
+    }
+
+    .detail-card {
+      transform: translateY(30px);
+      opacity: 0;
+      transition: transform .64s cubic-bezier(.18, 1, .22, 1), opacity .44s ease;
+      will-change: transform, opacity;
+    }
+    .detail-card.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .detail-card.detail-closing {
+      transform: translateY(30px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (max-width: 820px) {
+      .detail-card {
+        transform: translateY(calc(100% + 44px));
+      }
+      .detail-card.detail-closing {
+        transform: translateY(calc(100% + 44px));
+      }
+      .detail-card.open {
+        transform: translateY(0);
+      }
+    }
+
   </style>
 </head>
 <body class="theme-night-earth">
@@ -3624,8 +3865,9 @@
     function syncMapShellVisualCenter() {
       const shell = document.querySelector('.map-shell');
       if (!shell) return;
-      // Keep SVG/projection, halo, and hit-test on the same visual center.
-      // The map SVG and halo are centered by absolute inset/margin, so no padding-derived offset is applied.
+      // CSS now gives #mapSvg and .earth-halo the same viewport center using
+      // left/top 50% + translate(-50%, -50%). Keep the legacy variables at 0 so
+      // older rules cannot introduce an offset.
       shell.style.setProperty('--map-center-x-offset', '0px');
       shell.style.setProperty('--map-center-y-offset', '0px');
     }
@@ -4603,15 +4845,14 @@
     function showDetailCard(targetKey, replayAnimation) {
       if (!els.detailCard) return;
       if (targetKey) state.detailTargetKey = targetKey;
-      if (!replayAnimation) {
-        cancelPendingDetailReplay();
-        els.detailCard.style.transition = '';
-        els.detailCard.classList.remove('detail-closing');
-        els.detailCard.classList.add('open');
-        if (targetKey) pushUiHistory(`detail:${targetKey}`);
-        return;
-      }
       const expectedTargetKey = state.detailTargetKey || '';
+      cancelPendingDetailReplay();
+      // v1.8.60: always restart the transform/opacity transition when a detail card is opened.
+      // This avoids the browser skipping the motion when the same DOM node is reused or when
+      // content is replaced while the card is already open.
+      els.detailCard.style.transition = 'none';
+      els.detailCard.classList.remove('open', 'detail-closing');
+      void els.detailCard.offsetWidth;
       state.detailReplayFrame1 = requestAnimationFrame(() => {
         state.detailReplayFrame1 = null;
         if (expectedTargetKey && state.detailTargetKey !== expectedTargetKey) {
@@ -5861,6 +6102,7 @@
       window.addEventListener('popstate', handleAppBackNavigation);
       document.addEventListener('keydown', handleAppEscapeNavigation, true);
       document.addEventListener('mousedown', handleMouseBackButtonNavigation, true);
+      document.addEventListener('mouseup', handleMouseBackButtonNavigation, true);
       document.addEventListener('auxclick', handleMouseBackButtonNavigation, true);
       if (els.brandHome) {
         els.brandHome.addEventListener('click', goToMainPageFromLogo);
@@ -6052,9 +6294,17 @@
       return pointerType === 'touch' || !!src.touches?.length || !!src.changedTouches?.length;
     }
 
+    function isCompactViewportForMapTouchGate() {
+      return !!(window.matchMedia && window.matchMedia('(max-width: 820px)').matches);
+    }
+
     function shouldGateMapInteractionByHalo(event = null) {
+      // PC / mouse / wide desktop input should not be limited by the decorative halo.
+      // The circular halo hit-test is only for mobile-sized or touch-origin input, where
+      // it prevents the page from moving while the user is manipulating the map.
       if (isTouchLikeMapEvent(event)) return true;
-      return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+      const coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+      return !!(coarse && isCompactViewportForMapTouchGate());
     }
 
     function isMapInteractionEventInsideHalo(event) {
@@ -6664,9 +6914,9 @@
 
     function handleWorldWheel(event) {
       if (isWorldIntroActive()) { event.preventDefault(); return; }
-      if (!isMapInteractionEventInsideHalo(event)) return;
       if (state.currentView === 'region') { handleRegionWheel(event); return; }
       if (state.currentView !== 'world') return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
       cancelWorldSearchNavigation();
       event.preventDefault();
       const direction = event.deltaY < 0 ? 1 : -1;
@@ -6777,9 +7027,9 @@
 
     function handleWorldTouchStart(event) {
       if (isWorldIntroActive()) { event.preventDefault(); return; }
-      if (!isMapInteractionEventInsideHalo(event)) return;
       if (state.currentView === 'region') { handleRegionTouchStart(event); return; }
       if (state.currentView !== 'world') return;
+      if (!isMapInteractionEventInsideHalo(event)) return;
       if (!event.touches || event.touches.length !== 2) return;
       event.preventDefault();
       cancelWorldSearchNavigation();
