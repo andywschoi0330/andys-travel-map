@@ -2244,6 +2244,186 @@
       }
     }
 
+
+
+
+
+    /* v1.8.59 PC menu + records/back priority retry: reference settings-panel tone, no structure changes */
+    @media (min-width: 721px) {
+      .actions-menu-panel {
+        padding: 8px;
+        gap: 4px;
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at 18% 0%, rgba(255,255,255,.15), transparent 34%),
+          linear-gradient(135deg, rgba(18,24,38,.94), rgba(7,12,22,.90));
+        border: 1px solid rgba(255,255,255,.16);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 22px 70px rgba(0,0,0,.45);
+        backdrop-filter: blur(24px) saturate(155%);
+        -webkit-backdrop-filter: blur(24px) saturate(155%);
+      }
+      .actions-menu-panel > .btn,
+      .actions-menu-panel .settings-trigger {
+        border: 1px solid transparent !important;
+        border-radius: 15px;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        color: var(--text);
+        transition: background .18s ease, border-color .18s ease, transform .18s ease;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .actions-menu-panel > .btn:hover,
+        .actions-menu-panel .settings-trigger:hover,
+        .actions-menu-panel > .btn:focus-visible,
+        .actions-menu-panel .settings-trigger:focus-visible {
+          outline: none;
+          background: rgba(255,255,255,.085) !important;
+          border-color: rgba(255,255,255,.13) !important;
+          transform: translateY(-1px);
+        }
+      }
+      .actions-menu-panel > .btn:active,
+      .actions-menu-panel .settings-trigger:active {
+        background: rgba(255,255,255,.10) !important;
+        border-color: rgba(255,255,255,.14) !important;
+        transform: translateY(0);
+      }
+      .settings-panel .settings-option {
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+      .settings-panel .settings-option:hover,
+      .settings-panel .settings-option:focus-visible {
+        outline: none;
+        background: rgba(255,255,255,.085) !important;
+        border-color: rgba(255,255,255,.13) !important;
+        transform: translateY(-1px);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .actions-menu-panel .settings-trigger > span[aria-hidden="true"] {
+        display: none !important;
+      }
+      .actions-menu-panel .settings-trigger {
+        gap: 0;
+      }
+    }
+
+    #recordsModal.open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      overflow: hidden;
+    }
+    #recordsModal .records-modal {
+      width: min(1100px, calc(100vw - 32px));
+      height: min(920px, calc(100dvh - 32px));
+      max-height: calc(100dvh - 32px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: min(560px, calc(100dvh - 32px));
+    }
+    #recordsModal .records-modal > .detail-head,
+    #recordsModal .records-toolbar,
+    #recordsModal .records-summary-line {
+      flex: 0 0 auto;
+    }
+    #recordsModal .records-list {
+      flex: 1 1 auto;
+      min-height: 220px;
+      max-height: none !important;
+      overflow-y: auto !important;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      padding-bottom: max(48px, calc(env(safe-area-inset-bottom) + 26px));
+    }
+    #recordsModal .records-modal,
+    #recordsModal .records-list {
+      pointer-events: auto;
+    }
+
+    @media (max-width: 720px) {
+      #recordsModal.open {
+        align-items: center;
+        justify-content: center;
+        padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+      }
+      #recordsModal .records-modal {
+        width: calc(100vw - 16px);
+        height: calc(100dvh - max(16px, calc(env(safe-area-inset-top) + env(safe-area-inset-bottom) + 16px)));
+        max-height: calc(100dvh - max(16px, calc(env(safe-area-inset-top) + env(safe-area-inset-bottom) + 16px)));
+        min-height: 0;
+        padding: 14px;
+      }
+      #recordsModal .records-toolbar {
+        margin: 10px 0 8px;
+        gap: 8px;
+      }
+      #recordsModal .records-summary-line {
+        margin: 4px 0 8px;
+      }
+      #recordsModal .records-list {
+        min-height: 180px;
+        padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 36px));
+      }
+    }
+
+
+    /* v1.8.59 core interaction retry: one visual center, smoother detail motion, mobile-only halo gate */
+    .map-shell {
+      padding: 0 !important;
+      display: block;
+    }
+    .earth-halo {
+      inset: 0 !important;
+      left: 0 !important;
+      top: 0 !important;
+      margin: auto !important;
+      transform: none !important;
+    }
+    #mapSvg {
+      position: absolute !important;
+      inset: 0 !important;
+      margin: auto !important;
+      display: block;
+      transform: none !important;
+    }
+    .country {
+      touch-action: none;
+    }
+    .detail-card {
+      transform: translateY(28px);
+      opacity: 0;
+      transition: transform .58s cubic-bezier(.19, 1, .22, 1), opacity .42s ease;
+      will-change: transform, opacity;
+    }
+    .detail-card.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .detail-card.detail-closing {
+      pointer-events: none;
+    }
+    @media (max-width: 820px) {
+      .detail-card {
+        transform: translateY(calc(100% + 44px));
+        transition: transform .60s cubic-bezier(.19, 1, .22, 1), opacity .42s ease;
+      }
+      .detail-card.open {
+        transform: translateY(0);
+      }
+    }
+
   </style>
 </head>
 <body class="theme-night-earth">
@@ -3444,15 +3624,10 @@
     function syncMapShellVisualCenter() {
       const shell = document.querySelector('.map-shell');
       if (!shell) return;
-      const style = window.getComputedStyle ? getComputedStyle(shell) : null;
-      const top = parseFloat(style?.paddingTop || '0') || 0;
-      const right = parseFloat(style?.paddingRight || '0') || 0;
-      const bottom = parseFloat(style?.paddingBottom || '0') || 0;
-      const left = parseFloat(style?.paddingLeft || '0') || 0;
-      const xOffset = (left - right) / 2;
-      const yOffset = (top - bottom) / 2;
-      shell.style.setProperty('--map-center-x-offset', `${xOffset}px`);
-      shell.style.setProperty('--map-center-y-offset', `${yOffset}px`);
+      // Keep SVG/projection, halo, and hit-test on the same visual center.
+      // The map SVG and halo are centered by absolute inset/margin, so no padding-derived offset is applied.
+      shell.style.setProperty('--map-center-x-offset', '0px');
+      shell.style.setProperty('--map-center-y-offset', '0px');
     }
 
     function renderMap() {
@@ -4468,7 +4643,7 @@
     }
 
     function selectFeature(feature) {
-      const replayAnimation = isDetailOpen();
+      const replayAnimation = true;
       showFeatureDetail(feature, {replayAnimation});
       animateWorldToFeatureCenter(feature, null, {adaptiveZoom: true});
     }
@@ -4602,7 +4777,7 @@
       hideTooltip();
       renderMap();
       pushUiHistory(`region:${country.code}`);
-      if (isSmallScreenOrTouch()) {
+      if (shouldAutoCloseDetailForRegionMap()) {
         closeDetail({animated: true});
       } else {
         openDetail(country, findPlaceByCountry(country), null);
@@ -5127,6 +5302,9 @@
       els.detailCard.style.transition = '';
       if (animated) {
         els.detailCard.classList.add('detail-closing');
+        els.detailCard.style.transition = '';
+        els.detailCard.classList.add('open');
+        void els.detailCard.offsetWidth;
         requestAnimationFrame(() => {
           els.detailCard.classList.remove('open');
         });
@@ -5134,7 +5312,7 @@
           state.detailCloseTimer = null;
           els.detailCard.classList.remove('detail-closing');
           clearDetailSelectionState();
-        }, 560);
+        }, 620);
         return;
       }
       els.detailCard.classList.remove('open', 'detail-closing');
@@ -5845,6 +6023,13 @@
       return !!(compact || coarse);
     }
 
+    function shouldAutoCloseDetailForRegionMap() {
+      const compact = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
+      const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      return !!(compact || coarse || hasTouch);
+    }
+
     function getClientPointFromEvent(event) {
       const src = event?.sourceEvent || event || {};
       if (src.touches?.length === 2) return midpointOfTouches(src.touches);
@@ -5861,7 +6046,19 @@
       return getClientPointFromEvent(event);
     }
 
+    function isTouchLikeMapEvent(event) {
+      const src = event?.sourceEvent || event || {};
+      const pointerType = String(src.pointerType || '').toLowerCase();
+      return pointerType === 'touch' || !!src.touches?.length || !!src.changedTouches?.length;
+    }
+
+    function shouldGateMapInteractionByHalo(event = null) {
+      if (isTouchLikeMapEvent(event)) return true;
+      return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    }
+
     function isMapInteractionEventInsideHalo(event) {
+      if (!shouldGateMapInteractionByHalo(event)) return true;
       const p = getInteractionCenterFromEvent(event);
       if (!p) return true;
       return isClientPointInsideMapHalo(p.clientX, p.clientY);
@@ -5952,7 +6149,16 @@
       }
     }
 
+    function isPcBackPriority() {
+      const wide = !!(window.matchMedia && window.matchMedia('(min-width: 721px)').matches);
+      const fine = !!(window.matchMedia && window.matchMedia('(pointer: fine)').matches);
+      return wide && fine;
+    }
+
     function closeTopUiState() {
+      const pcPriority = isPcBackPriority();
+      if (pcPriority && isDetailOpen()) { closeDetail(); return true; }
+      if (pcPriority && state.currentView === 'region') { backToWorldMap(); return true; }
       if (els.modal?.classList.contains('open')) { closeRecordModal(); return true; }
       if (els.authModal?.classList.contains('open')) { closeAuthModal(); return true; }
       if (els.recordsModal?.classList.contains('open')) { closeRecordsPanel(); return true; }
@@ -5963,8 +6169,8 @@
       if (els.actions?.classList.contains('open')) { closeMobileActionsMenu(); return true; }
       if (els.nationalitySelectShell?.classList.contains('open')) { closeNationalityPicker(); return true; }
       if (isSearchResultsOpen()) { els.searchResults.style.display = 'none'; return true; }
-      if (isDetailOpen()) { closeDetail(); return true; }
-      if (state.currentView === 'region') { backToWorldMap(); return true; }
+      if (!pcPriority && isDetailOpen()) { closeDetail(); return true; }
+      if (!pcPriority && state.currentView === 'region') { backToWorldMap(); return true; }
       return false;
     }
 
@@ -6402,7 +6608,7 @@
       els.mapSvg.call(
         d3.drag()
           .clickDistance(4)
-          .filter(event => !state.worldPinch?.active && !(event.sourceEvent && event.sourceEvent.touches && event.sourceEvent.touches.length > 1) && isMapInteractionEventInsideHalo(event.sourceEvent || event))
+          .filter(event => !state.worldCountryPointerGesture && !state.worldPinch?.active && !(event.sourceEvent && event.sourceEvent.touches && event.sourceEvent.touches.length > 1) && isMapInteractionEventInsideHalo(event.sourceEvent || event))
           .on('start', handleWorldDragStart)
           .on('drag', handleWorldDrag)
           .on('end', handleWorldDragEnd)
@@ -6715,19 +6921,24 @@
       if (isWorldIntroActive()) return;
       if (state.currentView !== 'world' || state.worldPinch?.active) return;
       if (event.button != null && event.button !== 0) return;
-      if (!getWorldCountryPointerTarget(event.target)) return;
+      const targetNode = getWorldCountryPointerTarget(event.target);
+      if (!targetNode) return;
       if (!isMapInteractionEventInsideHalo(event)) return;
       const p = getMapLocalPoint(event.clientX, event.clientY);
       if (!p) return;
       state.worldCountryPointerGesture = {
         pointerId: event.pointerId,
+        feature: targetNode.__data__ || null,
         startX: p.x,
         startY: p.y,
         lastX: p.x,
         lastY: p.y,
-        started: false,
-        passiveToD3: false
+        started: false
       };
+      try { els.mapSvg.node()?.setPointerCapture?.(event.pointerId); } catch (err) {}
+      cancelWorldInertia();
+      cancelWorldSearchNavigation();
+      state.worldClickSuppressUntil = 0;
     }
 
     function handleWorldCountryPointerMove(event) {
@@ -6736,22 +6947,17 @@
       if (isWorldIntroActive() || state.currentView !== 'world' || state.worldPinch?.active) return;
       const p = getMapLocalPoint(event.clientX, event.clientY);
       if (!p) return;
-      if (!gesture.started && state.worldDrag?.active) {
-        gesture.passiveToD3 = true;
-        return;
-      }
-      if (gesture.passiveToD3) return;
       const moved = Math.hypot(p.x - gesture.startX, p.y - gesture.startY);
       if (!gesture.started) {
-        if (moved <= 4) return;
+        if (moved <= 5) return;
         gesture.started = true;
-        state.worldClickSuppressUntil = performance.now() + 280;
-        try { els.mapSvg.node()?.setPointerCapture?.(event.pointerId); } catch (err) {}
+        state.worldClickSuppressUntil = performance.now() + 320;
         if (!startWorldDragAtLocalPoint({x: gesture.startX, y: gesture.startY, width: p.width, height: p.height}, event)) return;
       }
       updateWorldDragAtLocalPoint(p, event);
       event.preventDefault?.();
       event.stopPropagation?.();
+      event.stopImmediatePropagation?.();
     }
 
     function handleWorldCountryPointerUp(event) {
@@ -6759,11 +6965,25 @@
       if (!gesture || gesture.pointerId !== event.pointerId) return;
       state.worldCountryPointerGesture = null;
       try { els.mapSvg.node()?.releasePointerCapture?.(event.pointerId); } catch (err) {}
-      if (gesture.started) {
-        handleWorldDragEnd();
-        state.worldClickSuppressUntil = performance.now() + 280;
+      const p = getMapLocalPoint(event.clientX, event.clientY);
+      const moved = p ? Math.hypot(p.x - gesture.startX, p.y - gesture.startY) : 0;
+      if (gesture.started || moved > 5) {
+        if (state.worldDrag?.active) handleWorldDragEnd();
+        state.worldClickSuppressUntil = performance.now() + 320;
         event.preventDefault?.();
         event.stopPropagation?.();
+        event.stopImmediatePropagation?.();
+        return;
+      }
+      if (gesture.feature && !shouldSuppressWorldCountryClick(event)) {
+        cancelWorldInertia();
+        cancelWorldSearchNavigation();
+        hideTooltip();
+        selectFeature(gesture.feature);
+        state.worldClickSuppressUntil = performance.now() + 320;
+        event.preventDefault?.();
+        event.stopPropagation?.();
+        event.stopImmediatePropagation?.();
       }
     }
 
