@@ -1867,7 +1867,7 @@
         <div class="detail-head">
           <div>
             <h2 id="recordTitle">방문 기록 추가</h2>
-            <p class="modal-desc">국가만 저장하거나 도시·별점·재방문 의사를 함께 기록할 수 있습니다.</p>
+            <p class="modal-desc">국가 또는 세부 지역에 방문 연월·별점·재방문 의사를 기록할 수 있습니다.</p>
           </div>
           <button class="close-x" id="closeModalBtn" aria-label="닫기">×</button>
         </div>
@@ -1880,13 +1880,21 @@
           <div class="field full hidden" id="regionField">
             <label for="regionSelect">세부 지역 / 광역 단위</label>
             <select class="input" id="regionSelect">
-              <option value="">국가 전체 또는 도시만 기록</option>
+              <option value="">국가 전체로 기록</option>
             </select>
           </div>
           <input type="hidden" id="countryPhotoInput" value="" />
           <div class="field">
-            <label for="yearInput">방문 연도</label>
-            <input class="input" id="yearInput" inputmode="numeric" placeholder="예: 2023, 비워도 됩니다" />
+            <label for="visitYearSelect">방문 연</label>
+            <select class="input" id="visitYearSelect">
+              <option value="">방문 연 선택</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="visitMonthSelect">방문 월</label>
+            <select class="input" id="visitMonthSelect">
+              <option value="">방문 월 선택</option>
+            </select>
           </div>
           <div class="field">
             <label for="ratingInput">별점</label>
@@ -1898,14 +1906,6 @@
               <option value="2">★★☆☆☆ 2</option>
               <option value="1">★☆☆☆☆ 1</option>
             </select>
-          </div>
-          <div class="field">
-            <label for="cityKoInput">도시명 한국어</label>
-            <input class="input" id="cityKoInput" placeholder="예: 크라쿠프" />
-          </div>
-          <div class="field">
-            <label for="cityEnInput">도시명 영어</label>
-            <input class="input" id="cityEnInput" placeholder="예: Kraków" />
           </div>
           <input type="hidden" id="cityPhotoInput" value="" />
           <div class="field full">
@@ -2084,7 +2084,7 @@
   </div>
 
   <script>
-    const COUNTRY_CATALOG = [{"code":"GH","a3":"GHA","nameEn":"Ghana","nameKo":"가나","continent":"Africa"},{"code":"GA","a3":"GAB","nameEn":"Gabon","nameKo":"가봉","continent":"Africa"},{"code":"GY","a3":"GUY","nameEn":"Guyana","nameKo":"가이아나","continent":"South America"},{"code":"GM","a3":"GMB","nameEn":"Gambia","nameKo":"감비아","continent":"Other"},{"code":"GG","a3":"GGY","nameEn":"Guernsey","nameKo":"건지","continent":"Europe"},{"code":"GP","a3":"GLP","nameEn":"Guadeloupe","nameKo":"과들루프","continent":"North America"},{"code":"GT","a3":"GTM","nameEn":"Guatemala","nameKo":"과테말라","continent":"North America"},{"code":"GU","a3":"GUM","nameEn":"Guam","nameKo":"괌","continent":"Oceania"},{"code":"GD","a3":"GRD","nameEn":"Grenada","nameKo":"그레나다","continent":"North America"},{"code":"GR","a3":"GRC","nameEn":"Greece","nameKo":"그리스","continent":"Europe"},{"code":"GL","a3":"GRL","nameEn":"Greenland","nameKo":"그린란드","continent":"North America"},{"code":"GN","a3":"GIN","nameEn":"Guinea","nameKo":"기니","continent":"Africa"},{"code":"GW","a3":"GNB","nameEn":"Guinea-Bissau","nameKo":"기니비사우","continent":"Africa"},{"code":"NA","a3":"NAM","nameEn":"Namibia","nameKo":"나미비아","continent":"Africa"},{"code":"NR","a3":"NRU","nameEn":"Nauru","nameKo":"나우루","continent":"Oceania"},{"code":"NG","a3":"NGA","nameEn":"Nigeria","nameKo":"나이지리아","continent":"Africa"},{"code":"AQ","a3":"ATA","nameEn":"Antarctica","nameKo":"남극 대륙","continent":"Antarctica"},{"code":"SS","a3":"SSD","nameEn":"South Sudan","nameKo":"남수단","continent":"Africa"},{"code":"ZA","a3":"ZAF","nameEn":"South Africa","nameKo":"남아프리카","continent":"Africa"},{"code":"NL","a3":"NLD","nameEn":"Netherlands","nameKo":"네덜란드","continent":"Europe"},{"code":"BQ","a3":"BES","nameEn":"Caribbean Netherlands","nameKo":"네덜란드령 카리브","continent":"North America"},{"code":"NP","a3":"NPL","nameEn":"Nepal","nameKo":"네팔","continent":"Asia"},{"code":"NO","a3":"NOR","nameEn":"Norway","nameKo":"노르웨이","continent":"Europe"},{"code":"NF","a3":"NFK","nameEn":"Norfolk Island","nameKo":"노퍽섬","continent":"Oceania"},{"code":"NZ","a3":"NZL","nameEn":"New Zealand","nameKo":"뉴질랜드","continent":"Oceania"},{"code":"NC","a3":"NCL","nameEn":"New Caledonia","nameKo":"뉴칼레도니아","continent":"Oceania"},{"code":"NU","a3":"NIU","nameEn":"Niue","nameKo":"니우에","continent":"Oceania"},{"code":"NE","a3":"NER","nameEn":"Niger","nameKo":"니제르","continent":"Africa"},{"code":"NI","a3":"NIC","nameEn":"Nicaragua","nameKo":"니카라과","continent":"North America"},{"code":"TW","a3":"TWN","nameEn":"Taiwan","nameKo":"대만","continent":"Asia"},{"code":"KR","a3":"KOR","nameEn":"South Korea","nameKo":"대한민국","continent":"Asia"},{"code":"DK","a3":"DNK","nameEn":"Denmark","nameKo":"덴마크","continent":"Europe"},{"code":"DM","a3":"DMA","nameEn":"Dominica","nameKo":"도미니카","continent":"North America"},{"code":"DO","a3":"DOM","nameEn":"Dominican Republic","nameKo":"도미니카 공화국","continent":"North America"},{"code":"DE","a3":"DEU","nameEn":"Germany","nameKo":"독일","continent":"Europe"},{"code":"TL","a3":"TLS","nameEn":"Timor-Leste","nameKo":"동티모르","continent":"Asia"},{"code":"LA","a3":"LAO","nameEn":"Laos","nameKo":"라오스","continent":"Asia"},{"code":"LR","a3":"LBR","nameEn":"Liberia","nameKo":"라이베리아","continent":"Africa"},{"code":"LV","a3":"LVA","nameEn":"Latvia","nameKo":"라트비아","continent":"Europe"},{"code":"RU","a3":"RUS","nameEn":"Russia","nameKo":"러시아","continent":"Europe"},{"code":"LB","a3":"LBN","nameEn":"Lebanon","nameKo":"레바논","continent":"Asia"},{"code":"LS","a3":"LSO","nameEn":"Lesotho","nameKo":"레소토","continent":"Africa"},{"code":"RE","a3":"REU","nameEn":"Réunion","nameKo":"레위니옹","continent":"Africa"},{"code":"RO","a3":"ROU","nameEn":"Romania","nameKo":"루마니아","continent":"Europe"},{"code":"LU","a3":"LUX","nameEn":"Luxembourg","nameKo":"룩셈부르크","continent":"Europe"},{"code":"RW","a3":"RWA","nameEn":"Rwanda","nameKo":"르완다","continent":"Africa"},{"code":"LY","a3":"LBY","nameEn":"Libya","nameKo":"리비아","continent":"Africa"},{"code":"LT","a3":"LTU","nameEn":"Lithuania","nameKo":"리투아니아","continent":"Europe"},{"code":"LI","a3":"LIE","nameEn":"Liechtenstein","nameKo":"리히텐슈타인","continent":"Europe"},{"code":"MG","a3":"MDG","nameEn":"Madagascar","nameKo":"마다가스카르","continent":"Africa"},{"code":"MQ","a3":"MTQ","nameEn":"Martinique","nameKo":"마르티니크","continent":"North America"},{"code":"MH","a3":"MHL","nameEn":"Marshall Islands","nameKo":"마셜 제도","continent":"Oceania"},{"code":"YT","a3":"MYT","nameEn":"Mayotte","nameKo":"마요트","continent":"Africa"},{"code":"MO","a3":"MAC","nameEn":"Macao SAR China","nameKo":"마카오(중국 특별행정구)","continent":"Asia"},{"code":"MW","a3":"MWI","nameEn":"Malawi","nameKo":"말라위","continent":"Africa"},{"code":"MY","a3":"MYS","nameEn":"Malaysia","nameKo":"말레이시아","continent":"Asia"},{"code":"ML","a3":"MLI","nameEn":"Mali","nameKo":"말리","continent":"Africa"},{"code":"IM","a3":"IMN","nameEn":"Isle of Man","nameKo":"맨섬","continent":"Europe"},{"code":"MX","a3":"MEX","nameEn":"Mexico","nameKo":"멕시코","continent":"North America"},{"code":"MC","a3":"MCO","nameEn":"Monaco","nameKo":"모나코","continent":"Europe"},{"code":"MA","a3":"MAR","nameEn":"Morocco","nameKo":"모로코","continent":"Africa"},{"code":"MU","a3":"MUS","nameEn":"Mauritius","nameKo":"모리셔스","continent":"Africa"},{"code":"MR","a3":"MRT","nameEn":"Mauritania","nameKo":"모리타니","continent":"Africa"},{"code":"MZ","a3":"MOZ","nameEn":"Mozambique","nameKo":"모잠비크","continent":"Africa"},{"code":"ME","a3":"MNE","nameEn":"Montenegro","nameKo":"몬테네그로","continent":"Other"},{"code":"MS","a3":"MSR","nameEn":"Montserrat","nameKo":"몬트세라트","continent":"North America"},{"code":"MD","a3":"MDA","nameEn":"Moldova","nameKo":"몰도바","continent":"Europe"},{"code":"MV","a3":"MDV","nameEn":"Maldives","nameKo":"몰디브","continent":"Asia"},{"code":"MT","a3":"MLT","nameEn":"Malta","nameKo":"몰타","continent":"Europe"},{"code":"MN","a3":"MNG","nameEn":"Mongolia","nameKo":"몽골","continent":"Asia"},{"code":"US","a3":"USA","nameEn":"United States","nameKo":"미국","continent":"North America"},{"code":"VI","a3":"VIR","nameEn":"U.S. Virgin Islands","nameKo":"미국령 버진아일랜드","continent":"North America"},{"code":"UM","a3":"UMI","nameEn":"U.S. Outlying Islands","nameKo":"미국령 해외 제도","continent":"Other"},{"code":"MM","a3":"MMR","nameEn":"Myanmar (Burma)","nameKo":"미얀마","continent":"Other"},{"code":"FM","a3":"FSM","nameEn":"Micronesia","nameKo":"미크로네시아","continent":"Other"},{"code":"VU","a3":"VUT","nameEn":"Vanuatu","nameKo":"바누아투","continent":"Oceania"},{"code":"BH","a3":"BHR","nameEn":"Bahrain","nameKo":"바레인","continent":"Asia"},{"code":"BB","a3":"BRB","nameEn":"Barbados","nameKo":"바베이도스","continent":"North America"},{"code":"VA","a3":"VAT","nameEn":"Vatican City","nameKo":"바티칸 시국","continent":"Europe"},{"code":"BS","a3":"BHS","nameEn":"Bahamas","nameKo":"바하마","continent":"Other"},{"code":"BD","a3":"BGD","nameEn":"Bangladesh","nameKo":"방글라데시","continent":"Asia"},{"code":"BM","a3":"BMU","nameEn":"Bermuda","nameKo":"버뮤다","continent":"North America"},{"code":"BJ","a3":"BEN","nameEn":"Benin","nameKo":"베냉","continent":"Africa"},{"code":"VE","a3":"VEN","nameEn":"Venezuela","nameKo":"베네수엘라","continent":"South America"},{"code":"VN","a3":"VNM","nameEn":"Vietnam","nameKo":"베트남","continent":"Asia"},{"code":"BE","a3":"BEL","nameEn":"Belgium","nameKo":"벨기에","continent":"Europe"},{"code":"BY","a3":"BLR","nameEn":"Belarus","nameKo":"벨라루스","continent":"Europe"},{"code":"BZ","a3":"BLZ","nameEn":"Belize","nameKo":"벨리즈","continent":"North America"},{"code":"BA","a3":"BIH","nameEn":"Bosnia & Herzegovina","nameKo":"보스니아 헤르체고비나","continent":"Other"},{"code":"BW","a3":"BWA","nameEn":"Botswana","nameKo":"보츠와나","continent":"Africa"},{"code":"BO","a3":"BOL","nameEn":"Bolivia","nameKo":"볼리비아","continent":"South America"},{"code":"BI","a3":"BDI","nameEn":"Burundi","nameKo":"부룬디","continent":"Africa"},{"code":"BF","a3":"BFA","nameEn":"Burkina Faso","nameKo":"부르키나파소","continent":"Africa"},{"code":"BV","a3":"BVT","nameEn":"Bouvet Island","nameKo":"부베섬","continent":"Antarctica"},{"code":"BT","a3":"BTN","nameEn":"Bhutan","nameKo":"부탄","continent":"Asia"},{"code":"MP","a3":"MNP","nameEn":"Northern Mariana Islands","nameKo":"북마리아나제도","continent":"Oceania"},{"code":"MK","a3":"MKD","nameEn":"North Macedonia","nameKo":"북마케도니아","continent":"Other"},{"code":"KP","a3":"PRK","nameEn":"North Korea","nameKo":"북한","continent":"Asia"},{"code":"BG","a3":"BGR","nameEn":"Bulgaria","nameKo":"불가리아","continent":"Europe"},{"code":"BR","a3":"BRA","nameEn":"Brazil","nameKo":"브라질","continent":"South America"},{"code":"BN","a3":"BRN","nameEn":"Brunei","nameKo":"브루나이","continent":"Asia"},{"code":"WS","a3":"WSM","nameEn":"Samoa","nameKo":"사모아","continent":"Oceania"},{"code":"SA","a3":"SAU","nameEn":"Saudi Arabia","nameKo":"사우디아라비아","continent":"Asia"},{"code":"GS","a3":"SGS","nameEn":"South Georgia & South Sandwich Islands","nameKo":"사우스조지아 사우스샌드위치 제도","continent":"Antarctica"},{"code":"SM","a3":"SMR","nameEn":"San Marino","nameKo":"산마리노","continent":"Europe"},{"code":"ST","a3":"STP","nameEn":"São Tomé & Príncipe","nameKo":"상투메 프린시페","continent":"Other"},{"code":"MF","a3":"MAF","nameEn":"St. Martin","nameKo":"생마르탱","continent":"North America"},{"code":"BL","a3":"BLM","nameEn":"St. Barthélemy","nameKo":"생바르텔레미","continent":"North America"},{"code":"PM","a3":"SPM","nameEn":"St. Pierre & Miquelon","nameKo":"생피에르 미클롱","continent":"North America"},{"code":"EH","a3":"ESH","nameEn":"Western Sahara","nameKo":"서사하라","continent":"Africa"},{"code":"SN","a3":"SEN","nameEn":"Senegal","nameKo":"세네갈","continent":"Africa"},{"code":"RS","a3":"SRB","nameEn":"Serbia","nameKo":"세르비아","continent":"Europe"},{"code":"SC","a3":"SYC","nameEn":"Seychelles","nameKo":"세이셸","continent":"Africa"},{"code":"LC","a3":"LCA","nameEn":"St. Lucia","nameKo":"세인트루시아","continent":"Other"},{"code":"VC","a3":"VCT","nameEn":"St. Vincent & Grenadines","nameKo":"세인트빈센트그레나딘","continent":"Other"},{"code":"KN","a3":"KNA","nameEn":"St. Kitts & Nevis","nameKo":"세인트키츠 네비스","continent":"Other"},{"code":"SH","a3":"SHN","nameEn":"St. Helena","nameKo":"세인트헬레나","continent":"Africa"},{"code":"SO","a3":"SOM","nameEn":"Somalia","nameKo":"소말리아","continent":"Africa"},{"code":"SB","a3":"SLB","nameEn":"Solomon Islands","nameKo":"솔로몬 제도","continent":"Oceania"},{"code":"SD","a3":"SDN","nameEn":"Sudan","nameKo":"수단","continent":"Africa"},{"code":"SR","a3":"SUR","nameEn":"Suriname","nameKo":"수리남","continent":"South America"},{"code":"LK","a3":"LKA","nameEn":"Sri Lanka","nameKo":"스리랑카","continent":"Asia"},{"code":"SJ","a3":"SJM","nameEn":"Svalbard & Jan Mayen","nameKo":"스발바르제도-얀마웬섬","continent":"Other"},{"code":"SE","a3":"SWE","nameEn":"Sweden","nameKo":"스웨덴","continent":"Europe"},{"code":"CH","a3":"CHE","nameEn":"Switzerland","nameKo":"스위스","continent":"Europe"},{"code":"ES","a3":"ESP","nameEn":"Spain","nameKo":"스페인","continent":"Europe"},{"code":"SK","a3":"SVK","nameEn":"Slovakia","nameKo":"슬로바키아","continent":"Europe"},{"code":"SI","a3":"SVN","nameEn":"Slovenia","nameKo":"슬로베니아","continent":"Europe"},{"code":"SY","a3":"SYR","nameEn":"Syria","nameKo":"시리아","continent":"Asia"},{"code":"SL","a3":"SLE","nameEn":"Sierra Leone","nameKo":"시에라리온","continent":"Africa"},{"code":"SX","a3":"SXM","nameEn":"Sint Maarten","nameKo":"신트마르턴","continent":"North America"},{"code":"SG","a3":"SGP","nameEn":"Singapore","nameKo":"싱가포르","continent":"Asia"},{"code":"AE","a3":"ARE","nameEn":"United Arab Emirates","nameKo":"아랍에미리트","continent":"Asia"},{"code":"AW","a3":"ABW","nameEn":"Aruba","nameKo":"아루바","continent":"North America"},{"code":"AM","a3":"ARM","nameEn":"Armenia","nameKo":"아르메니아","continent":"Asia"},{"code":"AR","a3":"ARG","nameEn":"Argentina","nameKo":"아르헨티나","continent":"South America"},{"code":"AS","a3":"ASM","nameEn":"American Samoa","nameKo":"아메리칸 사모아","continent":"Oceania"},{"code":"IS","a3":"ISL","nameEn":"Iceland","nameKo":"아이슬란드","continent":"Europe"},{"code":"HT","a3":"HTI","nameEn":"Haiti","nameKo":"아이티","continent":"North America"},{"code":"IE","a3":"IRL","nameEn":"Ireland","nameKo":"아일랜드","continent":"Europe"},{"code":"AZ","a3":"AZE","nameEn":"Azerbaijan","nameKo":"아제르바이잔","continent":"Asia"},{"code":"AF","a3":"AFG","nameEn":"Afghanistan","nameKo":"아프가니스탄","continent":"Asia"},{"code":"AD","a3":"AND","nameEn":"Andorra","nameKo":"안도라","continent":"Europe"},{"code":"AL","a3":"ALB","nameEn":"Albania","nameKo":"알바니아","continent":"Europe"},{"code":"DZ","a3":"DZA","nameEn":"Algeria","nameKo":"알제리","continent":"Africa"},{"code":"AO","a3":"AGO","nameEn":"Angola","nameKo":"앙골라","continent":"Africa"},{"code":"AG","a3":"ATG","nameEn":"Antigua & Barbuda","nameKo":"앤티가 바부다","continent":"Other"},{"code":"AI","a3":"AIA","nameEn":"Anguilla","nameKo":"앵귈라","continent":"North America"},{"code":"ER","a3":"ERI","nameEn":"Eritrea","nameKo":"에리트리아","continent":"Africa"},{"code":"SZ","a3":"SWZ","nameEn":"Eswatini","nameKo":"에스와티니","continent":"Other"},{"code":"EE","a3":"EST","nameEn":"Estonia","nameKo":"에스토니아","continent":"Europe"},{"code":"EC","a3":"ECU","nameEn":"Ecuador","nameKo":"에콰도르","continent":"South America"},{"code":"ET","a3":"ETH","nameEn":"Ethiopia","nameKo":"에티오피아","continent":"Africa"},{"code":"SV","a3":"SLV","nameEn":"El Salvador","nameKo":"엘살바도르","continent":"North America"},{"code":"GB","a3":"GBR","nameEn":"United Kingdom","nameKo":"영국","continent":"Europe"},{"code":"VG","a3":"VGB","nameEn":"British Virgin Islands","nameKo":"영국령 버진아일랜드","continent":"North America"},{"code":"IO","a3":"IOT","nameEn":"British Indian Ocean Territory","nameKo":"영국령 인도양 지역","continent":"Africa"},{"code":"YE","a3":"YEM","nameEn":"Yemen","nameKo":"예멘","continent":"Asia"},{"code":"OM","a3":"OMN","nameEn":"Oman","nameKo":"오만","continent":"Asia"},{"code":"AU","a3":"AUS","nameEn":"Australia","nameKo":"오스트레일리아","continent":"Oceania"},{"code":"AT","a3":"AUT","nameEn":"Austria","nameKo":"오스트리아","continent":"Europe"},{"code":"HN","a3":"HND","nameEn":"Honduras","nameKo":"온두라스","continent":"North America"},{"code":"AX","a3":"ALA","nameEn":"Åland Islands","nameKo":"올란드 제도","continent":"Europe"},{"code":"WF","a3":"WLF","nameEn":"Wallis & Futuna","nameKo":"왈리스-푸투나 제도","continent":"Oceania"},{"code":"JO","a3":"JOR","nameEn":"Jordan","nameKo":"요르단","continent":"Asia"},{"code":"UG","a3":"UGA","nameEn":"Uganda","nameKo":"우간다","continent":"Africa"},{"code":"UY","a3":"URY","nameEn":"Uruguay","nameKo":"우루과이","continent":"South America"},{"code":"UZ","a3":"UZB","nameEn":"Uzbekistan","nameKo":"우즈베키스탄","continent":"Asia"},{"code":"UA","a3":"UKR","nameEn":"Ukraine","nameKo":"우크라이나","continent":"Europe"},{"code":"IQ","a3":"IRQ","nameEn":"Iraq","nameKo":"이라크","continent":"Asia"},{"code":"IR","a3":"IRN","nameEn":"Iran","nameKo":"이란","continent":"Asia"},{"code":"IL","a3":"ISR","nameEn":"Israel","nameKo":"이스라엘","continent":"Asia"},{"code":"EG","a3":"EGY","nameEn":"Egypt","nameKo":"이집트","continent":"Africa"},{"code":"IT","a3":"ITA","nameEn":"Italy","nameKo":"이탈리아","continent":"Europe"},{"code":"IN","a3":"IND","nameEn":"India","nameKo":"인도","continent":"Asia"},{"code":"ID","a3":"IDN","nameEn":"Indonesia","nameKo":"인도네시아","continent":"Asia"},{"code":"JP","a3":"JPN","nameEn":"Japan","nameKo":"일본","continent":"Asia"},{"code":"JM","a3":"JAM","nameEn":"Jamaica","nameKo":"자메이카","continent":"North America"},{"code":"ZM","a3":"ZMB","nameEn":"Zambia","nameKo":"잠비아","continent":"Africa"},{"code":"JE","a3":"JEY","nameEn":"Jersey","nameKo":"저지","continent":"Europe"},{"code":"GQ","a3":"GNQ","nameEn":"Equatorial Guinea","nameKo":"적도 기니","continent":"Africa"},{"code":"GE","a3":"GEO","nameEn":"Georgia","nameKo":"조지아","continent":"Asia"},{"code":"CN","a3":"CHN","nameEn":"China","nameKo":"중국","continent":"Asia"},{"code":"CF","a3":"CAF","nameEn":"Central African Republic","nameKo":"중앙 아프리카 공화국","continent":"Africa"},{"code":"DJ","a3":"DJI","nameEn":"Djibouti","nameKo":"지부티","continent":"Africa"},{"code":"GI","a3":"GIB","nameEn":"Gibraltar","nameKo":"지브롤터","continent":"Europe"},{"code":"ZW","a3":"ZWE","nameEn":"Zimbabwe","nameKo":"짐바브웨","continent":"Africa"},{"code":"TD","a3":"TCD","nameEn":"Chad","nameKo":"차드","continent":"Africa"},{"code":"CZ","a3":"CZE","nameEn":"Czechia","nameKo":"체코","continent":"Europe"},{"code":"CL","a3":"CHL","nameEn":"Chile","nameKo":"칠레","continent":"South America"},{"code":"CM","a3":"CMR","nameEn":"Cameroon","nameKo":"카메룬","continent":"Africa"},{"code":"CV","a3":"CPV","nameEn":"Cape Verde","nameKo":"카보베르데","continent":"Africa"},{"code":"KZ","a3":"KAZ","nameEn":"Kazakhstan","nameKo":"카자흐스탄","continent":"Asia"},{"code":"QA","a3":"QAT","nameEn":"Qatar","nameKo":"카타르","continent":"Asia"},{"code":"KH","a3":"KHM","nameEn":"Cambodia","nameKo":"캄보디아","continent":"Asia"},{"code":"CA","a3":"CAN","nameEn":"Canada","nameKo":"캐나다","continent":"North America"},{"code":"KE","a3":"KEN","nameEn":"Kenya","nameKo":"케냐","continent":"Africa"},{"code":"KY","a3":"CYM","nameEn":"Cayman Islands","nameKo":"케이맨 제도","continent":"North America"},{"code":"KM","a3":"COM","nameEn":"Comoros","nameKo":"코모로","continent":"Africa"},{"code":"XK","a3":"XKX","nameEn":"Kosovo","nameKo":"코소보","continent":"Europe"},{"code":"CR","a3":"CRI","nameEn":"Costa Rica","nameKo":"코스타리카","continent":"North America"},{"code":"CC","a3":"CCK","nameEn":"Cocos (Keeling) Islands","nameKo":"코코스 제도","continent":"Oceania"},{"code":"CI","a3":"CIV","nameEn":"Côte d’Ivoire","nameKo":"코트디부아르","continent":"Other"},{"code":"CO","a3":"COL","nameEn":"Colombia","nameKo":"콜롬비아","continent":"South America"},{"code":"CG","a3":"COG","nameEn":"Congo - Brazzaville","nameKo":"콩고-브라자빌","continent":"Other"},{"code":"CD","a3":"COD","nameEn":"Congo - Kinshasa","nameKo":"콩고-킨샤사","continent":"Other"},{"code":"CU","a3":"CUB","nameEn":"Cuba","nameKo":"쿠바","continent":"North America"},{"code":"KW","a3":"KWT","nameEn":"Kuwait","nameKo":"쿠웨이트","continent":"Asia"},{"code":"CK","a3":"COK","nameEn":"Cook Islands","nameKo":"쿡 제도","continent":"Oceania"},{"code":"CW","a3":"CUW","nameEn":"Curaçao","nameKo":"퀴라소","continent":"North America"},{"code":"HR","a3":"HRV","nameEn":"Croatia","nameKo":"크로아티아","continent":"Europe"},{"code":"CX","a3":"CXR","nameEn":"Christmas Island","nameKo":"크리스마스섬","continent":"Oceania"},{"code":"KG","a3":"KGZ","nameEn":"Kyrgyzstan","nameKo":"키르기스스탄","continent":"Asia"},{"code":"KI","a3":"KIR","nameEn":"Kiribati","nameKo":"키리바시","continent":"Oceania"},{"code":"CY","a3":"CYP","nameEn":"Cyprus","nameKo":"키프로스","continent":"Europe"},{"code":"TJ","a3":"TJK","nameEn":"Tajikistan","nameKo":"타지키스탄","continent":"Asia"},{"code":"TZ","a3":"TZA","nameEn":"Tanzania","nameKo":"탄자니아","continent":"Africa"},{"code":"TH","a3":"THA","nameEn":"Thailand","nameKo":"태국","continent":"Asia"},{"code":"TC","a3":"TCA","nameEn":"Turks & Caicos Islands","nameKo":"터크스 케이커스 제도","continent":"North America"},{"code":"TG","a3":"TGO","nameEn":"Togo","nameKo":"토고","continent":"Africa"},{"code":"TK","a3":"TKL","nameEn":"Tokelau","nameKo":"토켈라우","continent":"Oceania"},{"code":"TO","a3":"TON","nameEn":"Tonga","nameKo":"통가","continent":"Oceania"},{"code":"TM","a3":"TKM","nameEn":"Turkmenistan","nameKo":"투르크메니스탄","continent":"Asia"},{"code":"TV","a3":"TUV","nameEn":"Tuvalu","nameKo":"투발루","continent":"Oceania"},{"code":"TN","a3":"TUN","nameEn":"Tunisia","nameKo":"튀니지","continent":"Africa"},{"code":"TR","a3":"TUR","nameEn":"Türkiye","nameKo":"튀르키예","continent":"Other"},{"code":"TT","a3":"TTO","nameEn":"Trinidad & Tobago","nameKo":"트리니다드 토바고","continent":"Other"},{"code":"PA","a3":"PAN","nameEn":"Panama","nameKo":"파나마","continent":"North America"},{"code":"PY","a3":"PRY","nameEn":"Paraguay","nameKo":"파라과이","continent":"South America"},{"code":"PK","a3":"PAK","nameEn":"Pakistan","nameKo":"파키스탄","continent":"Asia"},{"code":"PG","a3":"PNG","nameEn":"Papua New Guinea","nameKo":"파푸아뉴기니","continent":"Oceania"},{"code":"PW","a3":"PLW","nameEn":"Palau","nameKo":"팔라우","continent":"Oceania"},{"code":"PS","a3":"PSE","nameEn":"Palestinian Territories","nameKo":"팔레스타인 지구","continent":"Asia"},{"code":"FO","a3":"FRO","nameEn":"Faroe Islands","nameKo":"페로 제도","continent":"Europe"},{"code":"PE","a3":"PER","nameEn":"Peru","nameKo":"페루","continent":"South America"},{"code":"PT","a3":"PRT","nameEn":"Portugal","nameKo":"포르투갈","continent":"Europe"},{"code":"FK","a3":"FLK","nameEn":"Falkland Islands","nameKo":"포클랜드 제도","continent":"South America"},{"code":"PL","a3":"POL","nameEn":"Poland","nameKo":"폴란드","continent":"Europe"},{"code":"PR","a3":"PRI","nameEn":"Puerto Rico","nameKo":"푸에르토리코","continent":"North America"},{"code":"FR","a3":"FRA","nameEn":"France","nameKo":"프랑스","continent":"Europe"},{"code":"GF","a3":"GUF","nameEn":"French Guiana","nameKo":"프랑스령 기아나","continent":"South America"},{"code":"TF","a3":"ATF","nameEn":"French Southern Territories","nameKo":"프랑스령 남방 지역","continent":"Antarctica"},{"code":"PF","a3":"PYF","nameEn":"French Polynesia","nameKo":"프랑스령 폴리네시아","continent":"Oceania"},{"code":"FJ","a3":"FJI","nameEn":"Fiji","nameKo":"피지","continent":"Oceania"},{"code":"FI","a3":"FIN","nameEn":"Finland","nameKo":"핀란드","continent":"Europe"},{"code":"PH","a3":"PHL","nameEn":"Philippines","nameKo":"필리핀","continent":"Asia"},{"code":"PN","a3":"PCN","nameEn":"Pitcairn Islands","nameKo":"핏케언 제도","continent":"Oceania"},{"code":"HM","a3":"HMD","nameEn":"Heard & McDonald Islands","nameKo":"허드 맥도널드 제도","continent":"Antarctica"},{"code":"HU","a3":"HUN","nameEn":"Hungary","nameKo":"헝가리","continent":"Europe"},{"code":"HK","a3":"HKG","nameEn":"Hong Kong SAR China","nameKo":"홍콩(중국 특별행정구)","continent":"Asia"}];
+    const COUNTRY_CATALOG = [{"code":"GH","a3":"GHA","nameEn":"Ghana","nameKo":"가나","continent":"Africa"},{"code":"GA","a3":"GAB","nameEn":"Gabon","nameKo":"가봉","continent":"Africa"},{"code":"GY","a3":"GUY","nameEn":"Guyana","nameKo":"가이아나","continent":"South America"},{"code":"GM","a3":"GMB","nameEn":"Gambia","nameKo":"감비아","continent":"Other"},{"code":"GG","a3":"GGY","nameEn":"Guernsey","nameKo":"건지","continent":"Europe"},{"code":"GP","a3":"GLP","nameEn":"Guadeloupe","nameKo":"과들루프","continent":"North America"},{"code":"GT","a3":"GTM","nameEn":"Guatemala","nameKo":"과테말라","continent":"North America"},{"code":"GU","a3":"GUM","nameEn":"Guam","nameKo":"괌","continent":"Oceania"},{"code":"GD","a3":"GRD","nameEn":"Grenada","nameKo":"그레나다","continent":"North America"},{"code":"GR","a3":"GRC","nameEn":"Greece","nameKo":"그리스","continent":"Europe"},{"code":"GL","a3":"GRL","nameEn":"Greenland","nameKo":"그린란드","continent":"North America"},{"code":"GN","a3":"GIN","nameEn":"Guinea","nameKo":"기니","continent":"Africa"},{"code":"GW","a3":"GNB","nameEn":"Guinea-Bissau","nameKo":"기니비사우","continent":"Africa"},{"code":"NA","a3":"NAM","nameEn":"Namibia","nameKo":"나미비아","continent":"Africa"},{"code":"NR","a3":"NRU","nameEn":"Nauru","nameKo":"나우루","continent":"Oceania"},{"code":"NG","a3":"NGA","nameEn":"Nigeria","nameKo":"나이지리아","continent":"Africa"},{"code":"AQ","a3":"ATA","nameEn":"Antarctica","nameKo":"남극 대륙","continent":"Antarctica"},{"code":"SS","a3":"SSD","nameEn":"South Sudan","nameKo":"남수단","continent":"Africa"},{"code":"ZA","a3":"ZAF","nameEn":"South Africa","nameKo":"남아프리카","continent":"Africa"},{"code":"NL","a3":"NLD","nameEn":"Netherlands","nameKo":"네덜란드","continent":"Europe"},{"code":"BQ","a3":"BES","nameEn":"Caribbean Netherlands","nameKo":"네덜란드령 카리브","continent":"North America"},{"code":"NP","a3":"NPL","nameEn":"Nepal","nameKo":"네팔","continent":"Asia"},{"code":"NO","a3":"NOR","nameEn":"Norway","nameKo":"노르웨이","continent":"Europe"},{"code":"NF","a3":"NFK","nameEn":"Norfolk Island","nameKo":"노퍽섬","continent":"Oceania"},{"code":"NZ","a3":"NZL","nameEn":"New Zealand","nameKo":"뉴질랜드","continent":"Oceania"},{"code":"NC","a3":"NCL","nameEn":"New Caledonia","nameKo":"뉴칼레도니아","continent":"Oceania"},{"code":"NU","a3":"NIU","nameEn":"Niue","nameKo":"니우에","continent":"Oceania"},{"code":"NE","a3":"NER","nameEn":"Niger","nameKo":"니제르","continent":"Africa"},{"code":"NI","a3":"NIC","nameEn":"Nicaragua","nameKo":"니카라과","continent":"North America"},{"code":"TW","a3":"TWN","nameEn":"Taiwan","nameKo":"대만","continent":"Asia"},{"code":"KR","a3":"KOR","nameEn":"South Korea","nameKo":"대한민국","continent":"Asia"},{"code":"DK","a3":"DNK","nameEn":"Denmark","nameKo":"덴마크","continent":"Europe"},{"code":"DM","a3":"DMA","nameEn":"Dominica","nameKo":"도미니카","continent":"North America"},{"code":"DO","a3":"DOM","nameEn":"Dominican Republic","nameKo":"도미니카 공화국","continent":"North America"},{"code":"DE","a3":"DEU","nameEn":"Germany","nameKo":"독일","continent":"Europe"},{"code":"TL","a3":"TLS","nameEn":"Timor-Leste","nameKo":"동티모르","continent":"Asia"},{"code":"LA","a3":"LAO","nameEn":"Laos","nameKo":"라오스","continent":"Asia"},{"code":"LR","a3":"LBR","nameEn":"Liberia","nameKo":"라이베리아","continent":"Africa"},{"code":"LV","a3":"LVA","nameEn":"Latvia","nameKo":"라트비아","continent":"Europe"},{"code":"RU","a3":"RUS","nameEn":"Russia","nameKo":"러시아","continent":"Europe"},{"code":"LB","a3":"LBN","nameEn":"Lebanon","nameKo":"레바논","continent":"Asia"},{"code":"LS","a3":"LSO","nameEn":"Lesotho","nameKo":"레소토","continent":"Africa"},{"code":"RE","a3":"REU","nameEn":"Réunion","nameKo":"레위니옹","continent":"Africa"},{"code":"RO","a3":"ROU","nameEn":"Romania","nameKo":"루마니아","continent":"Europe"},{"code":"LU","a3":"LUX","nameEn":"Luxembourg","nameKo":"룩셈부르크","continent":"Europe"},{"code":"RW","a3":"RWA","nameEn":"Rwanda","nameKo":"르완다","continent":"Africa"},{"code":"LY","a3":"LBY","nameEn":"Libya","nameKo":"리비아","continent":"Africa"},{"code":"LT","a3":"LTU","nameEn":"Lithuania","nameKo":"리투아니아","continent":"Europe"},{"code":"LI","a3":"LIE","nameEn":"Liechtenstein","nameKo":"리히텐슈타인","continent":"Europe"},{"code":"MG","a3":"MDG","nameEn":"Madagascar","nameKo":"마다가스카르","continent":"Africa"},{"code":"MQ","a3":"MTQ","nameEn":"Martinique","nameKo":"마르티니크","continent":"North America"},{"code":"MH","a3":"MHL","nameEn":"Marshall Islands","nameKo":"마셜 제도","continent":"Oceania"},{"code":"YT","a3":"MYT","nameEn":"Mayotte","nameKo":"마요트","continent":"Africa"},{"code":"MO","a3":"MAC","nameEn":"Macao SAR China","nameKo":"마카오(중국 특별행정구)","continent":"Asia"},{"code":"MW","a3":"MWI","nameEn":"Malawi","nameKo":"말라위","continent":"Africa"},{"code":"MY","a3":"MYS","nameEn":"Malaysia","nameKo":"말레이시아","continent":"Asia"},{"code":"ML","a3":"MLI","nameEn":"Mali","nameKo":"말리","continent":"Africa"},{"code":"IM","a3":"IMN","nameEn":"Isle of Man","nameKo":"맨섬","continent":"Europe"},{"code":"MX","a3":"MEX","nameEn":"Mexico","nameKo":"멕시코","continent":"North America"},{"code":"MC","a3":"MCO","nameEn":"Monaco","nameKo":"모나코","continent":"Europe"},{"code":"MA","a3":"MAR","nameEn":"Morocco","nameKo":"모로코","continent":"Africa"},{"code":"MU","a3":"MUS","nameEn":"Mauritius","nameKo":"모리셔스","continent":"Africa"},{"code":"MR","a3":"MRT","nameEn":"Mauritania","nameKo":"모리타니","continent":"Africa"},{"code":"MZ","a3":"MOZ","nameEn":"Mozambique","nameKo":"모잠비크","continent":"Africa"},{"code":"ME","a3":"MNE","nameEn":"Montenegro","nameKo":"몬테네그로","continent":"Other"},{"code":"MS","a3":"MSR","nameEn":"Montserrat","nameKo":"몬트세라트","continent":"North America"},{"code":"MD","a3":"MDA","nameEn":"Moldova","nameKo":"몰도바","continent":"Europe"},{"code":"MV","a3":"MDV","nameEn":"Maldives","nameKo":"몰디브","continent":"Asia"},{"code":"MT","a3":"MLT","nameEn":"Malta","nameKo":"몰타","continent":"Europe"},{"code":"MN","a3":"MNG","nameEn":"Mongolia","nameKo":"몽골","continent":"Asia"},{"code":"US","a3":"USA","nameEn":"United States","nameKo":"미국","continent":"North America"},{"code":"VI","a3":"VIR","nameEn":"U.S. Virgin Islands","nameKo":"미국령 버진아일랜드","continent":"North America"},{"code":"UM","a3":"UMI","nameEn":"U.S. Outlying Islands","nameKo":"미국령 해외 제도","continent":"Other"},{"code":"MM","a3":"MMR","nameEn":"Myanmar (Burma)","nameKo":"미얀마","continent":"Other"},{"code":"FM","a3":"FSM","nameEn":"Micronesia","nameKo":"미크로네시아","continent":"Other"},{"code":"VU","a3":"VUT","nameEn":"Vanuatu","nameKo":"바누아투","continent":"Oceania"},{"code":"BH","a3":"BHR","nameEn":"Bahrain","nameKo":"바레인","continent":"Asia"},{"code":"BB","a3":"BRB","nameEn":"Barbados","nameKo":"바베이도스","continent":"North America"},{"code":"VA","a3":"VAT","nameEn":"Vatican City","nameKo":"바티칸 시국","continent":"Europe"},{"code":"BS","a3":"BHS","nameEn":"Bahamas","nameKo":"바하마","continent":"Other"},{"code":"BD","a3":"BGD","nameEn":"Bangladesh","nameKo":"방글라데시","continent":"Asia"},{"code":"BM","a3":"BMU","nameEn":"Bermuda","nameKo":"버뮤다","continent":"North America"},{"code":"BJ","a3":"BEN","nameEn":"Benin","nameKo":"베냉","continent":"Africa"},{"code":"VE","a3":"VEN","nameEn":"Venezuela","nameKo":"베네수엘라","continent":"South America"},{"code":"VN","a3":"VNM","nameEn":"Vietnam","nameKo":"베트남","continent":"Asia"},{"code":"BE","a3":"BEL","nameEn":"Belgium","nameKo":"벨기에","continent":"Europe"},{"code":"BY","a3":"BLR","nameEn":"Belarus","nameKo":"벨라루스","continent":"Europe"},{"code":"BZ","a3":"BLZ","nameEn":"Belize","nameKo":"벨리즈","continent":"North America"},{"code":"BA","a3":"BIH","nameEn":"Bosnia & Herzegovina","nameKo":"보스니아 헤르체고비나","continent":"Other"},{"code":"BW","a3":"BWA","nameEn":"Botswana","nameKo":"보츠와나","continent":"Africa"},{"code":"BO","a3":"BOL","nameEn":"Bolivia","nameKo":"볼리비아","continent":"South America"},{"code":"BI","a3":"BDI","nameEn":"Burundi","nameKo":"부룬디","continent":"Africa"},{"code":"BF","a3":"BFA","nameEn":"Burkina Faso","nameKo":"부르키나파소","continent":"Africa"},{"code":"BV","a3":"BVT","nameEn":"Bouvet Island","nameKo":"부베섬","continent":"Antarctica"},{"code":"BT","a3":"BTN","nameEn":"Bhutan","nameKo":"부탄","continent":"Asia"},{"code":"MP","a3":"MNP","nameEn":"Northern Mariana Islands","nameKo":"북마리아나제도","continent":"Oceania"},{"code":"MK","a3":"MKD","nameEn":"North Macedonia","nameKo":"북마케도니아","continent":"Other"},{"code":"KP","a3":"PRK","nameEn":"North Korea","nameKo":"북한","continent":"Asia"},{"code":"BG","a3":"BGR","nameEn":"Bulgaria","nameKo":"불가리아","continent":"Europe"},{"code":"BR","a3":"BRA","nameEn":"Brazil","nameKo":"브라질","continent":"South America"},{"code":"BN","a3":"BRN","nameEn":"Brunei","nameKo":"브루나이","continent":"Asia"},{"code":"WS","a3":"WSM","nameEn":"Samoa","nameKo":"사모아","continent":"Oceania"},{"code":"SA","a3":"SAU","nameEn":"Saudi Arabia","nameKo":"사우디아라비아","continent":"Asia"},{"code":"GS","a3":"SGS","nameEn":"South Georgia & South Sandwich Islands","nameKo":"사우스조지아 사우스샌드위치 제도","continent":"Antarctica"},{"code":"SM","a3":"SMR","nameEn":"San Marino","nameKo":"산마리노","continent":"Europe"},{"code":"ST","a3":"STP","nameEn":"São Tomé & Príncipe","nameKo":"상투메 프린시페","continent":"Other"},{"code":"MF","a3":"MAF","nameEn":"St. Martin","nameKo":"생마르탱","continent":"North America"},{"code":"BL","a3":"BLM","nameEn":"St. Barthélemy","nameKo":"생바르텔레미","continent":"North America"},{"code":"PM","a3":"SPM","nameEn":"St. Pierre & Miquelon","nameKo":"생피에르 미클롱","continent":"North America"},{"code":"EH","a3":"ESH","nameEn":"Western Sahara","nameKo":"서사하라","continent":"Africa"},{"code":"SN","a3":"SEN","nameEn":"Senegal","nameKo":"세네갈","continent":"Africa"},{"code":"RS","a3":"SRB","nameEn":"Serbia","nameKo":"세르비아","continent":"Europe"},{"code":"SC","a3":"SYC","nameEn":"Seychelles","nameKo":"세이셸","continent":"Africa"},{"code":"LC","a3":"LCA","nameEn":"St. Lucia","nameKo":"세인트루시아","continent":"Other"},{"code":"VC","a3":"VCT","nameEn":"St. Vincent & Grenadines","nameKo":"세인트빈센트그레나딘","continent":"Other"},{"code":"KN","a3":"KNA","nameEn":"St. Kitts & Nevis","nameKo":"세인트키츠 네비스","continent":"Other"},{"code":"SH","a3":"SHN","nameEn":"St. Helena","nameKo":"세인트헬레나","continent":"Africa"},{"code":"SO","a3":"SOM","nameEn":"Somalia","nameKo":"소말리아","continent":"Africa"},{"code":"SB","a3":"SLB","nameEn":"Solomon Islands","nameKo":"솔로몬 제도","continent":"Oceania"},{"code":"SD","a3":"SDN","nameEn":"Sudan","nameKo":"수단","continent":"Africa"},{"code":"SR","a3":"SUR","nameEn":"Suriname","nameKo":"수리남","continent":"South America"},{"code":"LK","a3":"LKA","nameEn":"Sri Lanka","nameKo":"스리랑카","continent":"Asia"},{"code":"SJ","a3":"SJM","nameEn":"Svalbard & Jan Mayen","nameKo":"스발바르제도-얀마웬섬","continent":"Other"},{"code":"SE","a3":"SWE","nameEn":"Sweden","nameKo":"스웨덴","continent":"Europe"},{"code":"CH","a3":"CHE","nameEn":"Switzerland","nameKo":"스위스","continent":"Europe"},{"code":"ES","a3":"ESP","nameEn":"Spain","nameKo":"스페인","continent":"Europe"},{"code":"SK","a3":"SVK","nameEn":"Slovakia","nameKo":"슬로바키아","continent":"Europe"},{"code":"SI","a3":"SVN","nameEn":"Slovenia","nameKo":"슬로베니아","continent":"Europe"},{"code":"SY","a3":"SYR","nameEn":"Syria","nameKo":"시리아","continent":"Asia"},{"code":"SL","a3":"SLE","nameEn":"Sierra Leone","nameKo":"시에라리온","continent":"Africa"},{"code":"SX","a3":"SXM","nameEn":"Sint Maarten","nameKo":"신트마르턴","continent":"North America"},{"code":"SG","a3":"SGP","nameEn":"Singapore","nameKo":"싱가포르","continent":"Asia"},{"code":"AE","a3":"ARE","nameEn":"United Arab Emirates","nameKo":"아랍에미리트","continent":"Asia"},{"code":"AW","a3":"ABW","nameEn":"Aruba","nameKo":"아루바","continent":"North America"},{"code":"AM","a3":"ARM","nameEn":"Armenia","nameKo":"아르메니아","continent":"Asia"},{"code":"AR","a3":"ARG","nameEn":"Argentina","nameKo":"아르헨티나","continent":"South America"},{"code":"AS","a3":"ASM","nameEn":"American Samoa","nameKo":"아메리칸 사모아","continent":"Oceania"},{"code":"IS","a3":"ISL","nameEn":"Iceland","nameKo":"아이슬란드","continent":"Europe"},{"code":"HT","a3":"HTI","nameEn":"Haiti","nameKo":"아이티","continent":"North America"},{"code":"IE","a3":"IRL","nameEn":"Ireland","nameKo":"아일랜드","continent":"Europe"},{"code":"AZ","a3":"AZE","nameEn":"Azerbaijan","nameKo":"아제르바이잔","continent":"Asia"},{"code":"AF","a3":"AFG","nameEn":"Afghanistan","nameKo":"아프가니스탄","continent":"Asia"},{"code":"AD","a3":"AND","nameEn":"Andorra","nameKo":"안도라","continent":"Europe"},{"code":"AL","a3":"ALB","nameEn":"Albania","nameKo":"알바니아","continent":"Europe"},{"code":"DZ","a3":"DZA","nameEn":"Algeria","nameKo":"알제리","continent":"Africa"},{"code":"AO","a3":"AGO","nameEn":"Angola","nameKo":"앙골라","continent":"Africa"},{"code":"AG","a3":"ATG","nameEn":"Antigua & Barbuda","nameKo":"앤티가 바부다","continent":"Other"},{"code":"AI","a3":"AIA","nameEn":"Anguilla","nameKo":"앵귈라","continent":"North America"},{"code":"ER","a3":"ERI","nameEn":"Eritrea","nameKo":"에리트리아","continent":"Africa"},{"code":"SZ","a3":"SWZ","nameEn":"Eswatini","nameKo":"에스와티니","continent":"Other"},{"code":"EE","a3":"EST","nameEn":"Estonia","nameKo":"에스토니아","continent":"Europe"},{"code":"EC","a3":"ECU","nameEn":"Ecuador","nameKo":"에콰도르","continent":"South America"},{"code":"ET","a3":"ETH","nameEn":"Ethiopia","nameKo":"에티오피아","continent":"Africa"},{"code":"SV","a3":"SLV","nameEn":"El Salvador","nameKo":"엘살바도르","continent":"North America"},{"code":"GB","a3":"GBR","nameEn":"United Kingdom","nameKo":"영국","continent":"Europe"},{"code":"VG","a3":"VGB","nameEn":"British Virgin Islands","nameKo":"영국령 버진아일랜드","continent":"North America"},{"code":"IO","a3":"IOT","nameEn":"British Indian Ocean Territory","nameKo":"영국령 인도양 지역","continent":"Africa"},{"code":"YE","a3":"YEM","nameEn":"Yemen","nameKo":"예멘","continent":"Asia"},{"code":"OM","a3":"OMN","nameEn":"Oman","nameKo":"오만","continent":"Asia"},{"code":"AU","a3":"AUS","nameEn":"Australia","nameKo":"오스트레일리아","continent":"Oceania"},{"code":"AT","a3":"AUT","nameEn":"Austria","nameKo":"오스트리아","continent":"Europe"},{"code":"HN","a3":"HND","nameEn":"Honduras","nameKo":"온두라스","continent":"North America"},{"code":"AX","a3":"ALA","nameEn":"Åland Islands","nameKo":"올란드 제도","continent":"Europe"},{"code":"WF","a3":"WLF","nameEn":"Wallis & Futuna","nameKo":"왈리스-푸투나 제도","continent":"Oceania"},{"code":"JO","a3":"JOR","nameEn":"Jordan","nameKo":"요르단","continent":"Asia"},{"code":"UG","a3":"UGA","nameEn":"Uganda","nameKo":"우간다","continent":"Africa"},{"code":"UY","a3":"URY","nameEn":"Uruguay","nameKo":"우루과이","continent":"South America"},{"code":"UZ","a3":"UZB","nameEn":"Uzbekistan","nameKo":"우즈베키스탄","continent":"Asia"},{"code":"UA","a3":"UKR","nameEn":"Ukraine","nameKo":"우크라이나","continent":"Europe"},{"code":"IQ","a3":"IRQ","nameEn":"Iraq","nameKo":"이라크","continent":"Asia"},{"code":"IR","a3":"IRN","nameEn":"Iran","nameKo":"이란","continent":"Asia"},{"code":"IL","a3":"ISR","nameEn":"Israel","nameKo":"이스라엘","continent":"Asia"},{"code":"EG","a3":"EGY","nameEn":"Egypt","nameKo":"이집트","continent":"Africa"},{"code":"IT","a3":"ITA","nameEn":"Italy","nameKo":"이탈리아","continent":"Europe"},{"code":"IN","a3":"IND","nameEn":"India","nameKo":"인도","continent":"Asia"},{"code":"ID","a3":"IDN","nameEn":"Indonesia","nameKo":"인도네시아","continent":"Asia"},{"code":"JP","a3":"JPN","nameEn":"Japan","nameKo":"일본","continent":"Asia"},{"code":"JM","a3":"JAM","nameEn":"Jamaica","nameKo":"자메이카","continent":"North America"},{"code":"ZM","a3":"ZMB","nameEn":"Zambia","nameKo":"잠비아","continent":"Africa"},{"code":"JE","a3":"JEY","nameEn":"Jersey","nameKo":"저지","continent":"Europe"},{"code":"GQ","a3":"GNQ","nameEn":"Equatorial Guinea","nameKo":"적도 기니","continent":"Africa"},{"code":"GE","a3":"GEO","nameEn":"Georgia","nameKo":"조지아","continent":"Asia"},{"code":"CN","a3":"CHN","nameEn":"China","nameKo":"중국","continent":"Asia"},{"code":"CF","a3":"CAF","nameEn":"Central African Republic","nameKo":"중앙 아프리카 공화국","continent":"Africa"},{"code":"DJ","a3":"DJI","nameEn":"Djibouti","nameKo":"지부티","continent":"Africa"},{"code":"GI","a3":"GIB","nameEn":"Gibraltar","nameKo":"지브롤터","continent":"Europe"},{"code":"ZW","a3":"ZWE","nameEn":"Zimbabwe","nameKo":"짐바브웨","continent":"Africa"},{"code":"TD","a3":"TCD","nameEn":"Chad","nameKo":"차드","continent":"Africa"},{"code":"CZ","a3":"CZE","nameEn":"Czechia","nameKo":"체코","continent":"Europe"},{"code":"CL","a3":"CHL","nameEn":"Chile","nameKo":"칠레","continent":"South America"},{"code":"CM","a3":"CMR","nameEn":"Cameroon","nameKo":"카메룬","continent":"Africa"},{"code":"CV","a3":"CPV","nameEn":"Cape Verde","nameKo":"카보베르데","continent":"Africa"},{"code":"KZ","a3":"KAZ","nameEn":"Kazakhstan","nameKo":"카자흐스탄","continent":"Asia"},{"code":"QA","a3":"QAT","nameEn":"Qatar","nameKo":"카타르","continent":"Asia"},{"code":"KH","a3":"KHM","nameEn":"Cambodia","nameKo":"캄보디아","continent":"Asia"},{"code":"CA","a3":"CAN","nameEn":"Canada","nameKo":"캐나다","continent":"North America"},{"code":"KE","a3":"KEN","nameEn":"Kenya","nameKo":"케냐","continent":"Africa"},{"code":"KY","a3":"CYM","nameEn":"Cayman Islands","nameKo":"케이맨 제도","continent":"North America"},{"code":"KM","a3":"COM","nameEn":"Comoros","nameKo":"코모로","continent":"Africa"},{"code":"XK","a3":"XKX","nameEn":"Kosovo","nameKo":"코소보","continent":"Europe"},{"code":"CR","a3":"CRI","nameEn":"Costa Rica","nameKo":"코스타리카","continent":"North America"},{"code":"CC","a3":"CCK","nameEn":"Cocos (Keeling) Islands","nameKo":"코코스 제도","continent":"Oceania"},{"code":"CI","a3":"CIV","nameEn":"Côte d’Ivoire","nameKo":"코트디부아르","continent":"Other"},{"code":"CO","a3":"COL","nameEn":"Colombia","nameKo":"콜롬비아","continent":"South America"},{"code":"CG","a3":"COG","nameEn":"Republic of the Congo","nameKo":"콩고 공화국","continent":"Africa"},{"code":"CD","a3":"COD","nameEn":"Democratic Republic of the Congo","nameKo":"콩고민주공화국","continent":"Africa"},{"code":"CU","a3":"CUB","nameEn":"Cuba","nameKo":"쿠바","continent":"North America"},{"code":"KW","a3":"KWT","nameEn":"Kuwait","nameKo":"쿠웨이트","continent":"Asia"},{"code":"CK","a3":"COK","nameEn":"Cook Islands","nameKo":"쿡 제도","continent":"Oceania"},{"code":"CW","a3":"CUW","nameEn":"Curaçao","nameKo":"퀴라소","continent":"North America"},{"code":"HR","a3":"HRV","nameEn":"Croatia","nameKo":"크로아티아","continent":"Europe"},{"code":"CX","a3":"CXR","nameEn":"Christmas Island","nameKo":"크리스마스섬","continent":"Oceania"},{"code":"KG","a3":"KGZ","nameEn":"Kyrgyzstan","nameKo":"키르기스스탄","continent":"Asia"},{"code":"KI","a3":"KIR","nameEn":"Kiribati","nameKo":"키리바시","continent":"Oceania"},{"code":"CY","a3":"CYP","nameEn":"Cyprus","nameKo":"키프로스","continent":"Europe"},{"code":"TJ","a3":"TJK","nameEn":"Tajikistan","nameKo":"타지키스탄","continent":"Asia"},{"code":"TZ","a3":"TZA","nameEn":"Tanzania","nameKo":"탄자니아","continent":"Africa"},{"code":"TH","a3":"THA","nameEn":"Thailand","nameKo":"태국","continent":"Asia"},{"code":"TC","a3":"TCA","nameEn":"Turks & Caicos Islands","nameKo":"터크스 케이커스 제도","continent":"North America"},{"code":"TG","a3":"TGO","nameEn":"Togo","nameKo":"토고","continent":"Africa"},{"code":"TK","a3":"TKL","nameEn":"Tokelau","nameKo":"토켈라우","continent":"Oceania"},{"code":"TO","a3":"TON","nameEn":"Tonga","nameKo":"통가","continent":"Oceania"},{"code":"TM","a3":"TKM","nameEn":"Turkmenistan","nameKo":"투르크메니스탄","continent":"Asia"},{"code":"TV","a3":"TUV","nameEn":"Tuvalu","nameKo":"투발루","continent":"Oceania"},{"code":"TN","a3":"TUN","nameEn":"Tunisia","nameKo":"튀니지","continent":"Africa"},{"code":"TR","a3":"TUR","nameEn":"Türkiye","nameKo":"튀르키예","continent":"Other"},{"code":"TT","a3":"TTO","nameEn":"Trinidad & Tobago","nameKo":"트리니다드 토바고","continent":"Other"},{"code":"PA","a3":"PAN","nameEn":"Panama","nameKo":"파나마","continent":"North America"},{"code":"PY","a3":"PRY","nameEn":"Paraguay","nameKo":"파라과이","continent":"South America"},{"code":"PK","a3":"PAK","nameEn":"Pakistan","nameKo":"파키스탄","continent":"Asia"},{"code":"PG","a3":"PNG","nameEn":"Papua New Guinea","nameKo":"파푸아뉴기니","continent":"Oceania"},{"code":"PW","a3":"PLW","nameEn":"Palau","nameKo":"팔라우","continent":"Oceania"},{"code":"PS","a3":"PSE","nameEn":"Palestinian Territories","nameKo":"팔레스타인 지구","continent":"Asia"},{"code":"FO","a3":"FRO","nameEn":"Faroe Islands","nameKo":"페로 제도","continent":"Europe"},{"code":"PE","a3":"PER","nameEn":"Peru","nameKo":"페루","continent":"South America"},{"code":"PT","a3":"PRT","nameEn":"Portugal","nameKo":"포르투갈","continent":"Europe"},{"code":"FK","a3":"FLK","nameEn":"Falkland Islands","nameKo":"포클랜드 제도","continent":"South America"},{"code":"PL","a3":"POL","nameEn":"Poland","nameKo":"폴란드","continent":"Europe"},{"code":"PR","a3":"PRI","nameEn":"Puerto Rico","nameKo":"푸에르토리코","continent":"North America"},{"code":"FR","a3":"FRA","nameEn":"France","nameKo":"프랑스","continent":"Europe"},{"code":"GF","a3":"GUF","nameEn":"French Guiana","nameKo":"프랑스령 가이아나","continent":"South America"},{"code":"TF","a3":"ATF","nameEn":"French Southern Territories","nameKo":"프랑스령 남방 지역","continent":"Antarctica"},{"code":"PF","a3":"PYF","nameEn":"French Polynesia","nameKo":"프랑스령 폴리네시아","continent":"Oceania"},{"code":"FJ","a3":"FJI","nameEn":"Fiji","nameKo":"피지","continent":"Oceania"},{"code":"FI","a3":"FIN","nameEn":"Finland","nameKo":"핀란드","continent":"Europe"},{"code":"PH","a3":"PHL","nameEn":"Philippines","nameKo":"필리핀","continent":"Asia"},{"code":"PN","a3":"PCN","nameEn":"Pitcairn Islands","nameKo":"핏케언 제도","continent":"Oceania"},{"code":"HM","a3":"HMD","nameEn":"Heard & McDonald Islands","nameKo":"허드 맥도널드 제도","continent":"Antarctica"},{"code":"HU","a3":"HUN","nameEn":"Hungary","nameKo":"헝가리","continent":"Europe"},{"code":"HK","a3":"HKG","nameEn":"Hong Kong SAR China","nameKo":"홍콩(중국 특별행정구)","continent":"Asia"}];
     const DEFAULT_DATA = {
       appId: "andy-travel-map",
       schema: "1.0",
@@ -2105,8 +2105,7 @@
     };
 
     const MAP_URLS = [
-      "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson",
-      "https://cdn.jsdelivr.net/npm/world.geo.json@1/countries.geo.json"
+      "data/base-map.geojson"
     ];
 
     const REGION_PACKS = {
@@ -2389,10 +2388,9 @@
       countryOptions: document.getElementById('countryOptions'),
       regionField: document.getElementById('regionField'),
       regionSelect: document.getElementById('regionSelect'),
-      yearInput: document.getElementById('yearInput'),
+      visitYearSelect: document.getElementById('visitYearSelect'),
+      visitMonthSelect: document.getElementById('visitMonthSelect'),
       ratingInput: document.getElementById('ratingInput'),
-      cityKoInput: document.getElementById('cityKoInput'),
-      cityEnInput: document.getElementById('cityEnInput'),
       countryPhotoInput: document.getElementById('countryPhotoInput'),
       cityPhotoInput: document.getElementById('cityPhotoInput'),
       revisitInput: document.getElementById('revisitInput'),
@@ -2443,6 +2441,19 @@
     const byA3 = (a3) => COUNTRY_CATALOG.find(c => c.a3 === a3);
     const countryLabel = (c) => c ? `${c.nameKo} · ${c.nameEn}` : 'Unknown';
 
+    const COUNTRY_SEARCH_ALIASES = {
+      CG: ['Congo-Brazzaville', 'Congo Brazzaville', 'Republic of Congo', 'Congo Republic', '콩고-브라자빌', '콩고 브라자빌'],
+      CD: ['DR Congo', 'DRC', 'Congo-Kinshasa', 'Congo Kinshasa', 'Democratic Republic Congo', '콩고민주공화국', '콩고 민주 공화국', '민주콩고', '콩고-킨샤사', '콩고 킨샤사'],
+      GF: ['프랑스령 기아나', '프랑스령 가이아나', 'French Guiana', 'Guiana française', 'GUF'],
+      VA: ['Holy See', 'Vatican', 'Vatican City State', '바티칸', '교황청'],
+      FR: ['France mainland', 'Metropolitan France', '프랑스 본토']
+    };
+
+    function getCountryAliases(countryOrCode) {
+      const code = typeof countryOrCode === 'string' ? countryOrCode : countryOrCode?.code;
+      return COUNTRY_SEARCH_ALIASES[code] || [];
+    }
+
     function findCountryFromText(text) {
       const raw = String(text || '');
       const q = normalize(raw);
@@ -2463,8 +2474,9 @@
 
       // 2) 국가명 완전 일치 또는 "한국어 / 영어 / 코드" 같은 조합 입력을 우선 처리한다.
       const nameMatch = COUNTRY_CATALOG.find(c => {
+        const aliases = getCountryAliases(c);
         const variants = [
-          c.nameKo, c.nameEn,
+          c.nameKo, c.nameEn, ...aliases,
           `${c.nameKo} ${c.nameEn}`, `${c.nameEn} ${c.nameKo}`,
           `${c.nameKo} ${c.nameEn} ${c.code}`, `${c.nameEn} ${c.nameKo} ${c.code}`
         ].map(normalize);
@@ -2478,7 +2490,7 @@
         Math.max(normalize(a.nameKo).length, normalize(a.nameEn).length)
       );
       return candidates.find(c => {
-        const names = [normalize(c.nameKo), normalize(c.nameEn)].filter(v => v.length >= 3);
+        const names = [normalize(c.nameKo), normalize(c.nameEn), ...getCountryAliases(c).map(normalize)].filter(v => v.length >= 2);
         return names.some(v => q === v || q.includes(v) || v.includes(q));
       }) || null;
     }
@@ -2492,7 +2504,9 @@
     function getCatalogForFeature(f) {
       const a3 = getFeatureA3(f);
       const name = normalize(getFeatureName(f));
-      return byA3(a3) || COUNTRY_CATALOG.find(c => normalize(c.nameEn) === name || normalize(c.nameKo) === name) || null;
+      const byName = COUNTRY_CATALOG.find(c => [c.nameEn, c.nameKo, ...getCountryAliases(c)].map(normalize).includes(name));
+      if (byName) return byName;
+      return byA3(a3) || null;
     }
     function findPlaceByFeature(f) {
       const c = getCatalogForFeature(f);
@@ -2511,6 +2525,7 @@
     async function init() {
       fillCountryOptions();
       fillNationalityOptions();
+      fillVisitDateOptions();
       await initAuthSession();
       await loadData();
       applyTheme();
@@ -2524,6 +2539,18 @@
 
     function fillCountryOptions() {
       if (els.countryOptions) els.countryOptions.innerHTML = COUNTRY_CATALOG.map(c => `<option value="${escapeHtml(c.nameKo)} / ${escapeHtml(c.nameEn)} / ${c.code}"></option>`).join('');
+    }
+
+    function fillVisitDateOptions() {
+      const currentYear = new Date().getFullYear();
+      if (els.visitYearSelect) {
+        const years = [];
+        for (let year = currentYear; year >= 1900; year--) years.push(year);
+        els.visitYearSelect.innerHTML = '<option value="">방문 연 선택</option>' + years.map(year => `<option value="${year}">${year}년</option>`).join('');
+      }
+      if (els.visitMonthSelect) {
+        els.visitMonthSelect.innerHTML = '<option value="">방문 월 선택</option>' + Array.from({length: 12}, (_, i) => i + 1).map(month => `<option value="${month}">${month}월</option>`).join('');
+      }
     }
 
     function fillNationalityOptions() {
@@ -2549,7 +2576,7 @@
 
     function getNationalitySearchText(country) {
       if (!country) return '';
-      return normalize([country.code, country.a3, country.nameKo, country.nameEn, country.continent].filter(Boolean).join(' '));
+      return normalize([country.code, country.a3, country.nameKo, country.nameEn, country.continent, ...getCountryAliases(country)].filter(Boolean).join(' '));
     }
 
     function setNationalityValue(value, close = true) {
@@ -2632,9 +2659,18 @@
         const cloud = await loadCloudDataSafe();
         if (cloud?.data) {
           state.data = normalizeData(cloud.data);
-          saveLocal(false, {skipCloud: true});
+          overwriteLocalWithAccountData();
           return;
         }
+        const local = readLocalTravelData();
+        if (local && Array.isArray(local.places) && local.places.length > 0) {
+          state.data = normalizeData(local);
+          await saveDataToCloudNow();
+          return;
+        }
+        state.data = structuredClone(DEFAULT_DATA);
+        await saveDataToCloudNow();
+        return;
       }
       const preferRemote = localStorage.getItem('andy-travel-map:preferRemote') === 'true';
       if (!preferRemote) {
@@ -2665,6 +2701,16 @@
       catch (e) { console.warn('local data parse failed', e); return null; }
     }
 
+    function overwriteLocalWithAccountData() {
+      try {
+        const accountData = normalizeData(state.data || DEFAULT_DATA);
+        accountData.updatedAt = new Date().toISOString();
+        localStorage.setItem('andy-travel-map:data', JSON.stringify(accountData));
+      } catch (e) {
+        console.warn('account local cache update failed', e);
+      }
+    }
+
     async function fetchRemoteTravelData() {
       try {
         const res = await fetch('data/travel-data.json', {cache: 'no-store'});
@@ -2690,20 +2736,27 @@
           countryNameEn: country?.nameEn || p.countryNameEn || '',
           continent: p.continent || country?.continent || 'Other',
           visited: p.visited !== false,
-          years: Array.isArray(p.years) ? [...new Set(p.years.map(String).filter(Boolean))] : [],
-          cities: Array.isArray(p.cities) ? p.cities.map(city => ({
-            nameKo: city.nameKo || '',
-            nameEn: city.nameEn || '',
-            regionCode: city.regionCode || '',
-            regionNameKo: city.regionNameKo || '',
-            regionNameEn: city.regionNameEn || '',
-            rating: city.rating ? Number(city.rating) : null,
-            revisit: !!city.revisit,
-            liked: !!city.liked,
-            memo: city.memo || '',
-            photoUrl: sanitizePhotoUrl(city.photoUrl || city.photo || ''),
-            year: city.year ? String(city.year) : ''
-          })) : [],
+          years: [...new Set([...(Array.isArray(p.years) ? p.years : []), ...(Array.isArray(p.visits) ? p.visits.map(v => v?.year) : []), p.year].map(normalizeVisitYear).filter(Boolean))],
+          visits: normalizeVisitList(p.visits, p.year, p.month),
+          cities: Array.isArray(p.cities) ? p.cities.map(city => {
+            const visits = normalizeVisitList(city.visits, city.year, city.month);
+            const firstVisit = visits[0] || null;
+            return {
+              nameKo: city.nameKo || '',
+              nameEn: city.nameEn || '',
+              regionCode: city.regionCode || '',
+              regionNameKo: city.regionNameKo || '',
+              regionNameEn: city.regionNameEn || '',
+              rating: city.rating ? Number(city.rating) : null,
+              revisit: !!city.revisit,
+              liked: !!city.liked,
+              memo: city.memo || '',
+              photoUrl: sanitizePhotoUrl(city.photoUrl || city.photo || ''),
+              year: firstVisit?.year || normalizeVisitYear(city.year),
+              month: firstVisit?.month || normalizeVisitMonth(city.month),
+              visits
+            };
+          }) : [],
           regions: normalizeRegions(p.regions, country?.code || p.countryCode || ''),
           photoUrl: sanitizePhotoUrl(p.photoUrl || p.coverImage || p.image || ''),
           photoCaption: p.photoCaption || '',
@@ -3604,6 +3657,100 @@
       return (Array.isArray(cities) ? cities : []).filter(hasNamedCityRecord);
     }
 
+    function normalizeVisitYear(value) {
+      const match = String(value || '').match(/\d{4}/);
+      if (!match) return '';
+      const year = Number(match[0]);
+      const currentYear = new Date().getFullYear();
+      return year >= 1900 && year <= currentYear ? String(year) : '';
+    }
+
+    function normalizeVisitMonth(value) {
+      if (value === null || value === undefined || value === '') return '';
+      const month = Number(String(value).replace(/[^0-9]/g, ''));
+      return month >= 1 && month <= 12 ? String(month) : '';
+    }
+
+    function normalizeVisitObject(visit = {}) {
+      const year = normalizeVisitYear(visit.year || visit.y || visit.date || '');
+      const month = normalizeVisitMonth(visit.month || visit.m || '');
+      return year ? {year, month} : null;
+    }
+
+    function normalizeVisitList(visits, fallbackYear = '', fallbackMonth = '') {
+      const list = [];
+      const pushVisit = (visit) => {
+        const normalized = normalizeVisitObject(visit);
+        if (!normalized) return;
+        const key = `${normalized.year}|${normalized.month || ''}`;
+        if (!list.some(item => `${item.year}|${item.month || ''}` === key)) list.push(normalized);
+      };
+      if (Array.isArray(visits)) visits.forEach(pushVisit);
+      const year = normalizeVisitYear(fallbackYear);
+      const month = normalizeVisitMonth(fallbackMonth);
+      if (year) pushVisit({year, month});
+      return list.sort((a, b) => Number(a.year) - Number(b.year) || Number(a.month || 0) - Number(b.month || 0));
+    }
+
+    function addVisitToRecord(record, visit) {
+      if (!record || !visit?.year) return;
+      if (!Array.isArray(record.visits)) record.visits = normalizeVisitList(record.visits, record.year, record.month);
+      const key = `${visit.year}|${visit.month || ''}`;
+      if (!record.visits.some(item => `${item.year}|${item.month || ''}` === key)) record.visits.push({year: visit.year, month: visit.month || ''});
+      record.visits.sort((a, b) => Number(a.year) - Number(b.year) || Number(a.month || 0) - Number(b.month || 0));
+      if (!Array.isArray(record.years)) record.years = [];
+      if (!record.years.includes(visit.year)) record.years.push(visit.year);
+      record.years.sort((a, b) => Number(a) - Number(b));
+      if (!record.year) record.year = visit.year;
+      if (!record.month && visit.month) record.month = visit.month;
+    }
+
+    function getYearsFromRecord(record) {
+      const years = [
+        ...(Array.isArray(record?.years) ? record.years : []),
+        ...(Array.isArray(record?.visits) ? record.visits.map(v => v?.year) : []),
+        record?.year
+      ].map(normalizeVisitYear).filter(Boolean);
+      return [...new Set(years)].sort((a, b) => Number(a) - Number(b));
+    }
+
+    function getVisitCount(record) {
+      const visits = normalizeVisitList(record?.visits, record?.year, record?.month);
+      if (visits.length) return visits.length;
+      return getYearsFromRecord(record).length ? 1 : 0;
+    }
+
+    function getPlaceVisitYears(place) {
+      if (!place) return [];
+      const years = [
+        ...getYearsFromRecord(place),
+        ...((place.regions || []).flatMap(getYearsFromRecord)),
+        ...((place.cities || []).flatMap(getYearsFromRecord))
+      ];
+      return [...new Set(years.map(normalizeVisitYear).filter(Boolean))].sort((a, b) => Number(a) - Number(b));
+    }
+
+    function getPlaceVisitCount(place) {
+      if (!place) return 0;
+      const directVisits = normalizeVisitList(place.visits, place.year, place.month).length;
+      const regionCount = (place.regions || []).reduce((sum, region) => sum + getVisitCount(region), 0);
+      const cityCount = (place.cities || []).reduce((sum, city) => sum + getVisitCount(city), 0);
+      const totalDetailed = directVisits + regionCount + cityCount;
+      if (totalDetailed > 0) return totalDetailed;
+      return getYearsFromRecord(place).length;
+    }
+
+    function formatVisitYears(years, emptyLabel = '방문년도 미입력') {
+      const unique = [...new Set((years || []).map(normalizeVisitYear).filter(Boolean))].sort((a, b) => Number(a) - Number(b));
+      return unique.length ? `방문년도: ${unique.join(', ')}` : emptyLabel;
+    }
+
+    function getSelectedVisitDate() {
+      const year = normalizeVisitYear(els.visitYearSelect?.value || '');
+      const month = normalizeVisitMonth(els.visitMonthSelect?.value || '');
+      return {year, month};
+    }
+
     function getCountryDetailTargetKey(country, feature) {
       const fallback = normalize(country?.nameKo || country?.nameEn || getFeatureName(feature) || '');
       return `country:${country?.code || country?.a3 || getFeatureA3(feature) || fallback}`;
@@ -3697,7 +3844,7 @@
       const replayAnimation = prepareDetailReplayAnimation(shouldReplayDetailAnimation(targetKey, !!options.replayAnimation));
       const displayKo = country.nameKo || getFeatureName(feature);
       const displayEn = country.nameEn || getFeatureName(feature);
-      const years = place?.years?.length ? place.years.join(', ') : '연도 미입력';
+      const years = getPlaceVisitYears(place);
       const cities = getNamedCityRecords(place?.cities);
       const avg = avgPlace(place);
       const regionPack = getRegionPack(country.code);
@@ -3714,7 +3861,7 @@
         ${place ? `
           <div class="detail-meta">
             <span class="pill">✓ 방문 완료</span>
-            <span class="pill">${escapeHtml(years)}</span>
+            <span class="pill">${escapeHtml(formatVisitYears(years))}</span>
             ${avg ? `<span class="pill">${ratingStars(avg)} ${avg.toFixed(1)}</span>` : ''}
             ${place.revisit || cities.some(c => c.revisit) || visitedRegions.some(r => r.revisit) ? `<span class="pill">↺ 재방문 의사</span>` : ''}
             ${place.favorite || cities.some(c => c.liked) || visitedRegions.some(r => r.liked) ? `<span class="pill">✦ 좋았던 곳</span>` : ''}
@@ -3726,7 +3873,8 @@
           </div>
           <div class="detail-actions">
             ${regionPack ? `<button class="btn" onclick="openRegionMapForCode('${country.code || ''}', '${country.a3 || ''}')">세부 지도 보기</button>` : ''}
-            <button class="btn primary" onclick="openEditPlaceRecord('${country.code || ''}', '${country.a3 || ''}')">수정</button>
+            <button class="btn primary" onclick="openRecordForCode('${country.code || ''}', '${country.a3 || ''}')">방문 기록 추가</button>
+            <button class="btn" onclick="openEditPlaceRecord('${country.code || ''}', '${country.a3 || ''}')">수정</button>
           </div>
           ${regionSection(country, place)}
           ${cities.length ? `
@@ -3759,7 +3907,7 @@
           <h3>${escapeHtml(title)}</h3>
           <div class="detail-meta" style="margin:0;">
             ${regionLabel ? `<span class="pill">${escapeHtml(regionLabel)}</span>` : ''}
-            ${city.year ? `<span class="pill">${escapeHtml(city.year)}</span>` : ''}
+            ${getYearsFromRecord(city).length ? `<span class="pill">${escapeHtml(formatVisitYears(getYearsFromRecord(city)))}</span>` : ''}
             ${city.rating ? `<span class="pill"><span class="stars-rating">${ratingStars(city.rating)}</span> ${city.rating}</span>` : ''}
             ${city.revisit ? `<span class="pill">↺ 재방문</span>` : ''}
             ${city.liked ? `<span class="pill">✦ 좋았던 곳</span>` : ''}
@@ -3783,7 +3931,8 @@
 
     function regionCard(region) {
       const classes = ['region-chip', region.liked ? 'favorite' : 'visited'].join(' ');
-      const year = region.years?.length ? region.years.join(', ') : '';
+      const years = getYearsFromRecord(region);
+      const year = years.length ? formatVisitYears(years) : '';
       const meta = [year, region.rating ? `${ratingStars(region.rating)} ${region.rating}` : '', region.revisit ? '↺ 재방문' : '', region.liked ? '✦ 좋았던 곳' : ''].filter(Boolean).join(' · ');
       return `<article class="${classes}"><b>${escapeHtml(region.nameKo || region.nameEn || region.code)}</b><small>${escapeHtml(region.nameEn || region.code)}${meta ? `<br>${escapeHtml(meta)}` : ''}</small></article>`;
     }
@@ -4247,7 +4396,7 @@
     function showRegionTooltip(event, country, region, record) {
       const title = `${region.nameKo || region.nameEn || region.code}`;
       const meta = record
-        ? [`${country.nameKo} · 방문 기록 있음`, record.years?.length ? record.years.join(', ') : '', record.rating ? `${ratingStars(record.rating)} ${record.rating}` : '', record.revisit ? '↺ 재방문' : '', record.liked ? '✦ 좋았던 곳' : ''].filter(Boolean).join(' · ')
+        ? [`${country.nameKo} · 방문 기록 있음`, getYearsFromRecord(record).length ? formatVisitYears(getYearsFromRecord(record)) : '', record.rating ? `${ratingStars(record.rating)} ${record.rating}` : '', record.revisit ? '↺ 재방문' : '', record.liked ? '✦ 좋았던 곳' : ''].filter(Boolean).join(' · ')
         : `${country.nameKo} · 기록 없음`;
       els.tooltip.innerHTML = `<b>${escapeHtml(title)}</b><small>${escapeHtml(meta)}</small>`;
       els.tooltip.style.left = `${event.clientX}px`;
@@ -4268,7 +4417,7 @@
       els.mapSvg.selectAll('.country').classed('selected', false);
       const place = findPlaceByCountry(country);
       const cities = getNamedCityRecords(place?.cities).filter(c => c.regionCode === region.code);
-      const meta = record ? [record.years?.length ? record.years.join(', ') : '', record.rating ? `${ratingStars(record.rating)} ${record.rating}` : '', record.revisit ? '↺ 재방문 의사' : '', record.liked ? '✦ 좋았던 곳' : ''].filter(Boolean) : [];
+      const meta = record ? [getYearsFromRecord(record).length ? formatVisitYears(getYearsFromRecord(record)) : '', record.rating ? `${ratingStars(record.rating)} ${record.rating}` : '', record.revisit ? '↺ 재방문 의사' : '', record.liked ? '✦ 좋았던 곳' : ''].filter(Boolean) : [];
       els.detailCard.innerHTML = `
         <div class="detail-head">
           <div>
@@ -4283,7 +4432,8 @@
         </div>
         ${record?.memo ? `<p class="empty-note">${escapeHtml(record.memo)}</p>` : ''}
         <div class="detail-actions">
-          ${record ? `<button class="btn primary" onclick="openEditRegionRecord('${country.code}', '${country.a3}', '${region.code}')">수정</button>` : `<button class="btn primary" onclick="openRecordForRegion('${country.code}', '${country.a3}', '${region.code}')">방문 기록 추가</button>`}
+          <button class="btn primary" onclick="openRecordForRegion('${country.code}', '${country.a3}', '${region.code}')">방문 기록 추가</button>
+          ${record ? `<button class="btn" onclick="openEditRegionRecord('${country.code}', '${country.a3}', '${region.code}')">수정</button>` : ''}
           <button class="btn" onclick="openDetailFromCode('${country.code}', '${country.a3}')">국가 카드 보기</button>
         </div>
         <p class="section-title">Cities in this region</p>
@@ -4734,23 +4884,27 @@
     async function handlePostLoginDataChoice() {
       const local = readLocalTravelData();
       const cloud = await loadCloudDataSafe();
-      state.auth.pendingCloudData = cloud?.data || null;
-      const hasLocal = !!local && Array.isArray(local.places) && local.places.length > 0;
+      state.auth.pendingCloudData = null;
       const hasCloud = !!cloud?.data;
-      if (hasLocal) {
-        showCloudChoice(hasCloud);
-        return;
-      }
+      const hasLocal = !!local && Array.isArray(local.places) && local.places.length > 0;
       if (hasCloud) {
         state.data = normalizeData(cloud.data);
-        saveLocal(false, {skipCloud:true});
+        overwriteLocalWithAccountData();
         applyTheme(); updateStats(); renderMap();
         if (els.recordsModal?.classList?.contains('open')) renderRecordsList();
-        toast('계정 데이터를 불러왔습니다.');
-      } else {
-        await saveDataToCloudNow();
-        toast('계정 클라우드 저장을 시작했습니다.');
+        toast('계정 데이터를 불러왔습니다. 이 기기의 로컬 기록은 계정 데이터 기준으로 정리했습니다.');
+        return;
       }
+      if (hasLocal) {
+        state.data = normalizeData(local);
+        applyTheme(); updateStats(); renderMap();
+        if (els.recordsModal?.classList?.contains('open')) renderRecordsList();
+        await saveDataToCloudNow();
+        toast('현재 기기 기록을 계정에 저장했습니다.');
+        return;
+      }
+      await saveDataToCloudNow();
+      toast('계정 저장을 시작했습니다.');
     }
 
     function showCloudChoice(hasCloud) {
@@ -4772,7 +4926,7 @@
       if (!state.auth.pendingCloudData) return;
       closeCloudChoice();
       state.data = normalizeData(state.auth.pendingCloudData);
-      saveLocal(false, {skipCloud:true});
+      overwriteLocalWithAccountData();
       applyTheme(); updateStats(); renderMap();
       if (els.recordsModal?.classList?.contains('open')) renderRecordsList();
       toast('계정 데이터를 불러왔습니다.');
@@ -4783,7 +4937,7 @@
       if (!local || !state.auth.pendingCloudData) return;
       closeCloudChoice();
       state.data = normalizeData(mergeTravelData(local, state.auth.pendingCloudData));
-      saveLocal(false, {skipCloud:true});
+      overwriteLocalWithAccountData();
       applyTheme(); updateStats(); renderMap();
       if (els.recordsModal?.classList?.contains('open')) renderRecordsList();
       await saveDataToCloudNow();
@@ -4806,13 +4960,23 @@
         current.favorite = current.favorite || place.favorite;
         current.revisit = current.revisit || place.revisit;
         current.rating = current.rating || place.rating || null;
-        const cityKey = c => [c.nameKo, c.nameEn, c.regionCode, c.year].join('|').toLowerCase();
+        const cityKey = c => [c.nameKo, c.nameEn, c.regionCode, c.year, c.month].join('|').toLowerCase();
         const cities = new Map((current.cities || []).map(c => [cityKey(c), c]));
         (place.cities || []).forEach(c => { if (!cities.has(cityKey(c))) cities.set(cityKey(c), c); });
         current.cities = [...cities.values()];
         const regionKey = r => [r.code, r.nameKo, r.nameEn].join('|').toLowerCase();
         const regions = new Map((current.regions || []).map(r => [regionKey(r), r]));
-        (place.regions || []).forEach(r => { if (!regions.has(regionKey(r))) regions.set(regionKey(r), r); });
+        (place.regions || []).forEach(r => {
+          const key = regionKey(r);
+          if (!regions.has(key)) { regions.set(key, r); return; }
+          const target = regions.get(key);
+          target.years = [...new Set([...(target.years || []), ...getYearsFromRecord(r)])].sort((a, b) => Number(a) - Number(b));
+          target.visits = normalizeVisitList([...(target.visits || []), ...(r.visits || [])], r.year, r.month);
+          target.rating = target.rating || r.rating || null;
+          target.revisit = target.revisit || !!r.revisit;
+          target.liked = target.liked || !!r.liked;
+          target.memo = target.memo || r.memo || '';
+        });
         current.regions = [...regions.values()];
       });
       merged.places = [...map.values()];
@@ -4833,6 +4997,7 @@
       setCloudStatus('저장 중...');
       try {
         await apiRequest('/api/data', {method:'POST', body: JSON.stringify({data: normalizeData(state.data)})});
+        overwriteLocalWithAccountData();
         setCloudStatus('저장되었습니다.');
       } catch (e) {
         setCloudStatus('저장 실패');
@@ -5743,15 +5908,17 @@
       }
       state.prefillRegionCode = '';
       const target = editingRegion || editingCountry || null;
-      els.yearInput.value = target?.years?.length ? target.years.join(', ') : '';
+      const targetVisit = normalizeVisitList(target?.visits, target?.year, target?.month)[0] || null;
+      if (els.visitYearSelect) els.visitYearSelect.value = targetVisit?.year || getYearsFromRecord(target)[0] || '';
+      if (els.visitMonthSelect) els.visitMonthSelect.value = targetVisit?.month || '';
       els.ratingInput.value = target?.rating ? String(Math.round(Number(target.rating))) : '';
-      els.cityKoInput.value = '';
-      els.cityEnInput.value = '';
       els.cityPhotoInput.value = '';
       els.revisitInput.checked = !!target?.revisit;
       els.likedInput.checked = !!(target?.liked || target?.favorite);
       els.memoInput.value = target?.memo || '';
       refreshGlassSelect(els.regionSelect);
+      refreshGlassSelect(els.visitYearSelect);
+      refreshGlassSelect(els.visitMonthSelect);
       refreshGlassSelect(els.ratingInput);
       els.modal.classList.add('open');
       setTimeout(() => els.countryInput.focus(), 80);
@@ -5804,9 +5971,14 @@
       place.countryNameEn = country.nameEn;
       place.continent = country.continent;
       const countryPhotoUrl = '';
-      const years = parseYearList(els.yearInput.value || '');
-      const cityKo = els.cityKoInput.value.trim();
-      const cityEn = els.cityEnInput.value.trim();
+      const visit = getSelectedVisitDate();
+      if (visit.month && !visit.year) {
+        toast('방문 월을 저장하려면 방문 연을 먼저 선택해 주세요.');
+        return;
+      }
+      const years = visit.year ? [visit.year] : [];
+      const cityKo = '';
+      const cityEn = '';
       const cityPhotoUrl = '';
       const rating = els.ratingInput.value ? Number(els.ratingInput.value) : null;
       const revisit = els.revisitInput.checked;
@@ -5822,6 +5994,9 @@
 
       if (edit?.type === 'country') {
         place.years = years;
+        place.visits = visit.year ? [{year: visit.year, month: visit.month || ''}] : [];
+        place.year = visit.year || '';
+        place.month = visit.month || '';
         place.rating = rating;
         place.revisit = revisit;
         place.favorite = liked;
@@ -5833,15 +6008,19 @@
         }
         const existing = upsertRegion(place, region, {});
         existing.years = years;
+        existing.visits = visit.year ? [{year: visit.year, month: visit.month || ''}] : [];
+        existing.year = visit.year || '';
+        existing.month = visit.month || '';
         existing.rating = rating;
         existing.revisit = revisit;
         existing.liked = liked;
         existing.memo = memo;
       } else {
         years.forEach(year => { if (year && !place.years.includes(year)) place.years.push(year); });
-        const year = years[0] || '';
+        const year = visit.year || '';
+        const month = visit.month || '';
         if (region) {
-          upsertRegion(place, region, {year, rating, revisit, liked, memo});
+          upsertRegion(place, region, {year, month, rating, revisit, liked, memo});
         }
         if (cityKo || cityEn) {
           place.cities.push({
@@ -5854,9 +6033,12 @@
             revisit,
             liked,
             memo,
-            year
+            year,
+            month,
+            visits: year ? [{year, month}] : []
           });
         } else if (!region) {
+          if (year) addVisitToRecord(place, {year, month});
           place.rating = rating;
           place.revisit = revisit;
           place.favorite = liked;
@@ -5950,6 +6132,7 @@
         const score = searchSimilarityScore(q, [
           country.nameKo,
           country.nameEn,
+          ...getCountryAliases(country),
           country.code,
           country.a3,
           `${country.nameKo} ${country.nameEn}`,
@@ -6156,6 +6339,7 @@
           continent: place.continent || ''
         };
         const countryTitle = [place.countryNameKo || country.nameKo, place.countryNameEn || country.nameEn].filter(Boolean).join(' / ') || place.countryCode || '국가 기록';
+        const countryYears = getPlaceVisitYears(place);
         entries.push({
           id: `country:${country.code || country.a3 || countryTitle}`,
           type: 'country',
@@ -6164,17 +6348,19 @@
           countryA3: country.a3 || place.countryA3 || '',
           title: countryTitle,
           subtitle: `${country.continent || place.continent || '대륙 미분류'} · 국가 방문 기록`,
-          years: place.years || [],
+          years: countryYears,
+          visitCount: getPlaceVisitCount(place),
           rating: place.rating || null,
           revisit: !!place.revisit,
           liked: !!place.favorite,
           photoUrl: place.photoUrl || '',
           memo: place.memo || '',
-          searchText: [countryTitle, country.code, country.a3, country.continent, place.memo].join(' ')
+          searchText: [countryTitle, country.code, country.a3, country.continent, place.memo, countryYears.join(' ')].join(' ')
         });
         (place.regions || []).forEach(regionRecord => {
           const region = findRegionInPack(country.code || place.countryCode || '', regionRecord.code) || {};
           const title = [regionRecord.nameKo || region.nameKo, regionRecord.nameEn || region.nameEn].filter(Boolean).join(' / ') || regionRecord.code || '세부 지역 기록';
+          const years = getYearsFromRecord(regionRecord);
           entries.push({
             id: `region:${country.code || place.countryCode}:${regionRecord.code}`,
             type: 'region',
@@ -6184,35 +6370,56 @@
             regionCode: regionRecord.code || '',
             title,
             subtitle: `${countryTitle} · 세부 지역 기록`,
-            years: regionRecord.years || (regionRecord.year ? [regionRecord.year] : []),
+            years,
+            visitCount: getVisitCount(regionRecord),
             rating: regionRecord.rating || null,
             revisit: !!regionRecord.revisit,
             liked: !!regionRecord.liked,
             photoUrl: '',
             memo: regionRecord.memo || '',
-            searchText: [title, countryTitle, regionRecord.code, regionRecord.memo].join(' ')
+            searchText: [title, countryTitle, regionRecord.code, regionRecord.memo, years.join(' ')].join(' ')
           });
         });
+        const cityGroups = new Map();
         getNamedCityRecords(place.cities).forEach((city, index) => {
+          const key = [country.code || place.countryCode || '', normalize(city.regionCode || ''), normalize(city.nameKo || ''), normalize(city.nameEn || '')].join('|');
           const title = [city.nameKo, city.nameEn].filter(Boolean).join(' / ');
           const regionLabel = [city.regionNameKo, city.regionNameEn].filter(Boolean).join(' / ');
-          entries.push({
-            id: `city:${country.code || place.countryCode}:${index}`,
-            type: 'city',
-            country,
-            countryCode: country.code || place.countryCode || '',
-            countryA3: country.a3 || place.countryA3 || '',
-            title,
-            subtitle: `${countryTitle}${regionLabel ? ` · ${regionLabel}` : ''} · 도시 기록`,
-            years: city.year ? [city.year] : [],
-            rating: city.rating || null,
-            revisit: !!city.revisit,
-            liked: !!city.liked,
-            photoUrl: city.photoUrl || '',
-            memo: city.memo || '',
-            searchText: [title, countryTitle, regionLabel, city.year, city.memo].join(' ')
-          });
+          const years = getYearsFromRecord(city);
+          const visitCount = Math.max(getVisitCount(city), 1);
+          if (!cityGroups.has(key)) {
+            cityGroups.set(key, {
+              id: `city:${country.code || place.countryCode}:${city.regionCode || 'none'}:${normalize(title) || index}`,
+              type: 'city',
+              country,
+              countryCode: country.code || place.countryCode || '',
+              countryA3: country.a3 || place.countryA3 || '',
+              regionCode: city.regionCode || '',
+              title,
+              subtitle: `${countryTitle}${regionLabel ? ` · ${regionLabel}` : ''} · 도시 기록`,
+              years: [],
+              visitCount: 0,
+              ratings: [],
+              rating: null,
+              revisit: false,
+              liked: false,
+              photoUrl: city.photoUrl || '',
+              memo: city.memo || '',
+              searchText: [title, countryTitle, regionLabel, city.year, city.memo].join(' ')
+            });
+          }
+          const group = cityGroups.get(key);
+          group.years = [...new Set([...(group.years || []), ...years])].sort((a, b) => Number(a) - Number(b));
+          group.visitCount += visitCount;
+          if (city.rating) group.ratings.push(Number(city.rating));
+          group.rating = group.ratings.length ? group.ratings.reduce((a, b) => a + b, 0) / group.ratings.length : group.rating;
+          group.revisit = group.revisit || !!city.revisit;
+          group.liked = group.liked || !!city.liked;
+          group.photoUrl = group.photoUrl || city.photoUrl || '';
+          group.memo = group.memo || city.memo || '';
+          group.searchText += ` ${[city.nameKo, city.nameEn, regionLabel, city.year, city.month, city.memo, years.join(' ')].join(' ')}`;
         });
+        entries.push(...cityGroups.values());
       });
       return entries;
     }
@@ -6248,8 +6455,9 @@
       const years = getRecordYears(entry);
       const meta = [
         `<span class="pill">${entryTypeLabel(entry.type)}</span>`,
-        years.length ? `<span class="pill">${escapeHtml(years.join(', '))}</span>` : `<span class="pill">연도 미입력</span>`,
-        entry.rating ? `<span class="pill"><span class="stars-rating">${ratingStars(entry.rating)}</span> ${entry.rating}</span>` : '',
+        years.length ? `<span class="pill">${escapeHtml(formatVisitYears(years))}</span>` : `<span class="pill">방문년도 미입력</span>`,
+        Number(entry.visitCount || 0) > 1 ? `<span class="pill">총 ${Number(entry.visitCount)}회 방문</span>` : '',
+        entry.rating ? `<span class="pill"><span class="stars-rating">${ratingStars(entry.rating)}</span> ${Number(entry.rating).toFixed(1).replace(/\.0$/, '')}</span>` : '',
         entry.revisit ? `<span class="pill">↺ 재방문 의사</span>` : '',
         entry.liked ? `<span class="pill">✦ 좋았던 곳</span>` : '',
       ].filter(Boolean).join('');
@@ -6330,7 +6538,7 @@
         openEditRegionRecord(code, a3, regionCode);
         return;
       }
-      if (button.dataset.type === 'region' && regionCode && getRegionPack(country.code)) {
+      if ((button.dataset.type === 'region' || button.dataset.type === 'city') && regionCode && getRegionPack(country.code)) {
         openRegionMapForCode(country.code, country.a3);
         const region = findRegionInPack(country.code, regionCode);
         const place = findPlaceByCountry(country);
@@ -6966,7 +7174,7 @@
       const pack = country ? getRegionPack(country.code) : null;
       if (!pack) {
         els.regionField.classList.add('hidden');
-        els.regionSelect.innerHTML = '<option value="">국가 전체 또는 도시만 기록</option>';
+        els.regionSelect.innerHTML = '<option value="">국가 전체로 기록</option>';
         refreshGlassSelect(els.regionSelect);
         return;
       }
@@ -6996,7 +7204,8 @@
       existing.countryCode = place.countryCode || existing.countryCode || '';
       existing.nameKo = region.nameKo;
       existing.nameEn = region.nameEn;
-      if (meta.year && !existing.years.includes(meta.year)) existing.years.push(meta.year);
+      if (!Array.isArray(existing.visits)) existing.visits = normalizeVisitList(existing.visits, existing.year, existing.month);
+      if (meta.year) addVisitToRecord(existing, {year: meta.year, month: meta.month || ''});
       if (meta.rating) existing.rating = Number(meta.rating);
       existing.revisit = existing.revisit || !!meta.revisit;
       existing.liked = existing.liked || !!meta.liked;
@@ -7013,7 +7222,10 @@
           countryCode: countryCode || r.countryCode || '',
           nameKo: packRegion?.nameKo || r.nameKo || '',
           nameEn: packRegion?.nameEn || r.nameEn || '',
-          years: Array.isArray(r.years) ? [...new Set(r.years.map(String).filter(Boolean))] : (r.year ? [String(r.year)] : []),
+          years: [...new Set([...(Array.isArray(r.years) ? r.years : []), ...(Array.isArray(r.visits) ? r.visits.map(v => v?.year) : []), r.year].map(normalizeVisitYear).filter(Boolean))],
+          visits: normalizeVisitList(r.visits, r.year, r.month),
+          year: normalizeVisitYear(r.year),
+          month: normalizeVisitMonth(r.month),
           rating: r.rating ? Number(r.rating) : null,
           revisit: !!r.revisit,
           liked: !!r.liked,
