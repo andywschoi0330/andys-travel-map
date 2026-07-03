@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Andy’s Travel Map 관리자</title>
+  <style>
+    :root{--bg:#070b14;--panel:rgba(12,18,31,.84);--panel2:rgba(255,255,255,.08);--line:rgba(255,255,255,.16);--text:#f4f7fb;--muted:rgba(244,247,251,.66);--accent:#9ec7e4;--danger:#ff9d9d}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 0%,rgba(90,130,180,.24),transparent 30%),linear-gradient(145deg,#050812,#0c1424 55%,#060914);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Segoe UI,sans-serif;padding:28px}
+    .wrap{max-width:1120px;margin:0 auto}.glass,.liquid-panel{background:radial-gradient(circle at 18% 0%,rgba(255,255,255,.15),transparent 34%),linear-gradient(135deg,rgba(18,24,38,.94),rgba(7,12,22,.90));border:1px solid rgba(255,255,255,.16);border-radius:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 28px 76px rgba(0,0,0,.52);backdrop-filter:blur(24px) saturate(155%);-webkit-backdrop-filter:blur(24px) saturate(155%)}.liquid-control{background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 0 rgba(255,255,255,.09);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%)}.liquid-option{background:linear-gradient(135deg,rgba(255,255,255,.085),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+    header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px} h1{margin:0;font-size:28px;letter-spacing:-.03em} p{color:var(--muted);line-height:1.6}.panel{padding:22px}.login{max-width:460px;margin:10vh auto}.field{display:grid;gap:8px;margin:13px 0}.input{min-height:44px;border-radius:16px;border:1px solid rgba(255,255,255,.15);background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.045));color:var(--text);padding:0 14px;outline:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.09);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%)}.btn{min-height:42px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:var(--text);padding:0 15px;font-weight:700;cursor:pointer}.btn.primary{background:linear-gradient(135deg,rgba(158,199,228,.32),rgba(255,255,255,.08))}.btn.danger{color:#ffd6d6;background:rgba(255,80,80,.15);border-color:rgba(255,120,120,.28)}.btn:disabled{opacity:.45;cursor:not-allowed}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.hidden{display:none!important}.msg{min-height:22px;color:var(--muted);margin-top:10px}.msg.error{color:var(--danger)}.cards{display:grid;gap:12px}.user-card{padding:16px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.085),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);display:grid;grid-template-columns:1fr auto;gap:14px}.meta{display:grid;gap:5px}.meta b{font-size:16px}.meta small{color:var(--muted)}.badge{display:inline-flex;align-items:center;min-height:26px;border-radius:999px;padding:0 9px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.07);font-size:12px;color:var(--muted)}.password-box{margin-top:10px;padding:10px 12px;border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.085),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.reset-row{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}.reset-row input{flex:1;min-width:220px}@media(max-width:760px){body{padding:16px}.user-card{grid-template-columns:1fr}.row{align-items:stretch}.btn{flex:1}.reset-row input{min-width:100%}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section id="loginPanel" class="panel glass login">
+      <h1>관리자 로그인</h1>
+      <p>계정 목록과 비밀번호 확인 기능은 관리자 세션에서만 사용할 수 있습니다.</p>
+      <div class="field"><label for="adminPassword">관리자 비밀번호</label><input class="input" id="adminPassword" type="password" autocomplete="current-password" /></div>
+      <button class="btn primary" id="adminLoginBtn">관리자 로그인</button>
+      <div class="msg" id="loginMsg"></div>
+    </section>
+
+    <section id="adminPanel" class="hidden">
+      <header>
+        <div><h1>Andy’s Travel Map 관리자</h1><p>계정 목록, 저장 데이터 여부, 비밀번호 확인, 비밀번호 변경, 계정 삭제를 관리합니다.</p></div>
+        <div class="row"><a class="btn" href="index.html">사이트로 돌아가기</a><button class="btn" id="refreshBtn">새로고침</button><button class="btn danger" id="adminLogoutBtn">로그아웃</button></div>
+      </header>
+      <div class="panel glass"><div class="row" style="justify-content:space-between;margin-bottom:14px"><b id="countLabel">계정 0개</b><span class="badge">비밀번호는 확인 버튼을 누를 때만 표시됩니다.</span></div><div id="usersList" class="cards"></div></div>
+    </section>
+  </div>
+  <script>
+    const $ = id => document.getElementById(id);
+    async function api(path, options={}) {
+      const res = await fetch(path, {credentials:'include', ...options, headers:{'Content-Type':'application/json', ...(options.headers||{})}});
+      let body={}; try{body=await res.json()}catch{}
+      if(!res.ok) throw new Error(body.error || '요청을 처리하지 못했습니다.');
+      return body;
+    }
+    function showLogin(){ $('loginPanel').classList.remove('hidden'); $('adminPanel').classList.add('hidden'); }
+    function showAdmin(){ $('loginPanel').classList.add('hidden'); $('adminPanel').classList.remove('hidden'); loadUsers(); }
+    async function login(){
+      $('loginMsg').textContent='로그인하고 있습니다.'; $('loginMsg').className='msg';
+      try{ await api('/api/admin?action=login',{method:'POST',body:JSON.stringify({password:$('adminPassword').value})}); showAdmin(); }
+      catch(e){ $('loginMsg').textContent=e.message; $('loginMsg').className='msg error'; }
+    }
+    async function logout(){ try{await api('/api/admin?action=logout',{method:'POST',body:'{}'});}catch{} showLogin(); }
+    async function loadUsers(){
+      const box=$('usersList'); box.innerHTML='<p>계정 목록을 불러오고 있습니다.</p>';
+      try{
+        const {users}=await api('/api/admin?action=users');
+        $('countLabel').textContent=`계정 ${users.length}개`;
+        box.innerHTML=users.length?users.map(renderUser).join(''):'<p>가입된 계정이 없습니다.</p>';
+      }catch(e){ box.innerHTML=`<p class="msg error">${e.message}</p>`; }
+    }
+    function renderUser(u){
+      const nickname = u.nickname || '-';
+      const name = u.name || '-';
+      const nationality = u.nationality || '-';
+      return `<article class="user-card" data-user-id="${escapeHtml(u.userId)}"><div class="meta"><b>${escapeHtml(u.username)}</b><small>userId: ${escapeHtml(u.userId)}</small><small>닉네임: ${escapeHtml(nickname)} · 이름: ${escapeHtml(name)} · 국적: ${escapeHtml(nationality)}</small><small>생성: ${fmt(u.createdAt)} · 수정: ${fmt(u.updatedAt)}</small><div class="row"><span class="badge">데이터 ${u.hasData?'있음':'없음'}</span><span class="badge pw-mask">••••••••</span></div><div class="password-box hidden"></div><div class="reset-row"><input class="input new-password" type="password" placeholder="새 비밀번호" /><button class="btn" onclick="resetPassword('${escapeHtml(u.userId)}')">비밀번호 변경</button></div></div><div class="row"><button class="btn" onclick="showPassword('${escapeHtml(u.userId)}', this)">비밀번호 확인</button><button class="btn" onclick="hidePassword(this)">숨기기</button><button class="btn danger" onclick="deleteUser('${escapeHtml(u.userId)}')">계정 삭제</button></div></article>`;
+    }
+    async function showPassword(userId, btn){
+      btn.disabled=true;
+      const card=btn.closest('.user-card'); const box=card.querySelector('.password-box');
+      try{ const {password}=await api(`/api/admin?action=password&userId=${encodeURIComponent(userId)}`); box.textContent=password; box.classList.remove('hidden'); }
+      catch(e){ alert(e.message); }
+      finally{ btn.disabled=false; }
+    }
+    function hidePassword(btn){ const card=btn.closest('.user-card'); const box=card.querySelector('.password-box'); box.textContent=''; box.classList.add('hidden'); }
+    async function resetPassword(userId){
+      const card=document.querySelector(`[data-user-id="${CSS.escape(userId)}"]`); const input=card.querySelector('.new-password'); const newPassword=input.value;
+      if(!newPassword) return alert('새 비밀번호를 입력해 주세요.');
+      try{ await api(`/api/admin?action=reset-password&userId=${encodeURIComponent(userId)}`,{method:'POST',body:JSON.stringify({newPassword})}); input.value=''; alert('비밀번호를 변경했습니다.'); }
+      catch(e){ alert(e.message); }
+    }
+    async function deleteUser(userId){
+      if(!confirm('이 계정을 삭제 또는 보관 처리하시겠습니까? 기본값은 archive 처리입니다.')) return;
+      try{ await api(`/api/admin?action=delete-user&userId=${encodeURIComponent(userId)}`,{method:'DELETE',body:JSON.stringify({mode:'archive'})}); await loadUsers(); }
+      catch(e){ alert(e.message); }
+    }
+    function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+    function fmt(s){ if(!s) return '-'; try{return new Date(s).toLocaleString('ko-KR')}catch{return s} }
+    $('adminLoginBtn').addEventListener('click',login); $('adminPassword').addEventListener('keydown',e=>{if(e.key==='Enter')login()}); $('adminLogoutBtn').addEventListener('click',logout); $('refreshBtn').addEventListener('click',loadUsers);
+    loadUsers().then(()=>showAdmin()).catch(()=>showLogin());
+  </script>
+</body>
+</html>
